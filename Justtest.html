@@ -1,10 +1,99 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>你好GitHub</title>
-  </head>
-  <body>
-    <h1>覺得厲害!</h1>
-  </body>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>環形進度條</title>
+  <style>
+  .progress-circle {
+    --percent: 0;  /* 百分数 */
+    --size: 180px;  /* 尺寸大小 */
+    --border-width: 15px;  /* 环宽（粗细） */
+    --color: #7856d7;  /* 主色 */
+    --inactive-color: #ccc;  /* 辅助色 */
+    
+    position: relative;
+    width: var(--size);
+    height: var(--size);
+    border-radius: 50%;
+  }
+  
+  /* 百分数文本 */
+  .progress-circle::before {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    counter-reset: progress var(--percent);
+    content: counter(progress) '%';
+    white-space: nowrap;
+    font-size: 18px;
+  }
+  
+  /* SVG 容器 */
+  .progress-circle > svg {
+    width: 100%;
+    height: 100%;
+    transform: rotate(-90deg);
+  }
+  
+  /* 进度条圆环 */
+  .progress-circle circle {
+    --r: calc((var(--size) - var(--border-width)) / 2);
+      
+    cx: calc(var(--size) / 2);
+    cy: calc(var(--size) / 2);
+    r: var(--r);
+    fill: none;
+    stroke-width: var(--border-width);
+    stroke-linecap: round;
+    transition: stroke-dasharray .4s linear, stroke .3s;
+  }
+  /* 优化：进度为0时隐藏进度条 */
+  .progress-value {opacity: var(--percent);}
+  </style>
+</head>
+<body>
+  <h1><a href="https://juejin.cn/post/7291186330910326842">我抄這裡的</a></h1>
+  <div class="progress-circle">
+    <svg>
+      <circle stroke="var(--inactive-color)" />
+      <circle stroke="var(--color)"
+              class="progress-value"
+              style="stroke-dasharray: calc(2 * 3.1415 * var(--r) * (var(--percent) / 100)), 1000"
+              />
+    </svg>
+  </div>
+  
+  <p>
+    <label>进度</label>
+    <input type="range" min="0" max="100" value="0" oninput="changeDemo(this, '--percent')" />
+  </p>
+  <p>
+    <label>尺寸大小</label>
+    <input type="range" min="80" max="300" value="180" oninput="changeDemo(this, '--size', 'px')" />
+  </p>
+  <p>
+    <label>环度/粗细</label>
+    <input type="range" min="1" max="40" value="15" oninput="changeDemo(this, '--border-width', 'px')" />
+  </p>
+  <p>
+    <label>主色</label>
+    <input type="color" value="#7856d7" oninput="changeDemo(this, '--color')" />
+  </p>
+  <p>
+    <label>辅助色</label>
+    <input type="color" value="#cccccc" oninput="changeDemo(this, '--inactive-color')" />
+    <button onclick="changeDemo({ value: 'transparent' }, '--inactive-color')">透明</button>
+  </p>
+  
+  <script>
+    const progressEl = document.querySelector('.progress-circle');
+  
+      function changeDemo({ value }, property, unit = '') {
+        progressEl.style.setProperty(property, value + unit);
+      }
+    </script>
+
+</body>
 </html>
