@@ -16,8 +16,8 @@
         }
         .chess-board {
             display: grid;
-            grid-template-columns: repeat(8, 60px);
-            grid-template-rows: repeat(8, 60px);
+            grid-template-columns: repeat(13, 60px);
+            grid-template-rows: repeat(13, 60px);
             border: 2px solid #333;
         }
         .chess-board .square {
@@ -68,8 +68,8 @@
         let selectedSquare = null;
         let movableSquares = [];
 
-        for (let row = 0; row < 8; row++) {
-            for (let col = 0; col < 8; col++) {
+        for (let row = 0; row < 13; row++) {
+            for (let col = 0; col < 13; col++) {
                 const square = document.createElement('div');
                 square.classList.add('square');
                 square.dataset.row = row;
@@ -83,7 +83,7 @@
                 }
 
                 // Add pawns to the board
-                if (row === 3 && col ===3) {
+                if (row === 6 && col ===6) {
                     square.textContent = pieces.blackPawn; // Black pawns
                 } else if (row === -1) {
                     square.textContent = pieces.whitePawn; // White pawns
@@ -127,7 +127,7 @@
                         directions.forEach(direction => {
                             const newRow = row + direction.row;
                             const newCol = col + direction.col;
-                            if (newRow >= 0 && newRow < 8 && newCol >= 0 && newCol < 8) {
+                            if (newRow >= 0 && newRow < 13 && newCol >= 0 && newCol < 13) {
                                 const targetSquare = board.querySelector(`.square[data-row='${newRow}'][data-col='${newCol}']`);
                                 if (targetSquare && targetSquare.textContent === '') {
                                     targetSquare.classList.add('movable');
