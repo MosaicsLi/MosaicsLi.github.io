@@ -49,6 +49,7 @@ const ActionVueApp = createApp({
                 this.LimitBreak = response.data.LimitBreak;
                 this.MainAction = response.data.MainAction;
                 this.SubAction = response.data.SubAction;
+                this.InstantAction = response.data.InstantAction;
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
             } catch (error) {
                 console.error('Error loading JSON data:', error);
@@ -86,35 +87,43 @@ ActionVueApp.component('action', {
             <h3> {{ actionobject.SubjectTitel_Word }}</h3>
         </div>
         <div class="ActionList">
-            <div v-for="action in actionobject.Actions" :key="action.Name" class="Action ActionCardBorder">
-                <div class="ActionDetail">
-                    <div class="ActionIcon">
-                        <img :src="[action.ActionIconPath]" :alt="[action.Name]">
+            <div v-for="action in actionobject.Actions" :key="action.Name" >
+                <div class="Action ActionCardBorder">
+                    <div class="ActionDetail">
+                        <div class="ActionIcon">
+                            <img :src="[action.ActionIconPath]" :alt="[action.Name]">
+                        </div>
+                        <div class="ActionName">
+                            <h3>{{ action.Name }}</h3>
+                        </div>
+                        <div class="ActionType">
+                            <span>{{action.ActionType}}</span>
+                        </div>
+                        <div class="Cost" v-if="action.Cost">
+                          <span>コスト：{{action.Cost}}</span>
+                        </div>
+                        <div class="Target" v-if="action.Target">
+                          <span>対象：{{action.Target}}</span>
+                        </div>
+                        <div class="Range" v-if="action.Range">
+                          <span>範囲：{{action.Range}}</span>
+                        </div>
+                        <div class="Determination" v-if="action.Determination">
+                          <span>判定：{{action.Determination}}</span>
+                        </div>
+                        <div class="Timing" v-if="action.Timing">
+                          <span>タイミング：{{action.Timing}}</span>
+                        </div>
                     </div>
-                    <div class="ActionName">
-                        <h3>{{ action.Name }}</h3>
+                    <div class="ActionEffect">
+                      <span>基本効果：{{action.ActionEffect}}</span>
                     </div>
-                    <div class="ActionType">
-                        <span>{{action.ActionType}}</span>
-                    </div>
-                    <div class="Cost">
-                      <span>コスト：{{action.Cost}}</span>
-                    </div>
-                    <div class="Target">
-                      <span>対象：{{action.Target}}</span>
-                    </div>
-                    <div class="Range">
-                      <span>範囲：{{action.Range}}</span>
-                    </div>
-                    <div class="Determination">
-                      <span>判定：{{action.Determination}}</span>
+                    <div class="DirectHit" v-if="action.DirectHit">
+                      <span>ダイレクトヒット時：{{action.DirectHit}}</span>
                     </div>
                 </div>
-                <div class="ActionEffect">
-                  <span>基本効果：{{action.ActionEffect}}</span>
-                </div>
-                <div class="DirectHit">
-                  <span>ダイレクトヒット時：{{action.DirectHit}}</span>
+                <div class="Action ActionTips" v-if="action.ActionTips">
+                    <span>{{action.ActionTips}}</span>
                 </div>
             </div>
         </div>
