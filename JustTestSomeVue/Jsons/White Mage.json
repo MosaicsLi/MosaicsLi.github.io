@@ -1,0 +1,101 @@
+{
+    "LimitBreak": {
+        "ActionType": "魔法。リミットブレイク",
+        "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+        "LimitBreakName": "生命の鼓動",
+        "Timing": "いつでも",
+        "Target": "君を含めた範囲内のすべての味方冒険者",
+        "Range": "戦場すべて※",
+        "ActionEffect": "対象のすべてのデバフ（気絶状態・衰弱状態・強衰弱状態を含む）を解除し、HPとMPを最大値まで回復する（※戦場外のキャラクターにも効果が適用され、そのキャラクターは君から5マス以内の何も存在しないマスに配置される）。"
+    },
+    "MainAction": {
+        "ActionSubject": "MainAction",
+        "SubjectTitel": "MAIN ACTION",
+        "SubjectTitel_Word": "メインアクション",
+        "Actions": [
+            {
+                "Name": "ストンラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。地属性。魔法。メイン",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "{MND}+d20>=（対象の魔法防御力）",
+                "ActionEffect": "対象に2点のダメージを与える。",
+                "DirectHit": "+1d6点のダメージ"
+            },
+            {
+                "Name": "ケアルラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "ケアルラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "ケアルラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "ケアルラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            }
+        ]
+    },
+    "SubAction": {
+        "ActionSubject": "SubAction",
+        "SubjectTitel": "SUB ACTION",
+        "SubjectTitel_Word": "サブアクション",
+        "Actions": [
+            {
+                "Name": "エアロ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。風属性。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "ActionEffect": "対象に3点のダメージとDOT3を与える。",
+                "ActionTips":"※DOTを受けている敵は、［敵のターン処理］ステップの終了時（すなわちすべての敵のターンが終わった後）に、受けているすべてのDOT の数値に等しいダメージを受ける。"
+            },
+            {
+                "Name": "ケアル",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+                "ActionType": "詠唱。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は1d6+1点のHP回復を受ける。アビリティ判定で出た目が18以上なら「プロック：このフェーズ中、君が次に使用する《ケアルラ》のコストのMP消費は0点になる」が発生",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            }
+        ]
+    }
+}
