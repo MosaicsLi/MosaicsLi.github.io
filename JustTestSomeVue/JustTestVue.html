@@ -8,11 +8,15 @@
     <!-- Vue 3.0 -->
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-    <link rel="stylesheet" href="../css/JustTestVue.css">
+    <link rel="stylesheet" href="./css/JustTestVue.css">
     <link rel="stylesheet" href="./css/LimitBreak.css">
     <link rel="stylesheet" href="./css/MainAction.css">
     <link rel="stylesheet" href="./css/SubAction.css">
     <link rel="stylesheet" href="./css/Instant.css">
+    <script>
+        
+        const { createApp, ref } = Vue;
+    </script>
 </head>
 
 <body>
@@ -56,15 +60,14 @@
             </div>
         </div>
         <div class="Character-Actions" id="CharacterActions">
-            <limitbreak :limitbreakobject="LimitBreak"></limitbreak>
+            <limitbreak-but-table :limitbreakobject="LimitBreak"></limitbreak-but-table>
             <div class="ActionSubjectList">
-                <action :actionobject="MainAction"></action>
-                <action :actionobject="SubAction"></action>
-                <action :actionobject="InstantAction"></action>
+                <action-but-table :actionobject="MainAction"></action-but-table>
+                <action-but-table :actionobject="SubAction"></action-but-table>
+                <action-but-table :actionobject="InstantAction"></action-but-table>
             </div>
         </div>
     </div>
-    <script src="main.js"></script>
     <script type="module" src="./ActionVueJS.js"></script>
 </body>
 

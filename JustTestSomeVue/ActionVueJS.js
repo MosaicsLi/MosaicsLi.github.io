@@ -57,22 +57,82 @@ const ActionVueApp = createApp({
         },
     },
 });
-ActionVueApp.component('customgrid', {
+ActionVueApp.component('action-but-table', {
     props: {
         actionobject: Object,  // 接收包含不同 action 資訊的陣列
     },
     template: `
-    <div :class="[actionobject.ActionType,'ActionCardBorder'] ">
-        <div class="ActionType">
-            <h2>{{ actionobject.ActionType }}</h2>
+    <div :class="[actionobject.ActionSubject+'-SubjectTitel'] ">
+            <div class="SubjectTitel">
+                <h1>{{ actionobject.SubjectTitel }}</h1>
+                &nbsp
+                <h3> {{ actionobject.SubjectTitel_Word }}</h3>
+            </div>
+            <div class="ActionList">
+                <div v-for="action in actionobject.Actions" :key="action.Name" class="Action">
+                    <div class="ActionCardBorder">
+                        <table class="ActionDetail">
+                            <tr>
+                                <td rowspan="2" class="ActionIcon">
+                                    <div>
+                                        <img :src="[action.ActionIconPath]" :alt="[action.Name]">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ActionTitel">
+                                        <div class="ActionName">
+                                            <h3>{{ action.Name }}</h3>
+                                        </div>
+                                        <div class="ActionType">
+                                            <span>{{action.ActionType}}</span>
+                                        </div>
+                                        <div class="ActionUsed"  v-if="action.UsageCount" v-for="Usage in action.UsageCount">
+                                            <input type="checkbox"  v-model="Usage"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ActionMiscellaneous">
+                                        <div class="Cost" v-if="action.Cost">
+                                            <span class="MiscellaneousTitel">コスト：</span><span>{{action.Cost}}</span>
+                                        </div>
+                                        <div class="Target" v-if="action.Target">
+                                            <span class="MiscellaneousTitel">対象：</span><span>{{action.Target}}</span>
+                                        </div>
+                                        <div class="Range" v-if="action.Range">
+                                            <span class="MiscellaneousTitel">範囲：</span><span>{{action.Range}}</span>
+                                        </div>
+                                        <div class="Determination" v-if="action.Determination">
+                                            <span
+                                                class="MiscellaneousTitel">判定：</span><span>{{action.Determination}}</span>
+                                        </div>
+                                        <div class="Timing" v-if="action.Timing">
+                                            <span class="MiscellaneousTitel">タイミング：</span><span>{{action.Timing}}</span>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ActionEffect">
+                            <span>基本効果：{{action.ActionEffect}}</span>
+                        </div>
+                        <div class="DirectHit" v-if="action.DirectHit">
+                            <span>ダイレクトヒット時：{{action.DirectHit}}</span>
+                        </div>
+                        <div class="Limit" v-if="action.Limit">
+                            <span>制限：{{action.Limit}}</span>
+                        </div>
+                    </div>
+                    <div class="Action ActionTips" v-if="action.ActionTips">
+                        <span>{{action.ActionTips}}</span>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="ActionList">
-        <div v-for="action in actionobject.Actions" :key="action.name" class="action">
-          <h3>{{ action.name }}</h3>
-          <span>{{ action.details }}</span>
-        </div>
-        </div>
-    </div> `,
+    `,
 
 });
 ActionVueApp.component('action', {
@@ -145,7 +205,7 @@ ActionVueApp.component('limitbreak', {
       <div class="LimitBreakName">
         <h3>リミットブレイク：{{ limitbreakobject.LimitBreakName }}</h3>
       </div>
-      <div class="ActionType">
+      <div class="LimitType">
         <span>{{limitbreakobject.ActionType}}</span>
       </div>
       <div class="Timing">
@@ -158,12 +218,57 @@ ActionVueApp.component('limitbreak', {
         <span>範囲：{{limitbreakobject.Range}}</span>
       </div>
     </div>
-    <div class="ActionEffect">
+    <div class="LimitEffect">
       <span>基本効果：{{limitbreakobject.ActionEffect}}</span>
     </div>
 </div>
     `,
-
+});
+ActionVueApp.component('limitbreak-but-table', {
+    props: {
+        limitbreakobject: Object,  // 接收包含不同 action 資訊的陣列
+    },
+    template: `
+<div class="LimitBreak ActionCardBorder">
+    <table class="LimitBreakDetail">
+        <tr>
+            <td  rowspan="2">
+                <div class="LimitBreakIcon">
+                  <img :src="[limitbreakobject.ActionIconPath]" alt="Limit Break Image">
+                </div>
+            </td>
+            <td>
+                <div class="ActionTitel">
+                    <div class="ActionName">
+                      <h3>リミットブレイク：{{ limitbreakobject.LimitBreakName }}</h3>
+                    </div>
+                    <div class="ActionType">
+                      <span>{{limitbreakobject.ActionType}}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="ActionMiscellaneous">
+                    <div class="Timing">
+                      <span>タイミング：{{limitbreakobject.Timing}}</span>
+                    </div>
+                    <div class="Target">
+                      <span>対象：{{limitbreakobject.Target}}</span>
+                    </div>
+                    <div class="Range">
+                      <span>範囲：{{limitbreakobject.Range}}</span>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="LimitEffect">
+      <span>基本効果：{{limitbreakobject.ActionEffect}}</span>
+    </div>
+</div>
+    `,
 });
 
 ActionVueApp.mount('#CharacterActions');

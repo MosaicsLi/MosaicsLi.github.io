@@ -62,6 +62,31 @@
                 "Determination": "d20（クリティカル確認）",
                 "ActionEffect": "対象は1d6+1点のHP回復を受ける。アビリティ判定で出た目が18以上なら「プロック：このフェーズ中、君が次に使用する《ケアルラ》のコストのMP消費は0点になる」が発生",
                 "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "エスナ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/esuna.png",
+                "ActionType": "詠唱。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "ActionEffect": "対象の受けているデバフを1つ選んで解除する（気絶状態や衰弱状態、そのほか「解除できない」という効果を持つデバフは解除できない）。"
+            },
+            {
+                "Name": "ルーシッドドリーム",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/lucid_dreaming.png",
+                "ActionType": "サブ",
+                "ActionEffect": "このラウンド、君のMP自動回復量を+1点する（MPが回復しないときには効果を受けられない）。",
+                "Limit": "1フェーズに1回使用可能。",
+                "UsageCount":[false]
+            },
+            {
+                "Name": "神速魔",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/presence_of_mind.png",
+                "ActionType": "サブ",
+                "ActionEffect": "君は魔法のアビリティを1つ使用する",
+                "Limit": "1フェーズに1回使用可能。",
+                "UsageCount":[false]
             }
         ]
     },
@@ -76,6 +101,7 @@
                 "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/swiftcast.png",
                 "ActionType": "インスタント",
                 "Timing": "キャラクター1体のターン終了時",
+                "Determination": "d20（クリティカル確認）",
                 "ActionEffect": "魔法アビリティの1つを使用する。",
                 "Limit": "1フェーズに1回使用可能。"
             }

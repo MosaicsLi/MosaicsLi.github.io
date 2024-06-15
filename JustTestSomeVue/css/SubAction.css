@@ -4,8 +4,8 @@
     border-top-left-radius: 5px;
     border-left: 6px ridge rgb(114,76,52,0.7);
     border-top: 6px ridge rgb(114,76,52,0.7);
-    background: linear-gradient(to right bottom,rgb(64,87,79,1),rgb(64,87,79,0.8),rgb(64,87,79,0.7), rgba(255, 0, 0, 0));
-    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    background: linear-gradient(to bottom,rgb(64,87,79,1),rgb(64,87,79,0.2),rgb(64,87,79,0.1), rgba(255, 0, 0, 0));
+    box-shadow: -5px -5px 5px 1px rgba(0, 0, 0, 0.2);
     flex-direction: column;
     flex-wrap: wrap;
     max-width: 30vw;

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue Example</title>
+    <!-- Vue 3.0 -->
+    <script src="https://unpkg.com/vue@3"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="./css/JustTestActionDetail.css">
+</head>
+
+<body>
+    <div class="container" id="container">
+        <div :class="[actionobject.ActionSubject+'-SubjectTitel'] ">
+            <div class="SubjectTitel">
+                <h1>{{ actionobject.SubjectTitel }}</h1>
+                &nbsp
+                <h3> {{ actionobject.SubjectTitel_Word }}</h3>
+            </div>
+            <div class="ActionList">
+                <div v-for="action in actionobject.Actions" :key="action.Name">
+                    <div class="Action ActionCardBorder">
+                        <table class="ActionDetail">
+                            <tr>
+                                <td rowspan="2">
+                                    <div class="ActionIcon">
+                                        <img :src="[action.ActionIconPath]" :alt="[action.Name]">
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="ActionTitel">
+                                        <div class="ActionName">
+                                            <h3>{{ action.Name }}</h3>
+                                        </div>
+                                        <div class="ActionType">
+                                            <span>{{action.ActionType}}</span>
+                                        </div>
+                                        <div class="ActionUsed"  v-if="action.UsageCount" v-for="Usage in action.UsageCount">
+                                            <input type="checkbox"  v-model="Usage"/>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="ActionMiscellaneous">
+                                        <div class="Cost" v-if="action.Cost">
+                                            <span class="MiscellaneousTitel">コスト：</span><span>{{action.Cost}}</span>
+                                        </div>
+                                        <div class="Target" v-if="action.Target">
+                                            <span class="MiscellaneousTitel">対象：</span><span>{{action.Target}}</span>
+                                        </div>
+                                        <div class="Range" v-if="action.Range">
+                                            <span class="MiscellaneousTitel">範囲：</span><span>{{action.Range}}</span>
+                                        </div>
+                                        <div class="Determination" v-if="action.Determination">
+                                            <span
+                                                class="MiscellaneousTitel">判定：</span><span>{{action.Determination}}</span>
+                                        </div>
+                                        <div class="Timing" v-if="action.Timing">
+                                            <span class="MiscellaneousTitel">タイミング：</span><span>{{action.Timing}}</span>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        </table>
+                        <div class="ActionEffect">
+                            <span>基本効果：{{action.ActionEffect}}</span>
+                        </div>
+                        <div class="DirectHit" v-if="action.DirectHit">
+                            <span>ダイレクトヒット時：{{action.DirectHit}}</span>
+                        </div>
+                    </div>
+                    <div class="Action ActionTips" v-if="action.ActionTips">
+                        <span>{{action.ActionTips}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="main.js"></script>
+</body>
+
+</html>

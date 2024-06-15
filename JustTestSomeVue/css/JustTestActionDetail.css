@@ -1,0 +1,144 @@
+body {
+    font-family: "MS PGothic JP", Meiryo;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    display: flex;
+    margin-top: 20px;
+    gap: 10px;
+    padding: 20px;
+    max-width: 100vw;
+    height: 100vh;
+    margin: auto;
+    background: #f5deb3;
+    background: linear-gradient(145deg, #f0e68c, #d2b48c);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    border-radius: 10px;
+    border: 2px solid #8b4513;
+}
+
+.InstantAction-SubjectTitel {
+    display: flex;
+    padding: 10px;
+    border-top-left-radius: 5px;
+    border-left: 6px ridge rgb(114, 76, 52, 0.7);
+    border-top: 6px ridge rgb(114, 76, 52, 0.7);
+    background: linear-gradient(to right bottom, rgb(79, 37, 177), rgba(79, 37, 177, 0.8), rgba(79, 37, 177, 0.7), rgba(255, 0, 0, 0));
+    box-shadow: 5px 5px rgba(0, 0, 0, 0.1);
+    flex-direction: column;
+    flex-wrap: wrap;
+    max-width: 30vw;
+    min-width: max-content;
+}
+
+.SubjectTitel {
+    display: flex;
+    align-items: baseline;
+}
+
+.Action {
+    max-width: 20vw;
+}
+
+.ActionTitel{
+    display: flex;
+    border-bottom: 1px solid #8b4513;
+    box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
+}
+.ActionMiscellaneous{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    column-gap: 5px;
+}
+.ActionDeterminationAndTiming{
+    display: flex;
+    column-gap: 5px;
+}
+.MiscellaneousTitel{
+    color: #8b4513;
+}
+
+.ActionCardBorder {
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    background-color: #F6F2E6;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.ActionSubjectList {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 60vh;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ActionTips {
+    border-radius: 8px;
+    background-color: #ded2b65d;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    margin: 5px 0;
+}
+
+.ActionList {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 75vh;
+    flex-direction: column;
+    min-width: max-content;
+}
+
+.ActionType span {
+    text-align: right;
+    transform: skewX(-20deg);
+    display: inline-block;
+}
+
+.ActionEffect {
+    padding: 5px;
+}
+
+.ActionDetail {
+    width: 100%;
+    border-radius: 8px;
+    background-color: #DED2B6;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    overflow: overlay;
+}
+
+.ActionIcon {
+    grid-area: Icon;
+    align-content: center;
+    justify-self: center;
+}
+.ActionName {
+    width: 60%;
+}
+.ActionType {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 0 5px;
+}
+.ActionUsed{
+    display: flex;
+
+}
+.ActionType span {
+    text-align: right;
+    transform: skewX(-20deg);
+    display: inline-block;
+}
+
+.Cost {
+    grid-area: Cost;
+}
+
+.Determination {
+    grid-area: Determination;
+}
