@@ -9,46 +9,60 @@
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <link rel="stylesheet" href="./css/JustTestVue.css">
+    <link rel="stylesheet" href="./css/CharacterStats.css">
     <link rel="stylesheet" href="./css/LimitBreak.css">
     <link rel="stylesheet" href="./css/MainAction.css">
     <link rel="stylesheet" href="./css/SubAction.css">
     <link rel="stylesheet" href="./css/Instant.css">
     <script>
-        
+
         const { createApp, ref } = Vue;
     </script>
 </head>
 
 <body>
     <div class="container">
-        <div class="Character-stats">
-            <div class="header">
-                <h1>Character Name / Title</h1>
-                <div class="level">LV30</div>
-                <div class="role">Healer / White Mage</div>
+        <div class="Character-stats" id="Character-stats">
+            <div class="CharacterTitle">
+                <div class="CharacterJobIcon">
+                    <img :src="[AdventurerBaseInfo.AdventurerJobIcon]" :alt="[AdventurerBaseInfo.AdventurerJob]">
+                </div>
+                <div class="CharacterNameRace">
+                    <p>冒険者名/種族</p>
+                    <h1>{{AdventurerBaseInfo.AdventurerName}}/{{AdventurerBaseInfo.AdventurerRace}}</h1>
+                </div>
             </div>
-            <div class="main-stats">
-                <h2>Main Stats</h2>
-                <ul>
-                    <li>STR: +1</li>
-                    <li>DEX: +1</li>
-                    <li>VIT: +2</li>
-                    <li>INT: +3</li>
-                    <li>MND: +5</li>
-                </ul>
+            <div class="CharacterJobTitel Character-StatsBorder">
+                <div class="level">
+                    <h1>LV{{Adventurerstatus.AdventurerLevel}}</h1>
+                </div>&nbsp;
+                <div class="CharacterJobRole">
+                    <h1>{{AdventurerBaseInfo.AdventurerRole}}/{{AdventurerBaseInfo.AdventurerJob}}</h1>
+                </div>
             </div>
-            <div class="sub-stats">
-                <h2>Sub Stats</h2>
-                <ul>
-                    <li>Physical Defense: 11</li>
-                    <li>Magic Defense: 14</li>
-                    <li>Alertness: 15</li>
-                    <li>Movement Speed: 5 tiles</li>
-                </ul>
-            </div>
-            <div class="profile">
-                <img src="" alt="Profile Image">
-                <p>Profile Description</p>
+            <div class="CharacterStatsAndImage">
+                <div class="main-stats">
+                    <h2>Main Stats</h2>
+                    <ul>
+                        <li>STR: +1</li>
+                        <li>DEX: +1</li>
+                        <li>VIT: +2</li>
+                        <li>INT: +3</li>
+                        <li>MND: +5</li>
+                    </ul>
+                </div>
+                <div class="sub-stats">
+                    <h2>Sub Stats</h2>
+                    <ul>
+                        <li>Physical Defense: 11</li>
+                        <li>Magic Defense: 14</li>
+                        <li>Alertness: 15</li>
+                        <li>Movement Speed: 5 tiles</li>
+                    </ul>
+                </div>
+                <div class="CharacterImage">
+                    <img :src=[AdventurerBaseInfo.AdventurerImage] alt="Profile Image">
+                </div>
             </div>
             <div class="hp-mp">
                 <p>MP Max: 5</p>
@@ -68,7 +82,8 @@
             </div>
         </div>
     </div>
-    <script type="module" src="./ActionVueJS.js"></script>
+    <script src="./AdventurerNameStatusVue.js"></script>
+    <script src="./ActionVueJS.js"></script>
 </body>
 
 </html>

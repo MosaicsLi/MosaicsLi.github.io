@@ -2,40 +2,9 @@ const ActionVueApp = createApp({
     data() {
         return {
             LimitBreak: {},
-            MainAction: {
-                ActionType: "MainAction",
-                Actions: [
-                    { name: 'Action Name 1', details: 'Details about action 1' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 3', details: 'Details about action 2' },
-                    { name: 'Action Name 4', details: 'Details about action 2' },
-                    { name: 'Action Name 5', details: 'Details about action 2' },
-                    { name: 'Action Name 6', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    // 可以添加更多的 action 物件
-                ]
-            },
-            SubAction: {
-                ActionType: "SubAction",
-                Actions: [
-                    { name: 'Action Name 1', details: 'Details about action 1' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    // 可以添加更多的 action 物件
-                ]
-            },
-            InstantAction: {
-                ActionType: "InstantAction",
-                Actions: [
-                    { name: 'Action Name 1', details: 'Details about action 1' },
-                    { name: 'Action Name 2', details: 'Details about action 2' },
-                    // 可以添加更多的 action 物件
-                ]
-            },
+            MainAction: {},
+            SubAction: {},
+            InstantAction: {},
             // 定義其他類型的 action 資料陣列
         };
     },
@@ -62,7 +31,7 @@ ActionVueApp.component('action-but-table', {
         actionobject: Object,  // 接收包含不同 action 資訊的陣列
     },
     template: `
-    <div :class="[actionobject.ActionSubject+'-SubjectTitel'] ">
+    <div :class="[actionobject.ActionSubject,'SubjectTab'] ">
             <div class="SubjectTitel">
                 <h1>{{ actionobject.SubjectTitel }}</h1>
                 &nbsp

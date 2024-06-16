@@ -1,0 +1,50 @@
+.CharacterTitle{
+    display: flex;
+    border-radius: 10em 0em 5em 0em;
+    border: 2px solid #8b4513;
+    padding: 0 0 0 4em;
+    margin: 10px;
+}
+.CharacterJobIcon{
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+.CharacterNameRace{
+    margin: 10px;
+}
+.CharacterNameRace h1,p{
+    margin: 0;
+}
+.CharacterJobTitel{
+    display: flex;
+}
+.CharacterJobRole{
+    display: flex;
+}
+.Character-StatsBorder{
+    border: 2px solid #8b4513;
+    padding: 10px;
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    background-color: #f5deb3;
+    background: linear-gradient(145deg, #f0e68c, #d2b48c);
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+.CharacterStatsAndImage{
+    display: flex;
+    position: relative;
+}
+.CharacterImage{
+    text-align: center;
+    position: absolute;
+    right: 0;
+    width: 100%;
+}
+
+.CharacterImage img {
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #8b4513;
+}

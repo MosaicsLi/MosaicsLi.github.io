@@ -1,14 +1,3 @@
-.MainAction-SubjectTitel {
-    height: 30vh;
-    padding: 10px;
-    border-top-left-radius: 5px;
-    border-left: 6px ridge rgb(114, 76, 52, 0.7);
-    border-top: 6px ridge rgb(114, 76, 52, 0.7);
-    background: linear-gradient(to bottom, rgba(210, 133, 125, 1), rgba(210, 133, 125, 0.2), rgba(210, 133, 125, 0.1), rgba(255, 0, 0, 0));
-    box-shadow: -5px -5px 5px 1px rgba(0, 0, 0, 0.2);
-    flex-direction: column;
-    flex-wrap: wrap;
-    max-width: 30vw;
-    min-width: max-content;
-    /*border-image: linear-gradient(to right, #8f41e9, #578aef) 1;*/
+.MainAction {
+    background: linear-gradient(to bottom, rgba(210, 133, 125, 1), rgba(210, 133, 125, 0.1),rgba(255, 0, 0, 0));
 }
