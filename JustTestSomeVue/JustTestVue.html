@@ -22,7 +22,7 @@
 
 <body>
     <div class="container">
-        <div class="Character-stats" id="Character-stats">
+        <div class="Character-Information Character-InformationBorder" id="Character-Information">
             <div class="CharacterTitle">
                 <div class="CharacterJobIcon">
                     <img :src="[AdventurerBaseInfo.AdventurerJobIcon]" :alt="[AdventurerBaseInfo.AdventurerJob]">
@@ -32,7 +32,7 @@
                     <h1>{{AdventurerBaseInfo.AdventurerName}}/{{AdventurerBaseInfo.AdventurerRace}}</h1>
                 </div>
             </div>
-            <div class="CharacterJobTitel Character-StatsBorder">
+            <div class="CharacterJobTitel">
                 <div class="level">
                     <h1>LV{{Adventurerstatus.AdventurerLevel}}</h1>
                 </div>&nbsp;
@@ -40,37 +40,102 @@
                     <h1>{{AdventurerBaseInfo.AdventurerRole}}/{{AdventurerBaseInfo.AdventurerJob}}</h1>
                 </div>
             </div>
-            <div class="CharacterStatsAndImage">
-                <div class="main-stats">
-                    <h2>Main Stats</h2>
-                    <ul>
-                        <li>STR: +1</li>
-                        <li>DEX: +1</li>
-                        <li>VIT: +2</li>
-                        <li>INT: +3</li>
-                        <li>MND: +5</li>
-                    </ul>
+            <div class="CharacterStatsAndImage Character-InformationBorder">
+                <div class="CharacterStats">
+                    <div class="main-stats">
+                        <p>メインスーテタス</p>
+                        <ul>
+                            <li><mark>
+                                    <h4 class="StatusTitel">STR: </h4><span>+{{MainStatus.STR}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">DEX: </h4><span>+{{MainStatus.DEX}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">VIT: </h4><span>+{{MainStatus.VIT}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">INT: </h4><span>+{{MainStatus.INT}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">MND: </h4><span>+{{MainStatus.MND}}</span>
+                                </mark></li>
+                        </ul>
+                    </div>
+                    <div class="sub-stats">
+                        <p>サブスーテタス</p>
+                        <ul>
+                            <li><mark>
+                                    <h4 class="StatusTitel">物理防御力: </h4><span>+{{SubStatus.PhysicalDefense}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">魔法防御力: </h4><span>+{{SubStatus.MagicDefense}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">警戒値: </h4><span>+{{SubStatus.Vigilance}}</span>
+                                </mark></li>
+                            <li><mark>
+                                    <h4 class="StatusTitel">移動速度: </h4><span>+{{SubStatus.Speed}}マス</span>
+                                </mark></li>
+                        </ul>
+                    </div>
                 </div>
-                <div class="sub-stats">
-                    <h2>Sub Stats</h2>
-                    <ul>
-                        <li>Physical Defense: 11</li>
-                        <li>Magic Defense: 14</li>
-                        <li>Alertness: 15</li>
-                        <li>Movement Speed: 5 tiles</li>
-                    </ul>
-                </div>
-                <div class="CharacterImage">
-                    <img :src=[AdventurerBaseInfo.AdventurerImage] alt="Profile Image">
+                <div class="CharacterImage" :style="{ '--bgImage': `url('${AdventurerBaseInfo.AdventurerImage}')` }">
+                    &nbsp;
                 </div>
             </div>
-            <div class="hp-mp">
-                <p>MP Max: 5</p>
-                <p>HP Max: 24</p>
+            <div class="CharacterHP-MP-Profile ">
+                <div class="CharacterHPMP">
+                    <div class="CharacterMP">
+                        <div class="CharacterMaxMP ">
+                            <h5>MP</h5>
+                            <p>最大値</p>
+                            <h5>{{Adventurerstatus.AdventurerMP}}</h5>
+                        </div>
+                        <div class="CharacterNowMP Character-InformationBorder">
+                            <p>冒険者全員のターンが終了した時に2点回復</p>
+                        </div>
+                    </div>
+                    <div class="CharacterHP">
+                        <div class="CharacterMaxHP ">
+                            <h5>HP</h5>
+                            <p>最大値</p>
+                            <h5>{{Adventurerstatus.AdventurerHP}}</h5>
+                        </div>
+                        <div class="CharacterNowHP Character-InformationBorder">
+                            <p>最大値</p>
+                        </div>
+                        <div class="CharacterBarrier Character-InformationBorder">
+                            <p>HPバリア</p>
+                        </div>
+                    </div>
+                    <div class="CharacterItems Character-InformationBorder">
+                        <div class="CharacterItemTitel ">
+                            <h5>所持品</h5>
+                            <p></p>
+                        </div>
+                        <div class="CharacterItemList " v-for="Item in AdventurerBaseInfo.AdventurerItem" >
+                            <p>{{Item}}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="CharacterProfile Character-InformationBorder">
+                    <p>{{AdventurerBaseInfo.AdventurerProfile}}</p>
+                </div>
+
             </div>
-            <div class="additional-info">
-                <h2>Additional Info</h2>
-                <p>Information about special abilities and effects.</p>
+            <div class="Additional-Info Character-InformationBorder">
+                <div class="Additional-InfoTitel">
+                    <h2>特性や補足説明</h2>
+                </div>
+                <div class="AdditionalList" v-for="Tip in AdventurerBaseInfo.AdventurerJobTips" :key="Tip.TipTitel">
+                    <div class="TitTitle">
+                        <h3>{{Tip.TipTitel}}</h3><p>{{Tip.TipType}}</p>
+                    </div>
+                    <div class="TipDitel">
+                        <span>{{Tip.TipDitel}}</span>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="Character-Actions" id="CharacterActions">

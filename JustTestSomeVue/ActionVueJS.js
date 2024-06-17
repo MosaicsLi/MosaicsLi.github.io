@@ -201,8 +201,8 @@ ActionVueApp.component('limitbreak-but-table', {
 <div class="LimitBreak ActionCardBorder">
     <table class="LimitBreakDetail">
         <tr>
-            <td  rowspan="2">
-                <div class="LimitBreakIcon">
+            <td class="LimitBreakIcon" rowspan="2">
+                <div class="">
                   <img :src="[limitbreakobject.ActionIconPath]" alt="Limit Break Image">
                 </div>
             </td>

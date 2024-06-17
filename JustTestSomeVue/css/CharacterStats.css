@@ -1,30 +1,48 @@
-.CharacterTitle{
+.CharacterTitle {
     display: flex;
     border-radius: 10em 0em 5em 0em;
     border: 2px solid #8b4513;
     padding: 0 0 0 4em;
     margin: 10px;
+    /*height: 10vh;*/
 }
-.CharacterJobIcon{
+
+.CharacterJobIcon {
     display: flex;
     align-content: center;
     justify-content: center;
     align-items: center;
 }
-.CharacterNameRace{
+
+.CharacterNameRace {
     margin: 10px;
 }
-.CharacterNameRace h1,p{
+
+.CharacterNameRace h1,
+p {
     margin: 0;
 }
-.CharacterJobTitel{
+
+.CharacterJobTitel {
+    padding: 10px;
+    display: flex;
+    /*height: 5vh;*/
+    background: linear-gradient(to bottom right,rgb(53,86,40),rgba(53,86,40,0.9),rgba(53,86,40,0.9),rgba(53,86,40,0.8),rgba(53,86,40,0.7));
+    border: 1px solid #8b4513;
+    border-radius: 8px;
+    background-color: #f5deb3;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #FFF;
+}
+
+.CharacterJobRole {
     display: flex;
 }
-.CharacterJobRole{
-    display: flex;
+.CharacterJobRole h1, .level h1 {
+    margin: 0;
 }
-.Character-StatsBorder{
-    border: 2px solid #8b4513;
+
+.Character-InformationBorder {
     padding: 10px;
     border: 1px solid #8b4513;
     border-radius: 8px;
@@ -32,19 +50,178 @@
     background: linear-gradient(145deg, #f0e68c, #d2b48c);
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
-.CharacterStatsAndImage{
+
+.CharacterStatsAndImage {
     display: flex;
     position: relative;
+    min-height: max-content;
+    /*height: 20vh;*/
 }
-.CharacterImage{
-    text-align: center;
+.CharacterStatsAndImage::after {
+    content: "";
     position: absolute;
-    right: 0;
     width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,rgb(53,86,40),rgba(53,86,40,0.9),rgba(255, 0, 0, 0));
+    z-index: 0;
+    top: 0;left: 0;border-radius: 8px;
 }
 
-.CharacterImage img {
+.CharacterStats {
+    color: #fff;
+    display: flex;
+    z-index: 2;
+    gap: 10px;
+    width: 75%;
+    justify-content: space-evenly;
+}
+.CharacterImage {
+    margin: 0 0 0 10px;
+    position: relative; /* 確保內部的偽元素的定位參照 */
+    text-align: right;
+    width: 45%;
+    z-index: 1;
+    outline: ridge 5px #bda45b;
+    box-shadow: rgba(0, 0, 0, 0.7) -5px -5px 2px 0px;
+}
+
+.CharacterImage::after {
+    content: "";
+    background: var(--bgImage);
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position-y: center;
+    background-position-x: right;
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 100%; /* 確保背景覆蓋整個元素 */
+    height: 100%;
+    z-index: -1; /* 放置到邊框後面 */
+    box-sizing: border-box; /* 讓偽元素考慮到邊框的大小 */
+}
+
+
+
+.main-stats,
+.sub-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.main-stats p,
+.sub-stats p{
+    font-size: xx-small;
+}
+.main-stats ul,
+.sub-stats ul{
+    border-top:1px solid #fff ;
     width: 100%;
-    border-radius: 8px;
-    border: 2px solid #8b4513;
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+}
+.main-stats mark,
+.sub-stats mark{
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    background-color: transparent;
+    padding: 2px 1px;
+    border-radius: 5px; 
+    color: #fff ;  
+    background: linear-gradient(transparent 40%, rgba(255,255,255,0) 10%, rgb(35,80,9)  55%, rgb(35,80,9) 90%, transparent 95%);
+}
+.main-stats span,
+.sub-stats span{text-align: right;
+}
+.StatusTitel{
+    margin: 0;
+}
+.CharacterHP-MP-Profile{
+    display: flex;
+}
+.CharacterHPMP{
+    font-size: xx-small;
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+}
+.CharacterMP,.CharacterHP,.CharacterItems{
+    display: flex;
+}
+.CharacterItemList{
+    margin: 0 10px;
+}
+.CharacterMaxMP,.CharacterMaxHP{
+    color: #FFF;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 3vw;
+    padding: 10px;
+}
+.CharacterMaxMP{
+    position: relative;
+    background: linear-gradient(to right,rgb(165, 60, 100),rgba(197, 78, 124, 0.9),rgba(197, 78, 124, 0.9),rgba(194, 78, 122, 0.8));
+}
+.CharacterMaxMP::after{
+    position: absolute;
+    content: "";
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 1vw 1vw; /* 调整三角形的大小 linear-gradient(145deg, #f0e68c, #d2b48c)*/
+    border-color: transparent transparent #f0e68c transparent; /* 透明色和背景色 */
+}
+.CharacterMaxHP{
+    position: relative;
+    background: linear-gradient(to right,rgb(53,86,40),rgba(63, 119, 37, 0.9),rgba(92, 175, 53, 0.9),rgba(113, 214, 66, 0.9));
+
+}
+.CharacterMaxHP::after{
+    position: absolute;
+    content: "";
+    bottom: 0;
+    right: 0;
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 1vw 1vw; /* 调整三角形的大小 linear-gradient(145deg, #f0e68c, #d2b48c)*/
+    border-color: transparent transparent #f0e68c transparent; /* 透明色和背景色 */
+}
+.CharacterMaxMP h5,.CharacterMaxHP h5{
+    margin: 0;
+}
+.CharacterNowMP{
+    width: 85%;
+}
+.CharacterNowHP{
+    width: 60%;
+}
+.CharacterBarrier{
+    width: 25%;
+}
+.Additional-Info{
+    padding: 0;
+}
+.Additional-InfoTitel{
+    border-radius: 8px 8px 0 0;
+    padding: 0;
+    background-color: rgb(147,111,39);
+}
+.Additional-InfoTitel h2,.TitTitle h3{
+    margin: 0;
+}
+.TitTitle{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #DED2B6;
+}
+.TipDitel{
+    background-color: #FFF;
 }

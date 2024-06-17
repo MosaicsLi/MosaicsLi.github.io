@@ -3,7 +3,7 @@
     "AdventurerRace": "冒険者種族",
     "AdventurerRole": "ヒーラー",
     "AdventurerJob": "白魔導士",
-    "AdventurerImage":"./Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
+    "AdventurerImage":"../Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
     "AdventurerJobIcon":"./Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
     "AdventurerStatus": [
         {
@@ -50,6 +50,7 @@
     "AdventurerJobTips": [
         {
             "TipTitel":"生還",
+            "TipType":"バフ",
             "TipDitel": "キャラクターが生還を受けている間、そのキャラクターは敵のアビリティの効果と、特性や戦場のギミックから発生するダメージとデバフを受けない。生還はそのキャラクターのターンが開始するか、そのキャラクターがアビリティを使用すると解除される"
         }
     ],
