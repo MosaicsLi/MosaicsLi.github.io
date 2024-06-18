@@ -43,7 +43,6 @@ p {
 }
 
 .Character-InformationBorder {
-    padding: 10px;
     border: 1px solid #8b4513;
     border-radius: 8px;
     background-color: #f5deb3;
@@ -55,7 +54,6 @@ p {
     display: flex;
     position: relative;
     min-height: max-content;
-    /*height: 20vh;*/
 }
 .CharacterStatsAndImage::after {
     content: "";
@@ -76,7 +74,7 @@ p {
     justify-content: space-evenly;
 }
 .CharacterImage {
-    margin: 0 0 0 10px;
+    margin: 5px;
     position: relative; /* 確保內部的偽元素的定位參照 */
     text-align: right;
     width: 45%;

@@ -43,12 +43,9 @@ ActionVueApp.component('action-but-table', {
                         <table class="ActionDetail">
                             <tr>
                                 <td rowspan="2" class="ActionIcon">
-                                    <div>
                                         <img :src="[action.ActionIconPath]" :alt="[action.Name]">
-                                    </div>
                                 </td>
-                                <td>
-                                    <div class="ActionTitel">
+                                <td class="ActionTitel">
                                         <div class="ActionName">
                                             <h3>{{ action.Name }}</h3>
                                         </div>
@@ -58,7 +55,6 @@ ActionVueApp.component('action-but-table', {
                                         <div class="ActionUsed"  v-if="action.UsageCount" v-for="Usage in action.UsageCount">
                                             <input type="checkbox"  v-model="Usage"/>
                                         </div>
-                                    </div>
                                 </td>
                             </tr>
                             <tr>

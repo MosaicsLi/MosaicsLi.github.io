@@ -4,33 +4,35 @@ body {
     margin: 0;
     padding: 0;
 }
-
+span{
+    font-size: 1%;
+}
 .container {
+    min-width: min-content;
     display: flex;
-    height: 100vh;
     margin: auto;
     background: #f5deb3;
     background: linear-gradient(145deg, #f0e68c, #d2b48c);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    min-width: max-content;
 }
 
-.Character-Information {
+.Character-InformationTab {
     max-width: 30%;
-    width: 25vw;
-    max-height: 100vh;
+    width: 30%;
+}
+.Character-Information{
+    position: fixed;
+    max-width: 29%;
+    padding: 5px;
+    margin: 1px;
 }
 
 .Character-Actions {
     max-width: 70%;
-    width: 70vw;
     display: flex;
-    flex-wrap: wrap;
-    max-height: 100vh;
     scrollbar-width: none;
     align-items: baseline;
     flex-direction: column;
-    min-width: max-content;
 }
 
 ::-webkit-scrollbar {
@@ -44,8 +46,7 @@ body {
 }
 .SubjectTab{
     padding: 10px;
-    max-width: 30vw;
-    min-width: max-content;
+    max-width: 30%;
     background: linear-gradient(to bottom right,#292929,#222222);
     margin: 10px;
     position: relative;
@@ -70,11 +71,13 @@ body {
 }
 
 .Action {
-    max-width: 20vw;
+    /*max-width: 20vw;*/
 }
 
 .ActionTitel {
     display: flex;
+    align-items: center;
+    width: 100%;
     border-bottom: 1px solid #8b4513;
     box-shadow: 0 1px 0 0 rgba(0, 0, 0, 0.2);
 }
@@ -104,10 +107,9 @@ body {
 
 .ActionSubjectList {
     display: flex;
-    flex-wrap: wrap;
-    max-height: 70%;
+    flex-wrap: nowrap;
     min-height: max-content;
-    flex-direction: column;
+    flex-direction: row;
     margin: 0 10px;
 }
 
@@ -121,14 +123,12 @@ body {
 .ActionList {
     display: flex;
     flex-wrap: wrap;
-    max-height: 75vh;
     flex-direction: column;
-    min-width: max-content;
     gap: 5px;
 }
 
 .ActionEffect {
-    padding: 5px;
+    padding: 5px 0;
 }
 
 .ActionDetail {
@@ -138,21 +138,24 @@ body {
     background-color: #DED2B6;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
+.ActionDetail tr{
+    display: flex;
+    width: 100%;
+}
 
 .ActionIcon {
-    width: 20%;
+    max-width:fit-content;
     grid-area: Icon;
     align-content: center;
     justify-self: center;
 }
 
 .ActionName {
-    width: 60%;
 }
 
 .ActionType {
-    width: 50%;
     display: flex;
+    margin-left: auto;
     flex-direction: column;
     justify-content: center;
     padding: 0 5px;
