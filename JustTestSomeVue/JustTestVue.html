@@ -18,14 +18,19 @@
     <script>
 
         const { createApp, ref } = Vue;
-        const JobJson = {};
+        var JobJson = {};
+        const sharedState = Vue.reactive({
+            AdventurerBaseInfo: {},
+            Adventurerstatus: {},
+            MainStatus: {},
+            SubStatus: {}
+        });
     </script>
 </head>
 
 <body>
     <div id="JobList">
-        <h1  @click="greet">HI</h1>
-        <job-list :list="JobList" @click.native="greet"></job-list>
+        <job-list :list="JobList" @some-event="greet"></job-list>
     </div>
     <div class="container">
         <input type="checkbox" name="" id="sideMenu-active" />
@@ -34,19 +39,19 @@
 
                 <div class="CharacterTitle">
                     <div class="CharacterJobIcon">
-                        <img :src="[AdventurerBaseInfo.AdventurerJobIcon]" :alt="[AdventurerBaseInfo.AdventurerJob]">
+                        <img :src="[sharedState.AdventurerBaseInfo.AdventurerJobIcon]" :alt="[sharedState.AdventurerBaseInfo.AdventurerJob]">
                     </div>
                     <div class="CharacterNameRace">
                         <p>冒険者名/種族</p>
-                        <h1>{{AdventurerBaseInfo.AdventurerName}}/{{AdventurerBaseInfo.AdventurerRace}}</h1>
+                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}</h1>
                     </div>
                 </div>
                 <div class="CharacterJobTitel">
                     <div class="level">
-                        <h1>LV{{Adventurerstatus.AdventurerLevel}}</h1>
+                        <h1>LV{{sharedState.Adventurerstatus.AdventurerLevel}}</h1>
                     </div>&nbsp;
                     <div class="CharacterJobRole">
-                        <h1>{{AdventurerBaseInfo.AdventurerRole}}/{{AdventurerBaseInfo.AdventurerJob}}</h1>
+                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}</h1>
                     </div>
                 </div>
                 <div class="CharacterStatsAndImage Character-InformationBorder">
@@ -55,19 +60,19 @@
                             <p>メインスーテタス</p>
                             <ul>
                                 <li><mark>
-                                        <h4 class="StatusTitel">STR: </h4><span>+{{MainStatus.STR}}</span>
+                                        <h4 class="StatusTitel">STR: </h4><span>+{{sharedState.MainStatus.STR}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">DEX: </h4><span>+{{MainStatus.DEX}}</span>
+                                        <h4 class="StatusTitel">DEX: </h4><span>+{{sharedState.MainStatus.DEX}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">VIT: </h4><span>+{{MainStatus.VIT}}</span>
+                                        <h4 class="StatusTitel">VIT: </h4><span>+{{sharedState.MainStatus.VIT}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">INT: </h4><span>+{{MainStatus.INT}}</span>
+                                        <h4 class="StatusTitel">INT: </h4><span>+{{sharedState.MainStatus.INT}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">MND: </h4><span>+{{MainStatus.MND}}</span>
+                                        <h4 class="StatusTitel">MND: </h4><span>+{{sharedState.MainStatus.MND}}</span>
                                     </mark></li>
                             </ul>
                         </div>
@@ -75,22 +80,22 @@
                             <p>サブスーテタス</p>
                             <ul>
                                 <li><mark>
-                                        <h4 class="StatusTitel">物理防御力: </h4><span>+{{SubStatus.PhysicalDefense}}</span>
+                                        <h4 class="StatusTitel">物理防御力: </h4><span>+{{sharedState.SubStatus.PhysicalDefense}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">魔法防御力: </h4><span>+{{SubStatus.MagicDefense}}</span>
+                                        <h4 class="StatusTitel">魔法防御力: </h4><span>+{{sharedState.SubStatus.MagicDefense}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">警戒値: </h4><span>+{{SubStatus.Vigilance}}</span>
+                                        <h4 class="StatusTitel">警戒値: </h4><span>+{{sharedState.SubStatus.Vigilance}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">移動速度: </h4><span>+{{SubStatus.Speed}}マス</span>
+                                        <h4 class="StatusTitel">移動速度: </h4><span>+{{sharedState.SubStatus.Speed}}マス</span>
                                     </mark></li>
                             </ul>
                         </div>
                     </div>
                     <div class="CharacterImage"
-                        :style="{ '--bgImage': `url('${AdventurerBaseInfo.AdventurerImage}')` }">
+                        :style="{ '--bgImage': `url('${sharedState.AdventurerBaseInfo.AdventurerImage}')` }">
                         &nbsp;
                     </div>
                 </div>
@@ -100,7 +105,7 @@
                             <div class="CharacterMaxMP ">
                                 <h5>MP</h5>
                                 <p>最大値</p>
-                                <h5>{{Adventurerstatus.AdventurerMP}}</h5>
+                                <h5>{{sharedState.Adventurerstatus.AdventurerMP}}</h5>
                             </div>
                             <div class="CharacterNowMP Character-InformationBorder">
                                 <p>冒険者全員のターンが終了した時に2点回復</p>
@@ -110,7 +115,7 @@
                             <div class="CharacterMaxHP ">
                                 <h5>HP</h5>
                                 <p>最大値</p>
-                                <h5>{{Adventurerstatus.AdventurerHP}}</h5>
+                                <h5>{{sharedState.Adventurerstatus.AdventurerHP}}</h5>
                             </div>
                             <div class="CharacterNowHP Character-InformationBorder">
                                 <p>最大値</p>
@@ -124,13 +129,13 @@
                                 <h5>所持品</h5>
                                 <p></p>
                             </div>
-                            <div class="CharacterItemList " v-for="Item in AdventurerBaseInfo.AdventurerItem">
+                            <div class="CharacterItemList " v-for="Item in sharedState.AdventurerBaseInfo.AdventurerItem">
                                 <p>{{Item}}</p>
                             </div>
                         </div>
                     </div>
                     <div class="CharacterProfile Character-InformationBorder">
-                        <p>{{AdventurerBaseInfo.AdventurerProfile}}</p>
+                        <p>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</p>
                     </div>
 
                 </div>
@@ -138,7 +143,7 @@
                     <div class="Additional-InfoTitel">
                         <h2>特性や補足説明</h2>
                     </div>
-                    <div class="AdditionalList" v-for="Tip in AdventurerBaseInfo.AdventurerJobTips" :key="Tip.TipTitel">
+                    <div class="AdditionalList" v-for="Tip in sharedState.AdventurerBaseInfo.AdventurerJobTips" :key="Tip.TipTitel">
                         <div class="TitTitle">
                             <h3>{{Tip.TipTitel}}</h3>
                             <p>{{Tip.TipType}}</p>

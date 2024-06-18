@@ -1,11 +1,7 @@
 const AdventurerNameStatusVueApp = createApp({
     data() {
         return {
-            Adventurerstatus: {},
-            AdventurerBaseInfo: {},
-            MainStatus:{},
-            SubStatus:{},
-            // 定義其他類型的 action 資料陣列
+            sharedState
         };
     },
     mounted() {
@@ -15,17 +11,19 @@ const AdventurerNameStatusVueApp = createApp({
         async getJobDataApi() {
             try {
                 const response = await axios.get('./Jsons/White Mage.json');
-                this.AdventurerBaseInfo = response.data;
-                this.Adventurerstatus=response.data.AdventurerStatus.find(adventurer => adventurer.AdventurerLevel === 30);
-                this.MainStatus=this.Adventurerstatus.MainStatus;
-                this.SubStatus=this.Adventurerstatus.SubStatus;
-                HAHAISME=this.SubStatus;
-                console.log("HAHAISME："+HAHAISME);
+                this.sharedState.AdventurerBaseInfo = response.data;
+                console.log(this.sharedState.AdventurerBaseInfo);
+                this.sharedState.Adventurerstatus = this.sharedState.AdventurerBaseInfo.AdventurerStatus.find(adventurer => adventurer.AdventurerLevel === 30);
+                this.sharedState.MainStatus = this.sharedState.Adventurerstatus.MainStatus;
+                this.sharedState.SubStatus = this.sharedState.Adventurerstatus.SubStatus;
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
             } catch (error) {
                 console.error('Error loading JSON data:', error);
             }
         },
+        HI(){
+            alert("HI");
+        }
     },
 
 });
