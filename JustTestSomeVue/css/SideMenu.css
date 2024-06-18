@@ -1,0 +1,44 @@
+label {
+    width: 20px;
+    height: 80px;
+    background-color: #d1d1d1;
+    color: #686666;
+    position: absolute;
+    right: -20px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    line-height: 80px;
+    text-align: center;
+    border-radius: 0 5px 5px 0;
+    box-shadow: 5px 0 5px rgba(23, 23, 54, 0.6);
+}
+
+#sideMenu-active:checked+.sideMenu {
+    transform: translateX(0);
+    max-width: 25%;
+    width: 25%;
+    min-width: min-content;
+}
+#sideMenu-active:checked~.Character-Actions {
+    max-width: 75%;
+}
+#sideMenu-active:checked+.sideMenu .Character-Information{
+    visibility: visible;
+    width: 100%;
+    transform: translateX(0);
+    opacity: 1;
+    display: block;
+}
+#sideMenu-active {
+    position: absolute;
+    opacity: 0;
+    z-index: 1;
+}
+
+.sideMenu {
+    height: 100vh;
+    position: relative;
+    transform: translateX(-100%);
+    transition: 0.5s;
+}

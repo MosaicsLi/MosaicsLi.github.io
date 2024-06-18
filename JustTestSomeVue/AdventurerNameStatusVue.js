@@ -19,7 +19,8 @@ const AdventurerNameStatusVueApp = createApp({
                 this.Adventurerstatus=response.data.AdventurerStatus.find(adventurer => adventurer.AdventurerLevel === 30);
                 this.MainStatus=this.Adventurerstatus.MainStatus;
                 this.SubStatus=this.Adventurerstatus.SubStatus;
-                console.log(this.Adventurerstatus);
+                HAHAISME=this.SubStatus;
+                console.log("HAHAISME："+HAHAISME);
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
             } catch (error) {
                 console.error('Error loading JSON data:', error);

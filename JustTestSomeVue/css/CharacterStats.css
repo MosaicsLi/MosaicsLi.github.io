@@ -4,6 +4,7 @@
     border: 2px solid #8b4513;
     padding: 0 0 0 4em;
     margin: 10px;
+    min-width: fit-content;
     /*height: 10vh;*/
 }
 
@@ -24,6 +25,7 @@ p {
 }
 
 .CharacterJobTitel {
+    min-width: fit-content;
     padding: 10px;
     display: flex;
     /*height: 5vh;*/

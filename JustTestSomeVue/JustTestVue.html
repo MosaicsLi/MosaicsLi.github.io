@@ -14,15 +14,22 @@
     <link rel="stylesheet" href="./css/MainAction.css">
     <link rel="stylesheet" href="./css/SubAction.css">
     <link rel="stylesheet" href="./css/Instant.css">
+    <link rel="stylesheet" href="./css/SideMenu.css">
     <script>
 
         const { createApp, ref } = Vue;
+        const JobJson = {};
     </script>
 </head>
 
 <body>
+    <div id="JobList">
+        <h1  @click="greet">HI</h1>
+        <job-list :list="JobList" @click.native="greet"></job-list>
+    </div>
     <div class="container">
-        <div class="Character-InformationTab " id="Character-Information">
+        <input type="checkbox" name="" id="sideMenu-active" />
+        <div class="Character-InformationTab sideMenu " id="Character-Information">
             <div class="Character-Information Character-InformationBorder">
 
                 <div class="CharacterTitle">
@@ -142,6 +149,9 @@
                     </div>
                 </div>
             </div>
+            <label for="sideMenu-active">
+                <i class="fas fa-angle-right"></i>
+            </label>
         </div>
         <div class="Character-Actions" id="CharacterActions">
             <limitbreak-but-table :limitbreakobject="LimitBreak"></limitbreak-but-table>
@@ -152,6 +162,7 @@
             </div>
         </div>
     </div>
+    <script src="./JobChange.js"></script>
     <script src="./AdventurerNameStatusVue.js"></script>
     <script src="./ActionVueJS.js"></script>
 </body>

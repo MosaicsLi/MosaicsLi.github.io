@@ -17,18 +17,22 @@ span{
 }
 
 .Character-InformationTab {
-    max-width: 30%;
-    width: 30%;
+    position: relative;
+    height: fit-content;
+    width: 0%;
 }
 .Character-Information{
-    position: fixed;
-    max-width: 29%;
-    padding: 5px;
-    margin: 1px;
+    width: 0%;
+    opacity: 0;
+    display: none;
+    transform: translateX(-100%);
+    visibility: hidden;
+    transition: 0.1s;
 }
 
 .Character-Actions {
-    max-width: 70%;
+    transition: 0.5s;
+    max-width: 100%;
     display: flex;
     scrollbar-width: none;
     align-items: baseline;
@@ -47,6 +51,7 @@ span{
 .SubjectTab{
     padding: 10px;
     max-width: 30%;
+    min-width: min-content;
     background: linear-gradient(to bottom right,#292929,#222222);
     margin: 10px;
     position: relative;
@@ -107,7 +112,7 @@ span{
 
 .ActionSubjectList {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap ;
     min-height: max-content;
     flex-direction: row;
     margin: 0 10px;

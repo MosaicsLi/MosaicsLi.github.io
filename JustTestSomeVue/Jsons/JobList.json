@@ -1,0 +1,11 @@
+[{
+    "JobName":"白魔導士",
+    "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/01_TANK/Job/Warrior.png",
+    "JsonPath":"./White Mage.json"
+},
+{
+    "JobName":"戦士",
+    "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
+    "JsonPath":"./Warrior.json"
+}
+]
