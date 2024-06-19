@@ -1,0 +1,48 @@
+
+.ComboTree {
+}
+
+.ComboTree .ComboNode {
+    margin: 0px 0px 0px 5%;
+    position: relative
+}
+
+.ComboTree .ComboNode:before {
+    position: absolute;
+    left: -15px;
+    content: "";
+    display: block;
+    border-left: 5px solid #8b4513;
+    height: 50%;
+    border-bottom: 5px solid #8b4513;
+    width: 10px
+}
+
+.ComboTree .ComboNode:after {
+    position: absolute;
+    left: -15px;
+    bottom: -55%;
+    content: "";
+    display: block;
+    border-left: 5px solid #8b4513;
+    height: 155%
+}
+
+.ComboTree .ComboNode:last-child:after {
+    display: none
+}
+.ComboTree .ComboNode.ComboEnd:after {
+    display: none
+}
+
+.ComboTree .root {
+    margin: 0px 0px 0px 0%
+}
+
+.ComboTree .root:before {
+    display: none
+}
+
+.ComboTree .root:after {
+    display: none
+}

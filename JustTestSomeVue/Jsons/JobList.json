@@ -7,5 +7,10 @@
     "JobName":"戦士",
     "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/01_TANK/Job/Warrior.png",
     "JsonPath":"./Jsons/Warrior.json"
+},
+{
+    "JobName":"竜騎士",
+    "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
+    "JsonPath":"./Jsons/Dragoon.json"
 }
 ]

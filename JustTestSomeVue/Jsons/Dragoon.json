@@ -1,11 +1,11 @@
 {
     "AdventurerName": "冒険者",
     "AdventurerRace": "冒険者種族",
-    "AdventurerRole_Word": "ヒーラー",
-    "AdventurerRole":"Healer",
-    "AdventurerJob": "白魔導士",
-    "AdventurerImage":"../Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
-    "AdventurerJobIcon":"./Images/Icon/FFXIVIcons JobIcons/02_HEALER/Job/WhiteMage.png",
+    "AdventurerRole_Word": "DPS",
+    "AdventurerRole":"DPS",
+    "AdventurerJob": "竜騎士",
+    "AdventurerImage":"../Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
+    "AdventurerJobIcon":"./Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
     "AdventurerStatus": [
         {
             "AdventurerLevel": 30,
@@ -71,7 +71,6 @@
         "Actions": [
             {
                 "Name": "ストンラ",
-                "IsCombo":"root",
                 "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/stone_II.png",
                 "ActionType": "詠唱。地属性。魔法。メイン",
                 "Cost": "1MP",
@@ -189,7 +188,7 @@
         "ActionSubject": "InstantAction",
         "SubjectTitel": "INSTANT ACTION",
         "SubjectTitel_Word": "インスタント",
-        "SubjectTitel_Tip": "※ターンごとに1回使用できる。不意打ちを受けたら1ラウンド目では使用出来ない。",
+        "SubjectTitel_Tip": "ターンごとに1回使用できる。不意打ちを受けたら1ラウンド目では使用出来ない。",
         "Actions": [
             {
                 "Name": "迅速魔",

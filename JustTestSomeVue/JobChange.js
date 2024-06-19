@@ -27,8 +27,7 @@ const JobChange = createApp({
                 console.log("JobJson:");
                 console.log(JobJson);
 
-
-                console.log(sharedState.AdventurerBaseInfo );
+                
                 sharedState.AdventurerBaseInfo = JobJson;
                 sharedState.Adventurerstatus = sharedState.AdventurerBaseInfo.AdventurerStatus.find(adventurer => adventurer.AdventurerLevel === 30);
                 sharedState.MainStatus = sharedState.Adventurerstatus.MainStatus;

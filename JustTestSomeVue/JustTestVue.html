@@ -8,6 +8,7 @@
     <!-- Vue 3.0 -->
     <script src="https://unpkg.com/vue@3"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link href="https://use.fontawesome.com/releases/v5.0.8/css/all.css" rel="stylesheet">
     <link rel="stylesheet" href="./css/JustTestVue.css">
     <link rel="stylesheet" href="./css/CharacterStats.css">
     <link rel="stylesheet" href="./css/LimitBreak.css">
@@ -15,6 +16,7 @@
     <link rel="stylesheet" href="./css/SubAction.css">
     <link rel="stylesheet" href="./css/Instant.css">
     <link rel="stylesheet" href="./css/SideMenu.css">
+    <link rel="stylesheet" href="./css/Combo.css">
     <script>
 
         const { createApp, ref } = Vue;
@@ -29,7 +31,7 @@
 </head>
 
 <body>
-    <div id="JobList">
+    <div id="JobList" class="JobList">
         <job-list :list="JobList" @some-event="greet"></job-list>
     </div>
     <div class="container">
@@ -46,17 +48,17 @@
                         <h1>{{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}</h1>
                     </div>
                 </div>
-                <div class="CharacterJobTitel">
+                <div :class=['CharacterJobTitel','Titel-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
                     <div class="level">
                         <h1>LV{{sharedState.Adventurerstatus.AdventurerLevel}}</h1>
                     </div>&nbsp;
                     <div class="CharacterJobRole">
-                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}</h1>
+                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole_Word}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}</h1>
                     </div>
                 </div>
-                <div class="CharacterStatsAndImage Character-InformationBorder">
+                <div :class=['StatsAndImage-'+sharedState.AdventurerBaseInfo.AdventurerRole,'CharacterStatsAndImage','Character-InformationBorder']>
                     <div class="CharacterStats">
-                        <div class="main-stats">
+                        <div :class=['main-stats','main-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
                             <p>メインスーテタス</p>
                             <ul>
                                 <li><mark>
@@ -76,7 +78,7 @@
                                     </mark></li>
                             </ul>
                         </div>
-                        <div class="sub-stats">
+                        <div :class=['sub-stats','sub-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
                             <p>サブスーテタス</p>
                             <ul>
                                 <li><mark>
@@ -159,11 +161,11 @@
             </label>
         </div>
         <div class="Character-Actions" id="CharacterActions">
-            <limitbreak-but-table :limitbreakobject="LimitBreak"></limitbreak-but-table>
+            <limitbreak-but-table :limitbreakobject="sharedState.AdventurerBaseInfo.LimitBreak"></limitbreak-but-table>
             <div class="ActionSubjectList">
-                <action-but-table :actionobject="MainAction"></action-but-table>
-                <action-but-table :actionobject="SubAction"></action-but-table>
-                <action-but-table :actionobject="InstantAction"></action-but-table>
+                <action-but-table :actionobject="sharedState.AdventurerBaseInfo.MainAction"></action-but-table>
+                <action-but-table :actionobject="sharedState.AdventurerBaseInfo.SubAction"></action-but-table>
+                <action-but-table :actionobject="sharedState.AdventurerBaseInfo.InstantAction"></action-but-table>
             </div>
         </div>
     </div>

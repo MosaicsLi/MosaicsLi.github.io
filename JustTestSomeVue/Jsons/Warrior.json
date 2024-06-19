@@ -1,26 +1,27 @@
 {
     "AdventurerName": "冒険者",
     "AdventurerRace": "冒険者種族",
-    "AdventurerRole": "タンク",
+    "AdventurerRole_Word": "タンク",
+    "AdventurerRole":"Tank",
     "AdventurerJob": "戦士",
     "AdventurerImage":"../Images/Icon/FFXIVIcons JobIcons/01_TANK/Job/Warrior.png",
     "AdventurerJobIcon":"./Images/Icon/FFXIVIcons JobIcons/01_TANK/Job/Warrior.png",
     "AdventurerStatus": [
         {
             "AdventurerLevel": 30,
-            "AdventurerHP": 24,
+            "AdventurerHP": 35,
             "AdventurerMP": 5,
             "MainStatus": {
-                "STR": 1,
-                "DEX": 1,
-                "VIT": 2,
-                "INT": 3,
-                "MND": 5
+                "STR": 4,
+                "DEX": 2,
+                "VIT": 5,
+                "INT": 0,
+                "MND": 1
             },
             "SubStatus": {
-                "PhysicalDefense": 11,
-                "MagicDefense": 14,
-                "Vigilance": 15,
+                "PhysicalDefense": 15,
+                "MagicDefense": 12,
+                "Vigilance": 11,
                 "Speed": 5
             }
         },
@@ -49,19 +50,22 @@
     "AdventurerProfile": "冒険者プロフィール",
     "AdventurerJobTips": [
         {
-            "TipTitel":"生還",
-            "TipType":"バフ",
-            "TipDitel": "キャラクターが生還を受けている間、そのキャラクターは敵のアビリティの効果と、特性や戦場のギミックから発生するダメージとデバフを受けない。生還はそのキャラクターのターンが開始するか、そのキャラクターがアビリティを使用すると解除される"
+            "TipTitel":"コンボ",
+            "TipType":"特性",
+            "TipDitel": "君がコンポの効果を持つアビリティを使用したならば、君はそのターン中に指定されたアヒリティを1回だけ使用できる（移動してから使用したり、別の対象に使用してもよい）。"
+        },
+        {
+            "TipTitel":"敵視",
+            "TipType":"デバフ",
+            "TipDitel": "君を敵視している敵は、君を対象に含まないアビリティのアビリティ判定に-5のペナルティを受ける。敵視はその敵のターンが終了するか、君が気絶状態になると解除される。"
         }
     ],
     "LimitBreak": {
         "ActionType": "魔法。リミットブレイク",
         "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
-        "LimitBreakName": "生命の鼓動",
-        "Timing": "いつでも",
-        "Target": "君を含めた範囲内のすべての味方冒険者",
-        "Range": "戦場すべて※",
-        "ActionEffect": "対象のすべてのデバフ（気絶状態・衰弱状態・強衰弱状態を含む）を解除し、HPとMPを最大値まで回復する（※戦場外のキャラクターにも効果が適用され、そのキャラクターは君から5マス以内の何も存在しないマスに配置される）。"
+        "LimitBreakName": "原初の大地",
+        "Timing": "君か、味方冒険者1体以上がダメージを受ける直前",
+        "ActionEffect": "その効果から受けるダメージを合計し、半減（切り上げ）して君だけが受ける。これによって減少した君のHPの点数に等しい点数のダメージを、可能ならばその効果を発生させたキャラクターにも与える。"
     },
     "MainAction": {
         "ActionSubject": "MainAction",
@@ -69,60 +73,48 @@
         "SubjectTitel_Word": "メインアクション",
         "Actions": [
             {
-                "Name": "ストンラ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/stone_II.png",
-                "ActionType": "詠唱。地属性。魔法。メイン",
-                "Cost": "1MP",
+                "Name": "WSコンボ（ヘヴィスウィング+メイム）",
+                "IsCombo":"root",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/heavy_swing.png",
+                "ActionType": "物理。メイン",
                 "Target": "1体",
-                "Range": "10マス",
-                "Determination": "{MND}+d20>=（対象の魔法防御力）",
-                "ActionEffect": "対象に2点のダメージを与える。",
+                "Range": "1マス",
+                "Determination": "{STR}+d20>=（対象の物理防御力）",
+                "ActionEffect": "対象に2点のダメージと君への敵視※を与える。コンボ：《シュトルムヴィント》",
+                "DirectHit": "+1d6点のダメージ］"
+            },
+            {
+                "IsCombo":"ComboNode",
+                "IsComboEnd":"ComboEnd",
+                "Name": "シュトルムヴィント",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/storm's_path.png",
+                "ActionType": "物理。メイン",
+                "Target": "1体",
+                "Range": "1マス",
+                "Determination": "{STR}+d20>=（対象の物理防御力）",
+                "ActionEffect": "対象に2点のダメージと君への敵視※を与える。君は2点のHP回復を受け、",
                 "DirectHit": "+1d6点のダメージ"
             },
             {
-                "Name": "ケアルラ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/cure_II.png",
-                "ActionType": "詠唱。魔法。メイン",
-                "Cost": "2MP",
-                "Target": "1体",
-                "Range": "10マス",
-                "Determination": "d20（クリティカル確認）",
-                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
-                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
-            },
-            {
-                "Name": "メディカ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/medica.png",
-                "ActionType": "詠唱。魔法。メイン",
-                "Cost": "2MP",
-                "Target": "君を含めた範囲内のすべての味方",
+                "Name": "オーバーパワー",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/overpower.png",
+                "ActionType": "物理。メイン",
+                "Target": "範囲内のすべての敵",
                 "Range": "君を中心とした5×5マス",
-                "Determination": "d20（クリティカル確認）",
-                "ActionEffect": "対象は1d6+3点のHP回復を受ける。",
-                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+                "Determination": "{STR}+d20>=（対象の物理防御力）",
+                "ActionEffect": "対象に君への敵視※を与える。",
+                "DirectHit": "対象に2点のダメージ"
             },
             {
-                "Name": "リポーズ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/Repose.png",
-                "ActionType": "詠唱。魔法。メイン",
-                "Cost": "2MP",
+                "Name": "トマホーク",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/tomahawk.png",
+                "ActionType": "物理。メイン",
                 "Target": "1体",
-                "Range": "10マス",
-                "Determination": "{MND}+d20>=（対象の魔法防御力）",
-                "ActionEffect": "フェーズが終了するか、対象が次にダメージを受けるまで、対象が行うすべての判定に-2のペナルティを与える",
-                "DirectHit": "対象の発生させている予兆をすべて取り除く。"
-            },
-            {
-                "Name": "レイズ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/raise.png",
-                "ActionType": "詠唱。魔法。メイン",
-                "Cost": "3MP",
-                "Target": "気絶状態のキャラクター1体",
                 "Range": "5マス",
-                "Determination": "d20（クリティカル確認）",
-                "ActionEffect": "対象の気絶状態を解除し、対象は1d6+3点のHP回復を受ける。その後、対象に生還※と衰弱※状態を与える。（このアビリティは戦場外にいる気絶状態のキャラクター1体を対象にすることもできる。その場合、効果を適用したあと、対象を君から5マス以内の何も存在しないマスに配置する）",
-                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。",
-                "ActionTips": "※衰弱状態を受けているキャラクターは、あらゆる判定に-2のペナルティを受ける。衰弱状態はフェーズが終了しても解除されず、1回の休息を終了するか、衰弱状態を解除できる効果でしか解除できない。"
+                "Determination": "{STR}+d20>=（対象の物理防御力）",
+                "ActionEffect": "対象に2点のダメージと君への敵視※を与える。",
+                "DirectHit": "+1d6点のダメージ",
+                "ActionTips": "※君を敵視している敵は、君を対象に含まないアビリティのアビリティ判定に-5のペナルティを受ける。敵視はその敵のターンが終了するか、君が気絶状態になると解除される。"
             }
         ]
     },
@@ -132,54 +124,33 @@
         "SubjectTitel_Word": "サブアクション",
         "Actions": [
             {
-                "Name": "エアロ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/aero.png",
-                "ActionType": "詠唱。風属性。魔法。サブ",
-                "Cost": "1MP",
-                "Target": "1体",
-                "Range": "10マス",
-                "ActionEffect": "対象に3点のダメージとDOT3を与える。",
-                "ActionTips": "※DOTを受けている敵は、［敵のターン処理］ステップの終了時（すなわちすべての敵のターンが終わった後）に、受けているすべてのDOT の数値に等しいダメージを受ける。"
-            },
-            {
-                "Name": "ケアル",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/cure.png",
-                "ActionType": "詠唱。魔法。サブ",
-                "Cost": "1MP",
-                "Target": "1体",
-                "Range": "10マス",
-                "Determination": "d20（クリティカル確認）",
-                "ActionEffect": "対象は1d6+1点のHP回復を受ける。アビリティ判定で出た目が18以上なら「プロック：このフェーズ中、君が次に使用する《ケアルラ》のコストのMP消費は0点になる」が発生",
-                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
-            },
-            {
-                "Name": "エスナ",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/esuna.png",
-                "ActionType": "詠唱。魔法。サブ",
-                "Cost": "1MP",
-                "Target": "1体",
-                "Range": "10マス",
-                "ActionEffect": "対象の受けているデバフを1つ選んで解除する（気絶状態や衰弱状態、そのほか「解除できない」という効果を持つデバフは解除できない）。"
-            },
-            {
-                "Name": "ルーシッドドリーム",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/lucid_dreaming.png",
+                "Name": "ランパート",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/TankRollAction/rampart.png",
                 "ActionType": "サブ",
-                "ActionEffect": "このラウンド、君のMP自動回復量を+1点する（MPが回復しないときには効果を受けられない）。",
-                "Limit": "1フェーズに1回使用可能。",
+                "ActionEffect": "次の君のターンの開始時まで、君がアビリティの効果から受けるダメージをすべて-2点する。",
                 "UsageCount": [
                     false
-                ]
+                ],
+                "Limit": "1フェーズに1回使用可能。"
             },
             {
-                "Name": "神速魔",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/presence_of_mind.png",
+                "Name": "ロウブロウ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/TankRollAction/low_blow.png",
+                "ActionType": "物理。サブ",
+                "Target": "1体",
+                "Range": "1マス",
+                "ActionEffect": "君がこのターンが終了するまで、対象にスタン状態※を与える。この効果によるスタン状態が解除された対象は、この戦闘終了までスタン状態にならなくなる。",
+                "ActionTips": "※スタン状態を受けている敵はインスタントを使用できず、その敵の発生させている予兆はすべて取り除かれる。スタン状態の敵へのアビリティ判定にはボーナスダイスが1個与えられる。"
+            },
+            {
+                "Name": "バーサク",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/berserk.png",
                 "ActionType": "サブ",
-                "ActionEffect": "君は魔法のアビリティを1つ使用する",
-                "Limit": "1フェーズに1回使用可能。",
+                "ActionEffect": "このターン中君がアビリティの効果で与えるダメージを+2点する。",
                 "UsageCount": [
-                    false
-                ]
+                    false,false,false
+                ],
+                "Limit": "1フェーズに3回使用可能。"
             }
         ]
     },
@@ -187,15 +158,57 @@
         "ActionSubject": "InstantAction",
         "SubjectTitel": "INSTANT ACTION",
         "SubjectTitel_Word": "インスタント",
-        "SubjectTitel_Tip": "ターンごとに1回使用できる。不意打ちを受けたら1ラウンド目では使用出来ない。",
+        "SubjectTitel_Tip": "※ターンごとに1回使用できる。不意打ちを受けたら1ラウンド目では使用出来ない。",
         "Actions": [
             {
-                "Name": "迅速魔",
-                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/swiftcast.png",
+                "Name": "リプライザル",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/TankRollAction/reprisal.png",
                 "ActionType": "インスタント",
-                "Timing": "キャラクター1体のターン終了時",
-                "Determination": "d20（クリティカル確認）",
-                "ActionEffect": "魔法アビリティの1つを使用する。",
+                "Timing": "君から2マス以内の敵が、アビリティの効果を適用する直前",
+                "Target": "範囲内のすべての敵 ",
+                "Range": "君を中心とした5×5マス",
+                "ActionEffect": "このラウンド中、対象がアビリティの効果で与えるダメージをすべて-2点する。",
+                "UsageCount": [
+                    false
+                ],
+                "Limit": "1フェーズに1回使用可能。"
+            },
+            {
+                "Name": "挑発",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/TankRollAction/provoke.png",
+                "ActionType": "インスタント",
+                "Timing": "君がターンを開始した時",
+                "Target": "その敵1体",
+                "Range": "10マス",
+                "ActionEffect": "対象に君への敵視※を与える。",
+                "ActionTips": "※君を敵視している敵は、君を対象に含まないアビリティのアビリティ判定に-5のペナルティを受ける。敵視はその敵のターンが終了するか、君が気絶状態になると解除される。",
+                "UsageCount": [
+                    false
+                ],
+                "Limit": "1フェーズに1回使用可能。"
+            },
+            {
+                "Name": "インタージェクト",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/TankRollAction/interject.png",
+                "ActionType": "インスタント",
+                "Timing":"敵が詠唱のアビリティを使用したか、詠唱のアビリティによる予兆を発生させている敵から1マス以内に君がいる時",
+                "Target": "その敵1体",
+                "Range": "1マス",
+                "ActionEffect": "そのアビリティを無効化する（効果を一切適用しない）。",
+                "UsageCount": [
+                    false
+                ],
+                "Limit": "1フェーズに1回使用可能。"
+            },
+            {
+                "Name": "スリル・オブ・バトル",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/02_WAR/thrill_of_battle.png",
+                "ActionType": "インスタント",
+                "Timing":"君がダメージを受ける直前",
+                "ActionEffect": "君は1d6+2点の回復効果を受ける。さらに、このHP回復で【最大HP】を超過した点数に等しいHPバリアを得る。",
+                "UsageCount": [
+                    false
+                ],
                 "Limit": "1フェーズに1回使用可能。"
             }
         ]

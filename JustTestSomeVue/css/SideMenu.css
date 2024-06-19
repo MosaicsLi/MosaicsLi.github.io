@@ -19,17 +19,24 @@ label {
     max-width: 25%;
     width: 25%;
     min-width: min-content;
+
+    label .fas {
+        transform: scaleX(-1);
+    }
 }
+
 #sideMenu-active:checked~.Character-Actions {
     max-width: 75%;
 }
-#sideMenu-active:checked+.sideMenu .Character-Information{
+
+#sideMenu-active:checked+.sideMenu .Character-Information {
     visibility: visible;
     width: 100%;
     transform: translateX(0);
     opacity: 1;
     display: block;
 }
+
 #sideMenu-active {
     position: absolute;
     opacity: 0;
@@ -41,4 +48,24 @@ label {
     position: relative;
     transform: translateX(-100%);
     transition: 0.5s;
+}
+
+@media screen and (max-width: 768px) {
+    #sideMenu-active:checked+.sideMenu {
+        transform: translateX(0);
+        max-width: 90%;
+        width: 90%;
+        min-width: min-content;
+        height: 100%;
+        label .fas {
+            transform: scaleX(-1);
+        }
+    }
+
+    #sideMenu-active:checked~.Character-Actions {
+        max-width: 0%;
+        visibility: hidden;
+        opacity: 0;
+        display: none;
+    }
 }

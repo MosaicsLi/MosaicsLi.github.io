@@ -15,6 +15,10 @@ span{
     background: linear-gradient(145deg, #f0e68c, #d2b48c);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
+.JobList{
+    display: flex;
+    width: 100%;
+}
 
 .Character-InformationTab {
     position: relative;
@@ -73,6 +77,7 @@ span{
 .SubjectTitel {
     display: flex;
     align-items: baseline;
+    color: #FFF;
 }
 
 .Action {
@@ -182,4 +187,25 @@ span{
 
 .Determination {
     grid-area: Determination;
+}
+
+@media screen and (max-width: 768px) {
+    .SubjectTab{
+        max-width: 100%;
+    }
+    h1{
+        font-size: 6%;
+    }
+    h2{
+        font-size: 5%;
+    }
+    h3{
+        font-size: 4%;
+    }
+    h4{
+        font-size: 3%;
+    }
+    h5{
+        font-size: 2%;
+    }
 }

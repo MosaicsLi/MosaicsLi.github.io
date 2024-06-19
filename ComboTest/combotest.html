@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horizontal Tree Diagram</title>
+    <link rel="stylesheet" href="NewStyle.css">
+</head>
+
+<body>
+    <div>
+        <ul>
+            <li class="root">執行長
+                <ul>
+                    <li>研發部
+                        <ul>
+                            <li>產品團隊
+                                <ul>
+                                    <li>專案經理</li>
+                                    <li>系統分析</li>
+                                    <li>開發工程師</li>
+                                </ul>
+
+                            </li>
+                            <li>專案團隊
+                                <ul>
+                                    <li>專案一部
+                                        <ul>
+                                            <li>PM</li>
+                                            <li>RD</li>
+                                        </ul>
+                                    </li>
+                                    <li>專案二部
+                                        <ul>
+                                            <li>PM</li>
+                                            <li>RD</li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>訓練團隊
+                            </li>
+                        </ul>
+                    </li>
+                    <li>業務團隊</li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <div>
+    <ul>
+        <li class="root">執行長
+            <ul>
+                <li>研發部
+                </li>
+            </ul>
+        </li>
+    </ul>
+    
+    <ul>
+        <li class="root">產品團隊
+            <ul>
+                <li>專案經理</li>
+                <li>系統分析</li>
+                <li>開發工程師</li>
+            </ul>
+
+        </li>
+    </ul>
+    <div class=" divButTree">
+        <div class="divButNode root">
+            產品團隊
+        </div>
+            
+            <div class="divButNode">
+                專案經理
+            </div>
+            <div class="divButNode">
+                系統分析
+                <div class="divButNode">
+                    系統分析
+                </div>
+                <div class="divButNode">
+                    系統分析
+                </div>
+                <div class="divButNode">
+                    系統分析
+                </div>
+            </div>
+            <div class="divButNode">
+                開發工程師
+            </div>
+    </div>
+    </div>
+
+
+</body>
+
+</html>

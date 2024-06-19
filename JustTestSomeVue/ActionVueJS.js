@@ -1,15 +1,16 @@
 const ActionVueApp = createApp({
     data() {
         return {
-            LimitBreak: {},
-            MainAction: {},
-            SubAction: {},
-            InstantAction: {},
+            sharedState,
+            //LimitBreak: {},
+            //MainAction: {},
+            //SubAction: {},
+            //InstantAction: {},
             // 定義其他類型的 action 資料陣列
         };
     },
     mounted() {
-        this.getJobDataApi();
+        //this.getJobDataApi();
     },
     methods: {
         async getJobDataApi() {
@@ -19,6 +20,8 @@ const ActionVueApp = createApp({
                 this.MainAction = response.data.MainAction;
                 this.SubAction = response.data.SubAction;
                 this.InstantAction = response.data.InstantAction;
+                
+                console.log("jsonData = "+JSON.stringify(sharedState.AdventurerBaseInfo.LimitBreak, null, 2));
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
             } catch (error) {
                 console.error('Error loading JSON data:', error);
@@ -37,8 +40,11 @@ ActionVueApp.component('action-but-table', {
                 &nbsp
                 <h3> {{ actionobject.SubjectTitel_Word }}</h3>
             </div>
-            <div class="ActionList">
-                <div v-for="action in actionobject.Actions" :key="action.Name" class="Action">
+            <div class="SubjectTitel" v-if="actionobject.SubjectTitel_Tip">
+                <p>{{ actionobject.SubjectTitel_Tip }}</p>
+            </div>
+            <div class="ActionList ComboTree">
+                <div v-for="action in actionobject.Actions" :key="action.Name" :class=['Action',action.IsCombo,action.IsComboEnd]>
                     <div class="ActionCardBorder">
                         <table class="ActionDetail">
                             <tr>

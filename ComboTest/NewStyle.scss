@@ -1,0 +1,104 @@
+ul {
+    margin: 0px 0px 0px 5px;
+    list-style: none;
+    line-height: 2em;
+    font-family: Arial;
+
+    li {
+        font-size: 16px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            left: -15px;
+            top: 0px;
+            content: '';
+            display: block;
+            border-left: 1px solid #ddd;
+            height: 1em;
+            border-bottom: 1px solid #ddd;
+            width: 10px;
+        }
+
+        &:after {
+            position: absolute;
+            left: -15px;
+            bottom: -7px;
+            content: '';
+            display: block;
+            border-left: 1px solid #ddd;
+            height: 100%;
+        }
+
+        &.root {
+            margin: 0px 0px 0px -5px;
+
+            &:before {
+                display: none;
+            }
+
+            &:after {
+                display: none;
+            }
+        }
+
+        &:last-child {
+            &:after {
+                display: none;
+            }
+        }
+    }
+}
+.divButTree{
+    margin: 0px 0px 0px 5%;
+    list-style: none;
+    line-height: 2em;
+    font-family: Arial;
+    .divButNode{
+        margin: 0px 0px 0px 5%;
+        font-size: 16px;
+        position: relative;
+
+        &:before {
+            position: absolute;
+            left: -15px;
+            top: 0px;
+            content: '';
+            display: block;
+            border-left: 1px solid #ddd;
+            height: 1em;
+            border-bottom: 1px solid #ddd;
+            width: 10px;
+        }
+
+        &:after {
+            position: absolute;
+            left: -15px;
+            bottom: -7px;
+            content: '';
+            display: block;
+            border-left: 1px solid #ddd;
+            height: 100%;
+        }
+
+        
+
+        &:last-child {
+            &:after {
+                display: none;
+            }
+        }
+    }
+    .root {
+        margin: 0px 0px 0px -0%;
+
+        &:before {
+            display: none;
+        }
+
+        &:after {
+            display: none;
+        }
+    }
+
+}
