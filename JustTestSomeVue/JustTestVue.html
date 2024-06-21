@@ -21,32 +21,41 @@
     <script>
 
         const { createApp, ref } = Vue;
-        var JobJson = {};
         const sharedState = Vue.reactive({
             AdventurerBaseInfo: {},
             Adventurerstatus: {},
             MainStatus: {},
-            SubStatus: {}
+            SubStatus: {},
         });
+        console.log("AdventurerBaseInfo");
+        console.log(sharedState.AdventurerBaseInfo);
+        console.log("Adventurerstatus");
+        console.log(sharedState.Adventurerstatus);
+        console.log("MainStatus");
+        console.log(sharedState.MainStatus);
+        console.log("SubStatus");
+        console.log(sharedState.SubStatus);
     </script>
 </head>
 
 <body>
     <div id="JobList" class="JobList">
-        <job-list :list="JobList" @some-event="greet"></job-list>
+        <job-list :list="JobList" @jobicon-click="ChangeJobJsonData"></job-list>
+        <button @click="saveJSON">エクスポート</button>
     </div>
     <div class="container">
         <input type="checkbox" name="" id="sideMenu-active" />
         <div class="Character-InformationTab sideMenu " id="Character-Information">
             <div class="Character-Information Character-InformationBorder">
-
                 <div class="CharacterTitle">
                     <div class="CharacterJobIcon">
-                        <img :src="[sharedState.AdventurerBaseInfo.AdventurerJobIcon]" :alt="[sharedState.AdventurerBaseInfo.AdventurerJob]">
+                        <img :src="[sharedState.AdventurerBaseInfo.AdventurerJobIcon]"
+                            :alt="[sharedState.AdventurerBaseInfo.AdventurerJob]">
                     </div>
                     <div class="CharacterNameRace">
                         <p>冒険者名/種族</p>
-                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}</h1>
+                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}
+                        </h1>
                     </div>
                 </div>
                 <div :class=['CharacterJobTitel','Titel-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
@@ -54,10 +63,12 @@
                         <h1>LV{{sharedState.Adventurerstatus.AdventurerLevel}}</h1>
                     </div>&nbsp;
                     <div class="CharacterJobRole">
-                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole_Word}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}</h1>
+                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole_Word}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}
+                        </h1>
                     </div>
                 </div>
-                <div :class=['StatsAndImage-'+sharedState.AdventurerBaseInfo.AdventurerRole,'CharacterStatsAndImage','Character-InformationBorder']>
+                <div
+                    :class=['StatsAndImage-'+sharedState.AdventurerBaseInfo.AdventurerRole,'CharacterStatsAndImage','Character-InformationBorder']>
                     <div class="CharacterStats">
                         <div :class=['main-stats','main-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
                             <p>メインスーテタス</p>
@@ -83,16 +94,20 @@
                             <p>サブスーテタス</p>
                             <ul>
                                 <li><mark>
-                                        <h4 class="StatusTitel">物理防御力: </h4><span>+{{sharedState.SubStatus.PhysicalDefense}}</span>
+                                        <h4 class="StatusTitel">物理防御力: </h4>
+                                        <span>+{{sharedState.SubStatus.PhysicalDefense}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">魔法防御力: </h4><span>+{{sharedState.SubStatus.MagicDefense}}</span>
+                                        <h4 class="StatusTitel">魔法防御力: </h4>
+                                        <span>+{{sharedState.SubStatus.MagicDefense}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">警戒値: </h4><span>+{{sharedState.SubStatus.Vigilance}}</span>
+                                        <h4 class="StatusTitel">警戒値: </h4>
+                                        <span>+{{sharedState.SubStatus.Vigilance}}</span>
                                     </mark></li>
                                 <li><mark>
-                                        <h4 class="StatusTitel">移動速度: </h4><span>+{{sharedState.SubStatus.Speed}}マス</span>
+                                        <h4 class="StatusTitel">移動速度: </h4>
+                                        <span>+{{sharedState.SubStatus.Speed}}マス</span>
                                     </mark></li>
                             </ul>
                         </div>
@@ -132,7 +147,8 @@
                                 <h5>所持品</h5>
                                 <p></p>
                             </div>
-                            <div class="CharacterItemList " v-for="Item in sharedState.AdventurerBaseInfo.AdventurerItem">
+                            <div class="CharacterItemList "
+                                v-for="Item in sharedState.AdventurerBaseInfo.AdventurerItem">
                                 <p>{{Item}}</p>
                             </div>
                         </div>
@@ -146,7 +162,8 @@
                     <div class="Additional-InfoTitel">
                         <h2>特性や補足説明</h2>
                     </div>
-                    <div class="AdditionalList" v-for="Tip in sharedState.AdventurerBaseInfo.AdventurerJobTips" :key="Tip.TipTitel">
+                    <div class="AdditionalList" v-for="Tip in sharedState.AdventurerBaseInfo.AdventurerJobTips"
+                        :key="Tip.TipTitel">
                         <div class="TitTitle">
                             <h3>{{Tip.TipTitel}}</h3>
                             <p>{{Tip.TipType}}</p>
@@ -155,6 +172,11 @@
                             <span>{{Tip.TipDitel}}</span>
                         </div>
                     </div>
+
+                    <div @click="this.ShowAddAdditionalInfoClick = !this.ShowAddAdditionalInfoClick" class="add-action-button">
+                        + 特性や補足説明
+                    </div>
+                    <add-additional-info v-if="this.ShowAddAdditionalInfoClick" @add-info="handleAddAdditionalInfo"></add-additional-info>
                 </div>
             </div>
             <label for="sideMenu-active">

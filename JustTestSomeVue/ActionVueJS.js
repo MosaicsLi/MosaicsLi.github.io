@@ -14,12 +14,12 @@ const ActionVueApp = createApp({
     },
     methods: {
         async getJobDataApi() {
-            try {
+            try {/*
                 const response = await axios.get('./Jsons/White Mage.json');
                 this.LimitBreak = response.data.LimitBreak;
                 this.MainAction = response.data.MainAction;
                 this.SubAction = response.data.SubAction;
-                this.InstantAction = response.data.InstantAction;
+                this.InstantAction = response.data.InstantAction;*/
 
                 console.log("jsonData = " + JSON.stringify(sharedState.AdventurerBaseInfo.LimitBreak, null, 2));
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
@@ -33,10 +33,27 @@ ActionVueApp.component('action-but-table', {
     props: {
         actionobject: Object,  // 接收包含不同 action 資訊的陣列
     },
+    data() {
+        return {
+            showAddActionClick: false // 用于控制 add-action 组件的显示和隐藏
+        }
+    }
+    ,
     methods: {
         handleAddAction(newAction) {
+            if (newAction.Combowith != '') {
+                newAction.IsCombo = "ComboNode"
+                newAction.IsComboEnd = "ComboEnd"
+                const ComboRootIndex = this.actionobject.Actions.findIndex(action => action.Name === newAction.Combowith);
+                alert(ComboRootIndex);
+                // 插入新的action
+                this.actionobject.Actions.splice(ComboRootIndex + 1, 0, newAction);
+                this.actionobject.Actions[ComboRootIndex].IsComboEnd = undefined;
+                return;
+            }
             this.actionobject.Actions.push(newAction);
-        }
+            this.showAddActionClick = false; // 隐藏新增动作组件
+        },
     },
     template: `
     <div :class="[actionobject.ActionSubject,'SubjectTab'] ">
@@ -49,7 +66,7 @@ ActionVueApp.component('action-but-table', {
                 <p>{{ actionobject.SubjectTitel_Tip }}</p>
             </div>
             <div class="ActionList ComboTree">
-                <div v-for="action in actionobject.Actions" :key="action.Name" :class=['Action',action.IsCombo,action.IsComboEnd]>
+                <div v-for="action in actionobject.Actions" :key="action.Name" class="Action" :class=[action.IsCombo,action.IsComboEnd]>
                     <div class="ActionCardBorder">
                         <table class="ActionDetail">
                             <tr>
@@ -106,19 +123,26 @@ ActionVueApp.component('action-but-table', {
                         <span>{{action.ActionTips}}</span>
                     </div>
                 </div>
-                <add-action @add-action="handleAddAction"></add-action>
+                <div 
+                    @click="this.showAddActionClick = !this.showAddActionClick"
+                    class="add-action-button"
+                  >
+                    + ニューアクション
+                </div>
+                    <add-action v-if="this.showAddActionClick" @add-action="handleAddAction"></add-action>
+                </div>
             </div>
-        </div>
     `,
 
 });
 ActionVueApp.component('add-action', {
     data() {
         return {
+            sharedState,
             newAction: {
                 Name: '',
                 ActionType: '',
-                ActionIconPath: '',
+                ActionIconPath: 'https://xivapi.com/i/000000/000786_hr1.png',
                 UsageCount: [],
                 Cost: '',
                 Target: '',
@@ -128,12 +152,13 @@ ActionVueApp.component('add-action', {
                 ActionEffect: '',
                 DirectHit: '',
                 Limit: '',
-                ActionTips: ''
+                ActionTips: '',
+                Combowith: ''
             }
         }
     },
     template: `
-    <div class="Action">
+    <div class="Action AddAction">
                     <div class="ActionCardBorder">
                         <table class="ActionDetail">
                             <tr>
@@ -190,13 +215,20 @@ ActionVueApp.component('add-action', {
                         <div class="Limit" >
                             <span>制限： <input v-model="newAction.Limit" /></span>
                         </div>
+                        <div>
+                            <span>コンボ条件：</span>
+                            <select v-model="newAction.Combowith">
+                                <option v-for="option in sharedState.AdventurerBaseInfo.MainAction.Actions" v-bind:value="option.Name">
+                                    {{ option.Name }}
+                                </option>
+                            </select>
+                        </div>
                     </div>
                     <div class="Action ActionTips" >
                         <span><input v-model="newAction.ActionTips" /></span>
                     </div>
                 </div>
-            <button @click="submitNewAction">新增动作</button>
-            <button @click="saveJSON">存成 JSON 檔案</button>
+            <button @click="submitNewAction">ニューアクション</button>
     </div>
     `,
     methods: {
@@ -229,34 +261,11 @@ ActionVueApp.component('add-action', {
                 reader.readAsDataURL(selectedFile);
             }
         },
-        saveJSON() {
-            // 將 JSON 物件轉換為字串
-            var jsonString = JSON.stringify(this.newAction, null, 2);
-
-            // 建立一個新的 Blob 物件，用於存儲 JSON 字串
-            var blob = new Blob([jsonString], { type: "application/json" });
-
-            // 建立一個 URL 來表示 Blob 對象
-            var url = URL.createObjectURL(blob);
-
-            // 創建一個 <a> 元素來進行下載
-            var a = document.createElement("a");
-            a.href = url;
-            a.download = "data.json"; // 下載檔案的名稱
-
-            // 將 <a> 元素添加到文檔中，並模擬點擊來啟動下載
-            document.body.appendChild(a);
-            a.click();
-
-            // 清理
-            window.URL.revokeObjectURL(url);
-            document.body.removeChild(a);
-        },
         resetNewAction() {
             this.newAction = {
                 Name: '',
                 ActionType: '',
-                ActionIconPath: '',
+                ActionIconPath: 'https://xivapi.com/i/000000/000786_hr1.png',
                 UsageCount: [],
                 Cost: '',
                 Target: '',
@@ -266,7 +275,8 @@ ActionVueApp.component('add-action', {
                 ActionEffect: '',
                 DirectHit: '',
                 Limit: '',
-                ActionTips: ''
+                ActionTips: '',
+                Combowith: ''
             };
             document.getElementById('previewImg').setAttribute('src', "https://xivapi.com/i/000000/000786_hr1.png");
         }
