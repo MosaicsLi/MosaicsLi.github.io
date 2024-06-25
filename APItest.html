@@ -1,28 +1,35 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>呼叫 Weather API</title>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Solution Example</title>
 </head>
 <body>
+    <h1>Fetch Data from API with CORS Issue</h1>
+    <button id="fetch-data">Fetch Data</button>
+    <pre id="result"></pre>
 
-<h1>天氣預報</h1>
-<ul id="weatherForecast"></ul>
+    <script>
+        document.getElementById('fetch-data').addEventListener('click', () => {
+            const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+            const apiUrl = 'https://selfdecode.com/service/genes/open-target-snp/?rsid=rs13131350';
+            const url = proxyUrl + apiUrl;
 
-<script>
-var settings = {
-  "url": "https://selfdecode.com/service/genes/open-target-snp/?rsid=rs13131350",
-  "method": "GET",
-  "timeout": 0,
-  "headers": {
-    "Cookie": "health-analysis=sqviylkx43kebe1krq1pdq3cd3nqhnbs"
-  },
-};
-
-$.ajax(settings).done(function (response) {
-  console.log(response);
-});
-</script>
-
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok ' + response.statusText);
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    document.getElementById('result').textContent = JSON.stringify(data, null, 2);
+                })
+                .catch(error => {
+                    document.getElementById('result').textContent = 'Fetch error: ' + error.message;
+                });
+        });
+    </script>
 </body>
 </html>
