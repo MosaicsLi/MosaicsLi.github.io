@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>呼叫 Weather API</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+
+<h1>天氣預報</h1>
+<ul id="weatherForecast"></ul>
+
+<script>
+var settings = {
+  "url": "https://selfdecode.com/service/genes/open-target-snp/?rsid=rs13131350",
+  "method": "GET",
+  "timeout": 0,
+  "headers": {
+    "Cookie": "health-analysis=sqviylkx43kebe1krq1pdq3cd3nqhnbs"
+  },
+};
+
+$.ajax(settings).done(function (response) {
+  console.log(response);
+});
+</script>
+
+</body>
+</html>
