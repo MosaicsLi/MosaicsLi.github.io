@@ -35,6 +35,7 @@ ActionVueApp.component('action-but-table', {
     },
     data() {
         return {
+            editMode: false, // 控制編輯模式的顯示和隱藏
             showAddActionClick: false // 用于控制 add-action 组件的显示和隐藏
         }
     }
@@ -54,6 +55,37 @@ ActionVueApp.component('action-but-table', {
             this.actionobject.Actions.push(newAction);
             this.showAddActionClick = false; // 隐藏新增动作组件
         },
+        toggleEditMode() {
+            this.editMode = !this.editMode;
+        },
+        handleIconFileInputChange(action) {
+            // 取得選擇的檔案
+            var selectedFile = event.target.files[0];
+
+            // 如果有選擇檔案
+            if (selectedFile) {
+                // 建立FileReader物件
+                const reader = new FileReader();
+
+                // 設定當讀取完成後的動作
+                reader.onload = (e) => {
+                    // 在這裡取得圖片的資料URL
+                    action.ActionIconPath = e.target.result;
+                };
+                // 讀取檔案內容
+                reader.readAsDataURL(selectedFile);
+            }
+        },
+        AddUsageCount(action) {
+            console.log(action)
+            if (!action.hasOwnProperty("UsageCount")) {
+                action.UsageCount = [];
+            }
+            action.UsageCount.push(false);
+        },
+        ReduceUsageCount(action) {
+            action.UsageCount.pop(false);
+        },
     },
     template: `
     <div :class="[actionobject.ActionSubject,'SubjectTab'] ">
@@ -66,62 +98,8 @@ ActionVueApp.component('action-but-table', {
                 <p>{{ actionobject.SubjectTitel_Tip }}</p>
             </div>
             <div class="ActionList ComboTree">
-                <div v-for="action in actionobject.Actions" :key="action.Name" class="Action" :class=[action.IsCombo,action.IsComboEnd]>
-                    <div class="ActionCardBorder">
-                        <table class="ActionDetail">
-                            <tr>
-                                <td rowspan="2" class="ActionIcon">
-                                        <img :src="[action.ActionIconPath]" :alt="[action.Name]">
-                                </td>
-                                <td class="ActionTitel">
-                                        <div class="ActionName">
-                                            <h3>{{ action.Name }}</h3>
-                                        </div>
-                                        <div class="ActionType">
-                                            <span>{{action.ActionType}}</span>
-                                        </div>
-                                        <div class="ActionUsed"  v-if="action.UsageCount" v-for="Usage in action.UsageCount">
-                                            <input type="checkbox"  v-model="Usage"/>
-                                        </div>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <div class="ActionMiscellaneous">
-                                        <div class="Cost" v-if="action.Cost">
-                                            <span class="MiscellaneousTitel">コスト：</span><span>{{action.Cost}}</span>
-                                        </div>
-                                        <div class="Target" v-if="action.Target">
-                                            <span class="MiscellaneousTitel">対象：</span><span>{{action.Target}}</span>
-                                        </div>
-                                        <div class="Range" v-if="action.Range">
-                                            <span class="MiscellaneousTitel">範囲：</span><span>{{action.Range}}</span>
-                                        </div>
-                                        <div class="Determination" v-if="action.Determination">
-                                            <span
-                                                class="MiscellaneousTitel">判定：</span><span>{{action.Determination}}</span>
-                                        </div>
-                                        <div class="Timing" v-if="action.Timing">
-                                            <span class="MiscellaneousTitel">タイミング：</span><span>{{action.Timing}}</span>
-                                        </div>
-                                    </div>
-
-                                </td>
-                            </tr>
-                        </table>
-                        <div class="ActionEffect">
-                            <span>基本効果：{{action.ActionEffect}}</span>
-                        </div>
-                        <div class="DirectHit" v-if="action.DirectHit">
-                            <span>ダイレクトヒット時：{{action.DirectHit}}</span>
-                        </div>
-                        <div class="Limit" v-if="action.Limit">
-                            <span>制限：{{action.Limit}}</span>
-                        </div>
-                    </div>
-                    <div class="Action ActionTips" v-if="action.ActionTips">
-                        <span>{{action.ActionTips}}</span>
-                    </div>
+                <div v-for="action in actionobject.Actions"  class="Action" :class="[action.IsCombo,action.IsComboEnd]">
+                    <action :action="action"></action>
                 </div>
                 <div 
                     @click="this.showAddActionClick = !this.showAddActionClick"
@@ -129,12 +107,154 @@ ActionVueApp.component('action-but-table', {
                   >
                     + ニューアクション
                 </div>
-                    <add-action v-if="this.showAddActionClick" @add-action="handleAddAction"></add-action>
-                </div>
+                <add-action v-if="this.showAddActionClick" @add-action="handleAddAction"></add-action>
             </div>
+        </div>
     `,
 
 });
+ActionVueApp.component('action', {
+    props: {
+        action: Object,  // 接收包含不同 action 資訊的陣列
+    },
+    data() {
+        return {
+            editMode: false, // 控制編輯模式的顯示和隱藏
+            oldaction: {}
+        }
+    },
+    methods: {
+        toggleEditMode() {
+            this.editMode = !this.editMode;
+            if (this.editMode) {
+                this.oldaction = JSON.parse(JSON.stringify(this.action));
+            }
+        },
+        saveEdit() {
+            this.editMode = false;
+            this.oldaction={};
+        },
+        cancelEdit() {
+            this.editMode = false;
+            Object.assign(this.action, this.oldaction); // 更新 action 的內容
+            this.oldaction={};
+        },
+        handleIconFileInputChange(event) {
+            // 取得選擇的檔案
+            var selectedFile = event.target.files[0];
+
+            // 如果有選擇檔案
+            if (selectedFile) {
+                // 建立FileReader物件
+                const reader = new FileReader();
+
+                // 設定當讀取完成後的動作
+                reader.onload = (e) => {
+                    // 在這裡取得圖片的資料URL
+                    this.action.ActionIconPath = e.target.result;
+                };
+                // 讀取檔案內容
+                reader.readAsDataURL(selectedFile);
+            }
+        },
+        AddUsageCount() {
+            if (!action.hasOwnProperty("UsageCount")) {
+                action.UsageCount = [];
+            }
+            this.action.UsageCount.push(false);
+        },
+        ReduceUsageCount() {
+            this.action.UsageCount.pop(false);
+        },
+    },
+    template: `
+    <div class="ActionCardBorder">
+        <table class="ActionDetail">
+            <tr>
+                <td rowspan="2" class="ActionIcon">
+                    <input v-if="editMode " type="file" accept="image/*" class="choose-button" v-model="action.ActionIconPath" @change="handleIconFileInputChange">
+                    <img :src="[action.ActionIconPath]" :alt="[action.Name]">
+                </td>
+                <td class="ActionTitel">
+                    <div class="ActionName">
+                        <h3 v-if="!editMode ">{{ action.Name }}</h3>
+                        <input v-if="editMode " v-model="action.Name">
+                    </div>
+                    <div class="ActionType">
+                        <span v-if="!editMode ">{{action.ActionType}}</span>
+                        <input v-if="editMode " v-model="action.ActionType">
+                    </div>
+                    <div v-if="editMode" >
+                        <button v-if="editMode " @click="AddUsageCount">+</button>
+                        <button v-if="editMode " @click="ReduceUsageCount">-</button>
+                    </div>
+                    <div class="ActionUsed" v-if="action.UsageCount" v-for="Usage in action.UsageCount">
+                        <input type="checkbox" v-model="Usage"/>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div class="ActionMiscellaneous">
+                        <div class="Cost" v-if="action.Cost">
+                            <span class="MiscellaneousTitel">コスト：</span>
+                            <span v-if="!editMode ">{{action.Cost}}</span>
+                            <input v-if="editMode " v-model="action.Cost">
+                        </div>
+                        <div class="Target" v-if="action.Target">
+                            <span class="MiscellaneousTitel">対象：</span>
+                            <span v-if="!editMode ">{{action.Target}}</span>
+                            <input v-if="editMode " v-model="action.Target">
+                        </div>
+                        <div class="Range" v-if="action.Range">
+                            <span class="MiscellaneousTitel">範囲：</span>
+                            <span v-if="!editMode ">{{action.Range}}</span>
+                            <input v-if="editMode " v-model="action.Range">
+                        </div>
+                        <div class="Determination" v-if="action.Determination">
+                            <span class="MiscellaneousTitel">判定：</span>
+                            <span v-if="!editMode ">{{action.Determination}}</span>
+                            <input v-if="editMode " v-model="action.Determination">
+                        </div>
+                        <div class="Timing" v-if="action.Timing">
+                            <span class="MiscellaneousTitel">タイミング：</span>
+                            <span v-if="!editMode ">{{action.Timing}}</span>
+                            <input v-if="editMode " v-model="action.Timing">
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div class="ActionEffect">
+            <span>基本効果：</span>
+            <span v-if="!editMode ">{{action.ActionEffect}}</span>
+            <input v-if="editMode " v-model="action.ActionEffect">
+        </div>
+        <div class="DirectHit" v-if="action.DirectHit">
+            <span>ダイレクトヒット時：</span>
+            <span v-if="!editMode ">{{action.DirectHit}}</span>
+            <input v-if="editMode " v-model="action.DirectHit">
+        </div>
+        <div class="Limit" v-if="action.Limit">
+            <span>制限：</span>
+            <span v-if="!editMode ">{{action.Limit}}</span>
+            <input v-if="editMode " v-model="action.Limit">
+        </div>
+        <div v-if="editMode" class="edit-buttons">
+            <button @click="saveEdit">保存</button>
+            <button @click="cancelEdit">取消</button>
+        </div>
+        <button v-if="!editMode" @click="toggleEditMode">エディット</button>
+    </div>
+    <div class="ActionTips" v-if="action.ActionTips">
+        <span v-if="!editMode ">{{action.ActionTips}}</span>
+        <input v-if="editMode " v-model="action.ActionTips">
+    </div>
+    `,
+
+});
+
+
 ActionVueApp.component('add-action', {
     data() {
         return {
@@ -163,8 +283,8 @@ ActionVueApp.component('add-action', {
                         <table class="ActionDetail">
                             <tr>
                                 <td rowspan="2" class="ActionIcon preview-container">
-                                    <input type="file" id="imgFile" name="imgFile" accept="image/*" class="choose-button" v-model="newAction.ActionIconPath" @change="handleIconFileInputChange">
-                                    <img id="previewImg" src="https://xivapi.com/i/000000/000786_hr1.png" alt="圖片預覽">
+                                    <input type="file" accept="image/*" class="choose-button" v-model="newAction.ActionIconPath" @change="handleIconFileInputChange">
+                                    <img :src="[newAction.ActionIconPath]" alt="圖片預覽">
                                 </td>
                                 <td class="ActionTitel">
                                         <div class="ActionName">
@@ -255,7 +375,6 @@ ActionVueApp.component('add-action', {
                 reader.onload = (e) => {
                     // 在這裡取得圖片的資料URL
                     this.newAction.ActionIconPath = e.target.result;
-                    document.getElementById('previewImg').setAttribute('src', e.target.result);
                 };
                 // 讀取檔案內容
                 reader.readAsDataURL(selectedFile);
@@ -282,39 +401,6 @@ ActionVueApp.component('add-action', {
         }
     }
 
-});
-
-ActionVueApp.component('limitbreak', {
-    props: {
-        limitbreakobject: Object,  // 接收包含不同 action 資訊的陣列
-    },
-    template: `
-<div class="LimitBreak ActionCardBorder">
-    <div class="LimitBreakDetail">
-      <div class="LimitBreakIcon">
-        <img :src="[limitbreakobject.ActionIconPath]" alt="Limit Break Image">
-      </div>
-      <div class="LimitBreakName">
-        <h3>リミットブレイク：{{ limitbreakobject.LimitBreakName }}</h3>
-      </div>
-      <div class="LimitType">
-        <span>{{limitbreakobject.ActionType}}</span>
-      </div>
-      <div class="Timing">
-        <span>タイミング：{{limitbreakobject.Timing}}</span>
-      </div>
-      <div class="Target">
-        <span>対象：{{limitbreakobject.Target}}</span>
-      </div>
-      <div class="Range">
-        <span>範囲：{{limitbreakobject.Range}}</span>
-      </div>
-    </div>
-    <div class="LimitEffect">
-      <span>基本効果：{{limitbreakobject.ActionEffect}}</span>
-    </div>
-</div>
-    `,
 });
 ActionVueApp.component('limitbreak-but-table', {
     props: {

@@ -2,7 +2,7 @@
     display: flex;
     border-radius: 10em 0em 5em 0em;
     border: 2px solid #8b4513;
-    padding: 0 0 0 4em;
+    padding: 0 0 0 3em;
     margin: 10px;
     min-width: fit-content;
     /*height: 10vh;*/
@@ -148,6 +148,10 @@ p {
     border-radius: 5px; 
     color: #fff ;  
 }
+.main-stats input,
+.sub-stats input{
+    width: 25%;
+}
 
 .main-stats-Tank mark,
 .sub-stats-Tank mark{
@@ -184,6 +188,11 @@ p {
 }
 .CharacterItemList{
     margin: 0 10px;
+}
+.CharacterProfile textarea{
+    background: none;
+    border: none;
+    height: 100%;
 }
 .CharacterMaxMP,.CharacterMaxHP{
     color: #FFF;

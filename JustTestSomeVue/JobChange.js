@@ -25,8 +25,8 @@ const JobChange = createApp({
                 const response = await axios.get(JsonPath);
                 sharedState.AdventurerBaseInfo = response.data;
                 sharedState.Adventurerstatus = sharedState.AdventurerBaseInfo.AdventurerStatus.find(adventurer => adventurer.AdventurerLevel === 30);
-
-                console.log(sharedState)
+                sharedState.MainStatus=sharedState.Adventurerstatus.MainStatus;
+                sharedState.SubStatus=sharedState.Adventurerstatus.SubStatus;
                 console.log("sharedState.Adventurerstatus")
                 console.log(sharedState.Adventurerstatus.MainStatus.STR)
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
@@ -56,6 +56,23 @@ const JobChange = createApp({
             // 清理
             window.URL.revokeObjectURL(url);
             document.body.removeChild(a);
+        },
+        handleFileUpload(event){
+            const file = event.target.files[0];
+            if (file && file.type === "application/json") {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    try {
+                        sharedState.AdventurerBaseInfo=JSON.parse(e.target.result);
+                        //Object.assign(sharedState,JSON.parse(e.target.result));
+                    } catch (error) {
+                        alert("Error parsing JSON: " + error.message);
+                    }
+                };
+                reader.readAsText(file);
+            } else {
+                alert("Please upload a valid JSON file.");
+            }
         }
 
     },

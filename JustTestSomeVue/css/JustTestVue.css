@@ -154,6 +154,7 @@ span{
 }
 
 .ActionIcon {
+    position: relative;
     max-width:fit-content;
     grid-area: Icon;
     align-content: center;

@@ -42,78 +42,76 @@
     <div id="JobList" class="JobList">
         <job-list :list="JobList" @jobicon-click="ChangeJobJsonData"></job-list>
         <button @click="saveJSON">エクスポート</button>
+        <button @click="handleFileUpload">エクスポート</button>
+        <input type="file" @change="handleFileUpload" accept=".json">
     </div>
     <div class="container">
         <input type="checkbox" name="" id="sideMenu-active" />
         <div class="Character-InformationTab sideMenu " id="Character-Information">
             <div class="Character-Information Character-InformationBorder">
+                <div v-if="editMode" class="edit-buttons">
+                    <button @click="saveEdit">保存</button>
+                    <button @click="cancelEdit">取消</button>
+                </div>
+                <button v-if="!editMode" @click="toggleEditMode">エディット</button>
                 <div class="CharacterTitle">
                     <div class="CharacterJobIcon">
-                        <img :src="[sharedState.AdventurerBaseInfo.AdventurerJobIcon]"
-                            :alt="[sharedState.AdventurerBaseInfo.AdventurerJob]">
+                        <img v-else :src="sharedState.AdventurerBaseInfo.AdventurerJobIcon"
+                            :alt="sharedState.AdventurerBaseInfo.AdventurerJob">
                     </div>
                     <div class="CharacterNameRace">
                         <p>冒険者名/種族</p>
-                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}
+                        <div v-if="editMode">
+                            <input v-model="sharedState.AdventurerBaseInfo.AdventurerName">
+                            /
+                            <input v-model="sharedState.AdventurerBaseInfo.AdventurerRace">
+                        </div>
+                        <h1 v-else>
+                            {{sharedState.AdventurerBaseInfo.AdventurerName}}/{{sharedState.AdventurerBaseInfo.AdventurerRace}}
                         </h1>
                     </div>
                 </div>
-                <div :class=['CharacterJobTitel','Titel-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
+                <div :class="['CharacterJobTitel','Titel-'+sharedState.AdventurerBaseInfo.AdventurerRole]">
                     <div class="level">
                         <h1>LV{{sharedState.Adventurerstatus.AdventurerLevel}}</h1>
                     </div>&nbsp;
                     <div class="CharacterJobRole">
-                        <h1>{{sharedState.AdventurerBaseInfo.AdventurerRole_Word}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}
+                        <h1>
+                            {{sharedState.AdventurerBaseInfo.AdventurerRole_Word}}/{{sharedState.AdventurerBaseInfo.AdventurerJob}}
                         </h1>
                     </div>
                 </div>
                 <div
-                    :class=['StatsAndImage-'+sharedState.AdventurerBaseInfo.AdventurerRole,'CharacterStatsAndImage','Character-InformationBorder']>
+                    :class="['StatsAndImage-'+sharedState.AdventurerBaseInfo.AdventurerRole,'CharacterStatsAndImage','Character-InformationBorder']">
                     <div class="CharacterStats">
-                        <div :class=['main-stats','main-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
+                        <div :class="['main-stats','main-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]">
                             <p>メインスーテタス</p>
                             <ul>
-                                <li><mark>
-                                        <h4 class="StatusTitel">STR: </h4><span>+{{sharedState.MainStatus.STR}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">DEX: </h4><span>+{{sharedState.MainStatus.DEX}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">VIT: </h4><span>+{{sharedState.MainStatus.VIT}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">INT: </h4><span>+{{sharedState.MainStatus.INT}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">MND: </h4><span>+{{sharedState.MainStatus.MND}}</span>
-                                    </mark></li>
+                                <li v-for="stat in mainStats" :key="stat.key">
+                                    <mark>
+                                        <h4 class="StatusTitel">{{stat.label}}: </h4>
+                                        <span>+{{sharedState.MainStatus[stat.key]}}</span>
+                                        <!--<input v-if="editMode" v-model="sharedState.MainStatus[stat.key]" >-->
+                                    </mark>
+                                </li>
                             </ul>
                         </div>
-                        <div :class=['sub-stats','sub-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]>
+                        <div :class="['sub-stats','sub-stats-'+sharedState.AdventurerBaseInfo.AdventurerRole]">
                             <p>サブスーテタス</p>
                             <ul>
-                                <li><mark>
-                                        <h4 class="StatusTitel">物理防御力: </h4>
-                                        <span>+{{sharedState.SubStatus.PhysicalDefense}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">魔法防御力: </h4>
-                                        <span>+{{sharedState.SubStatus.MagicDefense}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">警戒値: </h4>
-                                        <span>+{{sharedState.SubStatus.Vigilance}}</span>
-                                    </mark></li>
-                                <li><mark>
-                                        <h4 class="StatusTitel">移動速度: </h4>
-                                        <span>+{{sharedState.SubStatus.Speed}}マス</span>
-                                    </mark></li>
+                                <li v-for="stat in subStats" :key="stat.key">
+                                    <mark>
+                                        <h4 class="StatusTitel">{{stat.label}}: </h4>
+                                        <span>+{{sharedState.SubStatus[stat.key]}}</span>
+                                        <!--<input v-if="editMode" v-model="sharedState.SubStatus[stat.key]" >-->
+                                    </mark>
+                                </li>
                             </ul>
                         </div>
                     </div>
                     <div class="CharacterImage"
                         :style="{ '--bgImage': `url('${sharedState.AdventurerBaseInfo.AdventurerImage}')` }">
+                        <input v-if="editMode"  accept="image/*" class="choose-button"  type="file" @change="handleAdventurerImageChange">
                         &nbsp;
                     </div>
                 </div>
@@ -154,9 +152,9 @@
                         </div>
                     </div>
                     <div class="CharacterProfile Character-InformationBorder">
-                        <p>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</p>
+                        <textarea v-if="editMode" v-model="sharedState.AdventurerBaseInfo.AdventurerProfile"></textarea>
+                        <p v-else>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</p>
                     </div>
-
                 </div>
                 <div class="Additional-Info Character-InformationBorder">
                     <div class="Additional-InfoTitel">
@@ -172,17 +170,19 @@
                             <span>{{Tip.TipDitel}}</span>
                         </div>
                     </div>
-
-                    <div @click="this.ShowAddAdditionalInfoClick = !this.ShowAddAdditionalInfoClick" class="add-action-button">
+                    <div @click="this.ShowAddAdditionalInfoClick = !this.ShowAddAdditionalInfoClick"
+                        class="add-action-button">
                         + 特性や補足説明
                     </div>
-                    <add-additional-info v-if="this.ShowAddAdditionalInfoClick" @add-info="handleAddAdditionalInfo"></add-additional-info>
+                    <add-additional-info v-if="this.ShowAddAdditionalInfoClick"
+                        @add-info="handleAddAdditionalInfo"></add-additional-info>
                 </div>
             </div>
             <label for="sideMenu-active">
                 <i class="fas fa-angle-right"></i>
             </label>
         </div>
+
         <div class="Character-Actions" id="CharacterActions">
             <limitbreak-but-table :limitbreakobject="sharedState.AdventurerBaseInfo.LimitBreak"></limitbreak-but-table>
             <div class="ActionSubjectList">
