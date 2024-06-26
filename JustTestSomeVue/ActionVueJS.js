@@ -86,6 +86,12 @@ ActionVueApp.component('action-but-table', {
         ReduceUsageCount(action) {
             action.UsageCount.pop(false);
         },
+        deleteAction(action) {
+            const index = this.actionobject.Actions.indexOf(action);
+            if (index > -1) {
+                this.actionobject.Actions.splice(index, 1);
+            }
+        },
     },
     template: `
     <div :class="[actionobject.ActionSubject,'SubjectTab'] ">
@@ -99,7 +105,7 @@ ActionVueApp.component('action-but-table', {
             </div>
             <div class="ActionList ComboTree">
                 <div v-for="action in actionobject.Actions"  class="Action" :class="[action.IsCombo,action.IsComboEnd]">
-                    <action :action="action"></action>
+                    <action :action="action"  @delete-action="deleteAction"></action>
                 </div>
                 <div 
                     @click="this.showAddActionClick = !this.showAddActionClick"
@@ -123,6 +129,7 @@ ActionVueApp.component('action', {
             oldaction: {}
         }
     },
+    emits: ['delete-action'], // 声明 delete-action 事件
     methods: {
         toggleEditMode() {
             this.editMode = !this.editMode;
@@ -138,6 +145,10 @@ ActionVueApp.component('action', {
             this.editMode = false;
             Object.assign(this.action, this.oldaction); // 更新 action 的內容
             this.oldaction={};
+        },
+        DeleteAction(){
+            this.editMode = false;
+            this.$emit('delete-action', this.action);
         },
         handleIconFileInputChange(event) {
             // 取得選擇的檔案
@@ -172,7 +183,7 @@ ActionVueApp.component('action', {
         <table class="ActionDetail">
             <tr>
                 <td rowspan="2" class="ActionIcon">
-                    <input v-if="editMode " type="file" accept="image/*" class="choose-button" v-model="action.ActionIconPath" @change="handleIconFileInputChange">
+                    <input v-if="editMode " type="file" accept="image/*" class="choose-button" @change="handleIconFileInputChange">
                     <img :src="[action.ActionIconPath]" :alt="[action.Name]">
                 </td>
                 <td class="ActionTitel">
@@ -243,6 +254,7 @@ ActionVueApp.component('action', {
         <div v-if="editMode" class="edit-buttons">
             <button @click="saveEdit">保存</button>
             <button @click="cancelEdit">取消</button>
+            <button @click="DeleteAction">削除</button>
         </div>
         <button v-if="!editMode" @click="toggleEditMode">エディット</button>
     </div>

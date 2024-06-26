@@ -4,9 +4,11 @@ body {
     margin: 0;
     padding: 0;
 }
-span{
+
+span {
     font-size: 1%;
 }
+
 .container {
     min-width: min-content;
     display: flex;
@@ -15,7 +17,8 @@ span{
     background: linear-gradient(145deg, #f0e68c, #d2b48c);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
 }
-.JobList{
+
+.JobList {
     display: flex;
     width: 100%;
 }
@@ -25,7 +28,8 @@ span{
     height: fit-content;
     width: 0%;
 }
-.Character-Information{
+
+.Character-Information {
     width: 0%;
     opacity: 0;
     display: none;
@@ -52,15 +56,17 @@ span{
     padding: 10px;
     border-bottom: 2px solid #8b4513;
 }
-.SubjectTab{
+
+.SubjectTab {
     padding: 10px;
     max-width: 30%;
     min-width: min-content;
-    background: linear-gradient(to bottom right,#292929,#222222);
+    background: linear-gradient(to bottom right, #292929, #222222);
     margin: 10px;
     position: relative;
 }
-.SubjectTab::after{
+
+.SubjectTab::after {
     content: "";
     top: -5px;
     left: -5px;
@@ -68,8 +74,8 @@ span{
     height: 15vh;
     border-radius: 5px;
     border: ridge 5px #bda45b;
-    border-right: rgba(0,0,0,0);
-    border-bottom: rgba(0,0,0,0);
+    border-right: rgba(0, 0, 0, 0);
+    border-bottom: rgba(0, 0, 0, 0);
     box-shadow: rgba(0, 0, 0, 0.7) -5px -5px 2px 0px;
     position: absolute;
 }
@@ -84,6 +90,23 @@ span{
     /*max-width: 20vw;*/
 }
 
+.ImportJson {
+    margin-left: auto;
+    position: relative;
+    display: flex;
+    text-align: center;
+    cursor: pointer;
+    background: #efefef;
+    border: 1px solid #595656;
+    justify-content: center;
+    align-items: center;
+}
+.ImportJson:hover{
+    background-color: #ddd;
+}
+.ImportJson span{
+    font-size: 1em;
+}
 .ActionTitel {
     display: flex;
     align-items: center;
@@ -117,7 +140,7 @@ span{
 
 .ActionSubjectList {
     display: flex;
-    flex-wrap: wrap ;
+    flex-wrap: wrap;
     min-height: max-content;
     flex-direction: row;
     margin: 0 10px;
@@ -148,21 +171,21 @@ span{
     background-color: #DED2B6;
     box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
-.ActionDetail tr{
+
+.ActionDetail tr {
     display: flex;
     width: 100%;
 }
 
 .ActionIcon {
     position: relative;
-    max-width:fit-content;
+    max-width: fit-content;
     grid-area: Icon;
     align-content: center;
     justify-self: center;
 }
 
-.ActionName {
-}
+.ActionName {}
 
 .ActionType {
     display: flex;
@@ -191,28 +214,33 @@ span{
 }
 
 @media screen and (max-width: 768px) {
-    .SubjectTab{
+    .SubjectTab {
         max-width: 100%;
     }
-    h1{
+
+    h1 {
         font-size: 6%;
     }
-    h2{
+
+    h2 {
         font-size: 5%;
     }
-    h3{
+
+    h3 {
         font-size: 4%;
     }
-    h4{
+
+    h4 {
         font-size: 3%;
     }
-    h5{
+
+    h5 {
         font-size: 2%;
     }
 }
-.new-action-form{
 
-}
-.new-action-form label{
+.new-action-form {}
+
+.new-action-form label {
     display: block;
 }

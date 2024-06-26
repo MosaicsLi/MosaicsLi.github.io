@@ -39,12 +39,14 @@
 </head>
 
 <body>
-    <div id="JobList" class="JobList">
+    <nav id="JobList" class="JobList ">
         <job-list :list="JobList" @jobicon-click="ChangeJobJsonData"></job-list>
+        <label class="ImportJson">
+            <input type="file" style="display:none;" @change="handleFileUpload" accept=".json">
+            <span >インポート➕</span>
+        </label >
         <button @click="saveJSON">エクスポート</button>
-        <button @click="handleFileUpload">エクスポート</button>
-        <input type="file" @change="handleFileUpload" accept=".json">
-    </div>
+    </nav>
     <div class="container">
         <input type="checkbox" name="" id="sideMenu-active" />
         <div class="Character-InformationTab sideMenu " id="Character-Information">
@@ -56,7 +58,7 @@
                 <button v-if="!editMode" @click="toggleEditMode">エディット</button>
                 <div class="CharacterTitle">
                     <div class="CharacterJobIcon">
-                        <img v-else :src="sharedState.AdventurerBaseInfo.AdventurerJobIcon"
+                        <img :src="sharedState.AdventurerBaseInfo.AdventurerJobIcon"
                             :alt="sharedState.AdventurerBaseInfo.AdventurerJob">
                     </div>
                     <div class="CharacterNameRace">
@@ -111,7 +113,8 @@
                     </div>
                     <div class="CharacterImage"
                         :style="{ '--bgImage': `url('${sharedState.AdventurerBaseInfo.AdventurerImage}')` }">
-                        <input v-if="editMode"  accept="image/*" class="choose-button"  type="file" @change="handleAdventurerImageChange">
+                        <input v-if="editMode" accept="image/*" class="choose-button" type="file"
+                            @change="handleAdventurerImageChange">
                         &nbsp;
                     </div>
                 </div>
