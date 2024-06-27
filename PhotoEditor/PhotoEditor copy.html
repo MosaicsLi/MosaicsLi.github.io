@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>簡單的圖片編輯工具</title>
+    <style>
+        #canvas {
+            border: 1px solid black;
+            cursor: grab;
+        }
+
+        .controls {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>COPY FROM ：https://github.com/MY729/picture-crop-demo/blob/master/src/components/cropper.canvas.vue</h1>
+    <input type="file" id="upload" accept="image/*">
+    <canvas id="canvas" width="500" height="500"></canvas>
+    <canvas id="newcanvas" width="500" height="500"></canvas>
+    <div class="controls">
+        <button id="toggleCrop" onclick="cropImg()">裁切</button>
+        <button id="download">下載</button>
+    </div>
+    <script>
+        const upload = document.getElementById('upload');
+        const canvas = document.getElementById('canvas');
+        const imgdemo = document.getElementById('imgg');
+        const ctx = canvas.getContext('2d');
+        let image = new Image();
+        let srcc="";
+        let startX, startY, endX, endY, isDown = false, isDragging = false, isCropping = false;
+        let imgX = 0, imgY = 0, dragStartX, dragStartY;
+        let imgWidth, imgHeight;
+
+        upload.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                srcc=event.target.result;
+                image.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        });
+
+        image.onload = () => {
+            const ratio = Math.min(canvas.width / image.width, canvas.height / image.height);
+            imgWidth = image.width * ratio;
+            imgHeight = image.height * ratio;
+            imgX = (canvas.width - imgWidth) / 2;
+            imgY = (canvas.height - imgHeight) / 2;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(image, imgX, imgY, imgWidth, imgHeight);
+        };
+        function cropImg() {
+            let drag = false // 是否拖动矩形
+            let flag = false // 是否绘制矩形
+            let rectWidth = 0 // 绘制矩形的宽
+            let rectHeight = 0 // 绘制矩形的高
+            let clickX = 0 // 矩形开始绘制X坐标
+            let clickY = 0 // 矩形开始绘制Y坐标
+            let dragX = 0 // 当要拖动矩形点击时X坐标
+            let dragY = 0 // 当要拖动矩形点击时Y坐标
+            let newRectX = 0 // 拖动变化后矩形开始绘制的X坐标
+            let newRectY = 0 // 拖动变化后矩形开始绘制的Y坐标
+            // 鼠标按下
+            canvas.onmousedown = e => {
+                ctx.beginPath()
+                ctx.setLineDash([6, 6])
+                ctx.moveTo(newRectX, newRectY)
+                ctx.lineTo(newRectX + rectWidth, newRectY)
+                ctx.lineTo(newRectX + rectWidth, newRectY + rectHeight)
+                ctx.lineTo(newRectX, newRectY + rectHeight)
+                ctx.lineTo(newRectX, newRectY)
+                ctx.strokeStyle = 'green'
+                ctx.stroke()
+                if (ctx.isPointInPath(e.offsetX, e.offsetY)) {
+                    drag = true
+                    dragX = e.offsetX
+                    dragY = e.offsetY
+                    clickX = newRectX
+                    clickY = newRectY
+                } else {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    ctx.drawImage(image, imgX, imgY, canvas.width, canvas.height)
+                    flag = true
+                    clickX = e.offsetX
+                    clickY = e.offsetY
+                    newRectX = e.offsetX
+                    newRectY = e.offsetY
+                }
+            }
+            // 鼠标抬起
+            canvas.onmouseup = () => {
+                if (flag) {
+                    flag = false
+                    this.sureCrop(clickX, clickY, rectWidth, rectHeight)
+                }
+                if (drag) {
+                    drag = false
+                    this.sureCrop(newRectX, newRectY, rectWidth, rectHeight)
+                }
+            }
+            // 鼠标移动
+            canvas.onmousemove = (e) => {
+                if (flag) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    ctx.drawImage(image, imgX, imgY, canvas.width, canvas.height)
+                    rectWidth = e.offsetX - clickX
+                    rectHeight = e.offsetY - clickY
+
+                    ctx.beginPath()
+                    ctx.strokeStyle = '#FF0000'
+                    ctx.strokeRect(clickX, clickY, rectWidth, rectHeight)
+                    ctx.closePath()
+                }
+                if (drag) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    ctx.drawImage(image,imgX, imgY, canvas.width, canvas.height)
+                    ctx.beginPath()
+                    newRectX = clickX + e.offsetX - dragX
+                    newRectY = clickY + e.offsetY - dragY
+                    ctx.strokeStyle = 'yellow'
+                    ctx.strokeRect(newRectX, newRectY, rectWidth, rectHeight)
+                    ctx.closePath()
+                }
+            }
+        }
+        function sureCrop(x, y, width, height) {
+            let canvas = document.getElementById('newcanvas')
+            // 设置canvas的宽为canvas的父元素宽度，宽高比3:2
+            let parentEle = canvas.parentElement
+            canvas.width = parentEle.offsetWidth
+            canvas.height = 2 * parentEle.offsetWidth / 3
+            let ctx = canvas.getContext('2d')
+            let img = new Image()
+            img.src = srcc
+            img.onload = function () {
+                ctx.beginPath()
+                ctx.moveTo(x, y)
+                ctx.lineTo(x + width, y)
+                ctx.lineTo(x + width, y + height)
+                ctx.lineTo(x, y + height)
+                ctx.clip()
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+            }
+            ctx.stroke()
+        }
+
+        document.getElementById('download').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = 'edited-image.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        });
+    </script>
+</body>
+
+</html>
