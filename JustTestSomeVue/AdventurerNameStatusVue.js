@@ -44,7 +44,7 @@ const AdventurerNameStatusVueApp = createApp({
             if (selectedFile) {
                 const reader = new FileReader();
                 reader.onload = (e) => {
-                    this.sharedState.AdventurerBaseInfo.AdventurerImage = e.target.result;
+                    sharedState.AdventurerBaseInfo.AdventurerImage = e.target.result;
                 };
                 reader.readAsDataURL(selectedFile);
             }
