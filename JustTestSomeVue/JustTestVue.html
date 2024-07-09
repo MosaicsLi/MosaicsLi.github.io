@@ -156,7 +156,7 @@
                     </div>
                     <div class="CharacterProfile Character-InformationBorder">
                         <textarea v-if="editMode" v-model="sharedState.AdventurerBaseInfo.AdventurerProfile"></textarea>
-                        <p v-else>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</p>
+                        <textarea disabled v-else>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</textarea>
                     </div>
                 </div>
                 <div class="Additional-Info Character-InformationBorder">
