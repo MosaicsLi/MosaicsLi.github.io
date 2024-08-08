@@ -12,5 +12,10 @@
     "JobName":"竜騎士",
     "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
     "JsonPath":"./Jsons/Dragoon.json"
+},
+{
+    "JobName":"吟遊詩人",
+    "JobIcon":"./Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Bard.png",
+    "JsonPath":"./Jsons/Bard.json"
 }
 ]

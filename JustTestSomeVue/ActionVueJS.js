@@ -20,8 +20,8 @@ const ActionVueApp = createApp({
                 this.MainAction = response.data.MainAction;
                 this.SubAction = response.data.SubAction;
                 this.InstantAction = response.data.InstantAction;*/
-
-                console.log("jsonData = " + JSON.stringify(sharedState.AdventurerBaseInfo.LimitBreak, null, 2));
+                
+                //console.log("jsonData = " + JSON.stringify(sharedState.AdventurerBaseInfo.LimitBreak, null, 2));
                 //console.log("jsonData = "+JSON.stringify(this.LimitBreak, null, 2));
             } catch (error) {
                 console.error('Error loading JSON data:', error);
@@ -126,7 +126,8 @@ ActionVueApp.component('action', {
     data() {
         return {
             editMode: false, // 控制編輯模式的顯示和隱藏
-            oldaction: {}
+            oldaction: {},
+            actionList:{}
         }
     },
     emits: ['delete-action'], // 声明 delete-action 事件
@@ -207,27 +208,27 @@ ActionVueApp.component('action', {
             <tr>
                 <td>
                     <div class="ActionMiscellaneous">
-                        <div class="Cost" v-if="action.Cost">
+                        <div class="Cost" v-if="action.Cost||editMode">
                             <span class="MiscellaneousTitel">コスト：</span>
                             <span v-if="!editMode ">{{action.Cost}}</span>
                             <input v-if="editMode " v-model="action.Cost">
                         </div>
-                        <div class="Target" v-if="action.Target">
+                        <div class="Target" v-if="action.Target||editMode">
                             <span class="MiscellaneousTitel">対象：</span>
                             <span v-if="!editMode ">{{action.Target}}</span>
                             <input v-if="editMode " v-model="action.Target">
                         </div>
-                        <div class="Range" v-if="action.Range">
+                        <div class="Range" v-if="action.Range||editMode">
                             <span class="MiscellaneousTitel">範囲：</span>
                             <span v-if="!editMode ">{{action.Range}}</span>
                             <input v-if="editMode " v-model="action.Range">
                         </div>
-                        <div class="Determination" v-if="action.Determination">
+                        <div class="Determination" v-if="action.Determination||editMode">
                             <span class="MiscellaneousTitel">判定：</span>
                             <span v-if="!editMode ">{{action.Determination}}</span>
                             <input v-if="editMode " v-model="action.Determination">
                         </div>
-                        <div class="Timing" v-if="action.Timing">
+                        <div class="Timing" v-if="action.Timing||editMode">
                             <span class="MiscellaneousTitel">タイミング：</span>
                             <span v-if="!editMode ">{{action.Timing}}</span>
                             <input v-if="editMode " v-model="action.Timing">
@@ -241,15 +242,21 @@ ActionVueApp.component('action', {
             <span v-if="!editMode ">{{action.ActionEffect}}</span>
             <input v-if="editMode " v-model="action.ActionEffect">
         </div>
-        <div class="DirectHit" v-if="action.DirectHit">
+        <div class="DirectHit" v-if="action.DirectHit||editMode">
             <span>ダイレクトヒット時：</span>
             <span v-if="!editMode ">{{action.DirectHit}}</span>
             <input v-if="editMode " v-model="action.DirectHit">
         </div>
-        <div class="Limit" v-if="action.Limit">
+        <div class="Limit" v-if="action.Limit||editMode">
             <span>制限：</span>
             <span v-if="!editMode ">{{action.Limit}}</span>
             <input v-if="editMode " v-model="action.Limit">
+        </div>
+        <div v-if="action.Combowith&&editMode">
+            <span>コンボ条件：</span>
+            <input v-if="editMode " v-model="action.Combowith">
+            <span>IsComboEnd：</span>
+            <input v-model="action.IsComboEnd"/>
         </div>
         <div v-if="editMode" class="edit-buttons">
             <button @click="saveEdit">保存</button>
@@ -258,7 +265,7 @@ ActionVueApp.component('action', {
         </div>
         <button v-if="!editMode" @click="toggleEditMode">エディット</button>
     </div>
-    <div class="ActionTips" v-if="action.ActionTips">
+    <div class="ActionTips" v-if="action.ActionTips||editMode">
         <span v-if="!editMode ">{{action.ActionTips}}</span>
         <input v-if="editMode " v-model="action.ActionTips">
     </div>
@@ -416,7 +423,15 @@ ActionVueApp.component('add-action', {
 });
 ActionVueApp.component('limitbreak-but-table', {
     props: {
-        limitbreakobject: Object,  // 接收包含不同 action 資訊的陣列
+        limitbreakobject: {
+            ActionIconPath:"",
+            LimitBreakName:"",
+            ActionType:"",
+            Timing:"",
+            Target:"",
+            Range:"",
+            ActionEffect:""
+        },  // 接收包含不同 action 資訊的陣列
     },
     template: `
 <div class="LimitBreak ActionCardBorder">

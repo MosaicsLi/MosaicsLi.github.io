@@ -1,10 +1,11 @@
 const AdventurerNameStatusVueApp = createApp({
     data() {
         return {
+            isDialogVisible: false,
             sharedState,
             editMode: false,
             ShowAddAdditionalInfoClick: false,
-            editState:{},
+            editState: {},
             mainStats: [
                 { key: 'STR', label: 'STR' },
                 { key: 'DEX', label: 'DEX' },
@@ -30,13 +31,20 @@ const AdventurerNameStatusVueApp = createApp({
                 this.editState = JSON.parse(JSON.stringify(this.sharedState.AdventurerBaseInfo));
             }
         },
+        showDialog() {
+            if(this.editMode)return;
+            this.isDialogVisible = true;
+        },
+        closeDialog() {
+            this.isDialogVisible = false;
+        },
         saveEdit() {
             this.editMode = false;
-            this.editState={};
+            this.editState = {};
         },
         cancelEdit() {
             this.editMode = false;
-            this.editState={};
+            this.editState = {};
             Object.assign(this.sharedState.AdventurerBaseInfo, this.editState);
         },
         handleAdventurerImageChange(event) {
@@ -71,7 +79,7 @@ const AdventurerNameStatusVueApp = createApp({
         handleAddAdditionalInfo(newAdditionalInfo) {
             this.sharedState.AdventurerBaseInfo.AdventurerJobTips.push(newAdditionalInfo);
         }
-    },
+    }, 
 
 });
 AdventurerNameStatusVueApp.component('add-additional-info', {

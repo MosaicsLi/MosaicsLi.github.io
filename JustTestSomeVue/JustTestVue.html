@@ -22,7 +22,7 @@
 
         const { createApp, ref } = Vue;
         const sharedState = Vue.reactive({
-            AdventurerBaseInfo: {},
+            AdventurerBaseInfo: {LimitBreak:{},MainAction:{},SubAction:{},InstantAction:{}},
             Adventurerstatus: {},
             MainStatus: {},
             SubStatus: {},
@@ -36,6 +36,41 @@
         console.log("SubStatus");
         console.log(sharedState.SubStatus);
     </script>
+    <style>
+        .modal {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100vw;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+        .modal-content textarea{
+            resize: none;
+            width: 100%;
+            height: 50vh;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
 </head>
 
 <body>
@@ -43,8 +78,8 @@
         <job-list :list="JobList" @jobicon-click="ChangeJobJsonData"></job-list>
         <label class="ImportJson">
             <input type="file" style="display:none;" @change="handleFileUpload" accept=".json">
-            <span >インポート➕</span>
-        </label >
+            <span>インポート➕</span>
+        </label>
         <button @click="saveJSON">エクスポート</button>
     </nav>
     <div class="container">
@@ -154,9 +189,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="CharacterProfile Character-InformationBorder">
+                    <div class="CharacterProfile Character-InformationBorder"  @click="showDialog">
                         <textarea v-if="editMode" v-model="sharedState.AdventurerBaseInfo.AdventurerProfile"></textarea>
-                        <textarea disabled v-else>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</textarea>
+                        <textarea readonly v-else>{{sharedState.AdventurerBaseInfo.AdventurerProfile}}</textarea>
                     </div>
                 </div>
                 <div class="Additional-Info Character-InformationBorder">
@@ -184,6 +219,12 @@
             <label for="sideMenu-active">
                 <i class="fas fa-angle-right"></i>
             </label>
+            <div id="myModal" class="modal" v-if="this.isDialogVisible">
+                <div class="modal-content">
+                    <span class="close" @click="closeDialog">&times;</span>
+                    <textarea disabled>{{ sharedState.AdventurerBaseInfo.AdventurerProfile }}</textarea>
+                </div>
+            </div>
         </div>
 
         <div class="Character-Actions" id="CharacterActions">
