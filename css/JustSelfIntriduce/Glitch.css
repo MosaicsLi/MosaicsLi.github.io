@@ -13,6 +13,7 @@
 }
 
 .GlitchText::before {
+    width: 45vw;
     content: attr(data-text);
     background-color: #000;
     position: absolute;
@@ -23,6 +24,7 @@
 }
 
 .GlitchText::after {
+    width: 45vw;
     content: attr(data-text);
     background-color: #000;
     position: absolute;

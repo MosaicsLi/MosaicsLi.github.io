@@ -9,20 +9,10 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
         crossorigin="anonymous"></script>
-    <!-- Vue 3.0 -->
-    <script src="https://unpkg.com/vue@3"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="./css/JustSelfIntriduce/JustSelfIntriduce.css">
-    <link rel="stylesheet" type="text/css" href="./css/JustSelfIntriduce/Glitch.css">
-    <link rel="stylesheet" type="text/css" href="./css/JustSelfIntriduce/Card.css">
-    <script>
-
-        const { createApp, ref } = Vue;
-        var sharedState = Vue.reactive({
-            HI:{"IsHI":true}
-        });
-    </script>
+    <link rel="stylesheet" type="text/css" href="../css/JustSelfIntriduce/JustSelfIntriduce.css">
+    <link rel="stylesheet" type="text/css" href="../css/JustSelfIntriduce/Glitch.css">
+    <link rel="stylesheet" type="text/css" href="../css/JustSelfIntriduce/Card.css">
 </head>
 
 <body class="text-white">
@@ -37,10 +27,10 @@
                     <a class="nav-link active" href="#Footer">Go Footer</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="./index_old.html">The Olderst Index</a>
+                    <a class="nav-link" href="#">NOT WORK</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="/JustSelfIntriduce/JustSelfIntriduce.html">The Index with out Vue</a>
+                    <a class="nav-link" href="#">NOT WORK</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
@@ -56,9 +46,9 @@
                 <h5>Photo of me:</h5>
                 <div class="fakeimg">Too Shame cann't upload, but you can upload your
                     <input type="file" id="upload" accept="image/*">
-                    <img src="src/img/placeholder.png" alt="" hidden>
+                    <img src="" alt="" hidden>
                 </div>
-                <p>The useless man who waste 4 years in Ming Chuan University Majoring in Programming. And still need Chatgpt and google to make this website.</p>
+                <p>Some text about me </p>
                 <!--
                 <h3 class="mt-4">Some Links</h3>
                 <p>Lorem ipsum dolor sit ame.</p>
@@ -79,9 +69,38 @@
                 <hr class="d-sm-none">
                 -->
             </div>
-            <div id="cardsbutvue" class="col-sm-8">
-                <cardlist :cardlistarray="Cards"></cardlist>
+
+            <div id="cards" class="col-sm-8">
+                <div class="card">
+                    <div class="card-content text-white">
+                        <h2 class="mt-5">This cool card template</h2>
+                        <p>I steal from this web site :</p>
+                        <a href="https://freefrontend.com/css-border-examples/">
+                            https://freefrontend.com/css-border-examples/</a>
+                        <a href="https://codepen.io/Hyperplexed/pen/LYeLopW">
+                            https://codepen.io/Hyperplexed/pen/LYeLopW</a>
+                        <p>It make this non-technical websit look more "elegant".</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-content text-white">
+                        <h2 class="mt-5">This WHOLE WEBSIT template</h2>
+                        <p>I steal from this web site :</p>
+                        <a href="https://www.w3schools.com/bootstrap5/tryit.asp?filename=trybs_template1">
+                            https://www.w3schools.com/bootstrap5/tryit.asp?filename=trybs_template1</a>
+                        <p>It make this text file more like websit.</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <a class="nav-link" href="../JustTestSomeCSS.html">
+                        <div class="card-content text-white">
+                            <h2 class="mt-5">JustTestSomeCSS</h2>
+                            <p>That on this wabsit top thing, I copy form bilibili ,And I add some murmur...</p>
+                        </div>
+                    </a>
+                </div>
             </div>
+
         </div>
     </div>
     <a class="nav-link" href="#GlitchText">
@@ -104,7 +123,6 @@
             reader.readAsDataURL(file);
         });
     </script>
-    <script src="./JustSelfIntriduce/Cards.js"></script>
 </body>
 
 </html>

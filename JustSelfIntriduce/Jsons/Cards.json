@@ -1,0 +1,19 @@
+[
+    {
+        "Title": "This cool card template",
+        "Introduction":"It make this non-technical websit look more \"elegant\".",
+        "Link":["https://freefrontend.com/css-border-examples/","https://codepen.io/Hyperplexed/pen/LYeLopW"]
+    },
+    {
+        "Title": "This WHOLE website template",
+        "CardHref":"",
+        "Introduction":"It make this text file more like websit.",
+        "Link":["https://www.w3schools.com/bootstrap5/tryit.asp?filename=trybs_template1"]
+    },
+    {
+        "Title": "JustTestSomeCSS",
+        "CardHref":"JustTestSomeCSS.html",
+        "Introduction":"That on this wabsit top thing, I copy form bilibili ,And I add some murmur...",
+        "Link":[]
+    }
+]

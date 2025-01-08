@@ -11,6 +11,14 @@
     z-index: 2;
 }
 
+.cards {
+    max-width: 1000px;
+    padding: 1em 1em;
+    place-self: center;
+    position: relative;
+    z-index: 2;
+}
+
 .card {
     background-color: var(--card-color);
     border-radius: 0.75em;
