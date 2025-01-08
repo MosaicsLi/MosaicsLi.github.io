@@ -1,3 +1,4 @@
+import { App_CardsVue } from "./Cards.js";
 const ChangeLanguageVueApp = createApp({
     data() {
         return {
@@ -13,18 +14,9 @@ const ChangeLanguageVueApp = createApp({
             try {
                 const response = await axios.get(JsonPath);
                 sharedState.LanguageData = response.data;
-                this.getCardDataApi(CardJsonPath) ;
+                App_CardsVue.getCardDataApi(CardJsonPath) ;
             } catch (error) {
                 console.error('Error loading Language JSON data:', error);
-            }
-        },
-        async getCardDataApi(JsonPath) {
-            try {
-                const response = await axios.get(JsonPath);
-                sharedState.Cards = response.data;
-                console.log("Cards data load")
-            } catch (error) {
-                console.error('Error loading Cards JSON data:', error);
             }
         },
         async getLanguageDataApi() {

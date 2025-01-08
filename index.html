@@ -21,15 +21,17 @@
         const { createApp, ref } = Vue;
         var sharedState = Vue.reactive({
             AvailableLanguage: [],
-            LanguageData: {},
-            Cards:[]
+            LanguageData: {}
         });
     </script>
 </head>
 
 <body class="text-white">
+    <div id="app">
+    </div>
     <div id="GlitchText" class="p-5 text-center bg-black">
-        <div class="GlitchText" :data-text="sharedState.LanguageData.GlitchText">{{sharedState.LanguageData.GlitchText}}</div>
+        <div class="GlitchText" :data-text="sharedState.LanguageData.GlitchText">{{sharedState.LanguageData.GlitchText}}
+        </div>
         <p>Made in https://chatgpt.com</p>
     </div>
 
@@ -61,32 +63,13 @@
                 <h2>{{sharedState.LanguageData.AboutMe}}</h2>
                 <h5>{{sharedState.LanguageData.PhotoOfMe}}</h5>
                 <div class="fakeimg">{{sharedState.LanguageData.fakeimg}}
-                    <input type="file" id="upload" accept="image/*">
-                    <img src="" alt="" hidden>
+                    <input type="file" @change="onFileChange" accept="image/*" />
+                    <img v-if="url" :src="url" />
                 </div>
                 <p>{{sharedState.LanguageData.SelfIntriduce}}</p>
-                <!--
-                <h3 class="mt-4">Some Links</h3>
-                <p>Lorem ipsum dolor sit ame.</p>
-                <ul class="nav nav-pills flex-column">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="#">Active</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#GlitchText">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                </ul>
-                <hr class="d-sm-none">
-                -->
             </div>
             <div id="cardsbutvue" class="col-sm-8">
-                <cardlist :cardlistarray="sharedState.Cards"></cardlist>
+                <cardlist :cardlistarray="Cards"></cardlist>
             </div>
         </div>
     </div>
@@ -96,23 +79,10 @@
             <p>So click here to Back to the top</p>
         </div>
     </a>
+    <script type="module" src="./JustSelfIntriduce/main.js"></script>
     <script src="./JustSelfIntriduce/AboutMe.js"></script>
-    <script src="./JustSelfIntriduce/Cards.js"></script>
-    <script src="./JustSelfIntriduce/ChangeLanguage.js"></script>
+    <script  type="module" src="./JustSelfIntriduce/ChangeLanguage.js"></script>
     <script src="./JustSelfIntriduce/GlitchText.js"></script>
-    <script>
-        const upload = document.getElementById('upload');
-        const previewImage = document.querySelector('.fakeimg img')
-        upload.addEventListener('change', (e) => {
-            const file = e.target.files[0];
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                previewImage.src = event.target.result;
-                previewImage.removeAttribute("hidden");
-            };
-            reader.readAsDataURL(file);
-        });
-    </script>
 </body>
 
 </html>

@@ -2,6 +2,7 @@ const CardsVueApp = createApp({
     data() {
         return {
             sharedState,
+            Cards:[]
         };
     },
     mounted() {
@@ -11,12 +12,12 @@ const CardsVueApp = createApp({
         async getCardDataApi(JsonPath) {
             try {
                 const response = await axios.get(JsonPath);
-                sharedState.Cards = response.data;
+                this.Cards = response.data;
                 console.log("Cards data load")
             } catch (error) {
-                console.error('Error loading JSON data:', error);
+                console.error('Error loading Cards JSON data:', error);
             }
-        }
+        },
     },
 });
 CardsVueApp.component('cardlist', {
@@ -46,4 +47,5 @@ CardsVueApp.component('card', {
     </div>
     `,
 });
-CardsVueApp.mount('#cardsbutvue');
+const App_CardsVue=CardsVueApp.mount('#cardsbutvue');
+export { App_CardsVue };
