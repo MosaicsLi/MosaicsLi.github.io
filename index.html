@@ -20,21 +20,24 @@
 
         const { createApp, ref } = Vue;
         var sharedState = Vue.reactive({
-            HI:{"IsHI":true}
+            AvailableLanguage: [],
+            LanguageData: {},
+            Cards:[]
         });
     </script>
 </head>
 
 <body class="text-white">
-    <div class="p-5 text-center bg-black">
-        <div id="GlitchText" class="GlitchText" data-text="HELLO WORLD">HELLO WORLD</div>
+    <div id="GlitchText" class="p-5 text-center bg-black">
+        <div class="GlitchText" :data-text="sharedState.LanguageData.GlitchText">{{sharedState.LanguageData.GlitchText}}</div>
         <p>Made in https://chatgpt.com</p>
     </div>
-    <nav class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
+
+    <nav id="LanguageChangeable" class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
         <div class="container-fluid">
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link active" href="#Footer">Go Footer</a>
+                    <a class="nav-link active" href="#Footer">{{sharedState.LanguageData.GoFooter}}</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="./index_old.html">The Olderst Index</a>
@@ -45,20 +48,23 @@
                 <li class="nav-item">
                     <a class="nav-link disabled" href="#">Disabled</a>
                 </li>
+
+                <language-list :list="sharedState.AvailableLanguage"
+                    @language-click="ChangeLanguageJsonData"></job-list>
             </ul>
         </div>
     </nav>
 
     <div class="container mt-5">
         <div class="row">
-            <div class="col-sm-4">
-                <h2>About Me</h2>
-                <h5>Photo of me:</h5>
-                <div class="fakeimg">Too Shame cann't upload, but you can upload your
+            <div id="AboutMe" class="col-sm-4">
+                <h2>{{sharedState.LanguageData.AboutMe}}</h2>
+                <h5>{{sharedState.LanguageData.PhotoOfMe}}</h5>
+                <div class="fakeimg">{{sharedState.LanguageData.fakeimg}}
                     <input type="file" id="upload" accept="image/*">
-                    <img src="src/img/placeholder.png" alt="" hidden>
+                    <img src="" alt="" hidden>
                 </div>
-                <p>The useless man who waste 4 years in Ming Chuan University Majoring in Programming. And still need Chatgpt and google to make this website.</p>
+                <p>{{sharedState.LanguageData.SelfIntriduce}}</p>
                 <!--
                 <h3 class="mt-4">Some Links</h3>
                 <p>Lorem ipsum dolor sit ame.</p>
@@ -80,7 +86,7 @@
                 -->
             </div>
             <div id="cardsbutvue" class="col-sm-8">
-                <cardlist :cardlistarray="Cards"></cardlist>
+                <cardlist :cardlistarray="sharedState.Cards"></cardlist>
             </div>
         </div>
     </div>
@@ -90,7 +96,10 @@
             <p>So click here to Back to the top</p>
         </div>
     </a>
-
+    <script src="./JustSelfIntriduce/AboutMe.js"></script>
+    <script src="./JustSelfIntriduce/Cards.js"></script>
+    <script src="./JustSelfIntriduce/ChangeLanguage.js"></script>
+    <script src="./JustSelfIntriduce/GlitchText.js"></script>
     <script>
         const upload = document.getElementById('upload');
         const previewImage = document.querySelector('.fakeimg img')
@@ -104,7 +113,6 @@
             reader.readAsDataURL(file);
         });
     </script>
-    <script src="./JustSelfIntriduce/Cards.js"></script>
 </body>
 
 </html>

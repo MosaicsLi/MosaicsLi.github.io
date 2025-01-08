@@ -1,17 +1,17 @@
 const CardsVueApp = createApp({
     data() {
         return {
-            Cards: [],
+            sharedState,
         };
     },
     mounted() {
-        this.getCardDataApi();
+        this.getCardDataApi('./JustSelfIntriduce/Jsons/Cards.json');
     },
     methods: {
-        async getCardDataApi() {
+        async getCardDataApi(JsonPath) {
             try {
-                const response = await axios.get('./JustSelfIntriduce/Jsons/Cards.json');
-                this.Cards = response.data;
+                const response = await axios.get(JsonPath);
+                sharedState.Cards = response.data;
                 console.log("Cards data load")
             } catch (error) {
                 console.error('Error loading JSON data:', error);

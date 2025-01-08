@@ -1,0 +1,12 @@
+[
+    {
+        "LanguageName": "default",
+        "JsonPath": "./JustSelfIntriduce/Jsons/Language/default.json",
+        "CardJsonPath": "./JustSelfIntriduce/Jsons/Cards.json"
+    },
+    {
+        "LanguageName": "japanese",
+        "JsonPath": "./JustSelfIntriduce/Jsons/Language/Jp.json",
+        "CardJsonPath": "./JustSelfIntriduce/Jsons/Cards_Jp.json"
+    }
+]
