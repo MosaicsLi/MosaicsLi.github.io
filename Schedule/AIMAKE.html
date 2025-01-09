@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            margin: 0;
+            font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            font-size: 13px;
+        }
+
+        .axis path,
+        .axis line {
+            fill: none;
+            stroke: grey;
+            shape-rendering: crispEdges;
+        }
+
+        rect.times.bar {
+            fill: #006D2C;
+            fill-opacity: 0.5;
+            stroke: #006D2C;
+            stroke-width: 1px;
+        }
+    </style>
+</head>
+
+<body>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script>
+        var data = [
+            { "start": "2025-01-09 08:00:00", "stop": "2025-01-09 10:00:00" },
+            { "start": "2025-01-09 13:00:00", "stop": "2025-01-09 15:30:00" },
+            { "start": "2025-01-10 09:30:00", "stop": "2025-01-10 11:00:00" },
+            { "start": "2025-01-10 14:00:00", "stop": "2025-01-10 17:00:00" }
+        ];
+
+        var margin = { top: 40, right: 20, bottom: 40, left: 60 },
+            width = 1000 - margin.left - margin.right,
+            barSize = 25,
+            height = (data.length + 1) * barSize,
+            dRange = [d3.min(data, function (d) {
+                return d3.time.day.floor(new Date(d.start))
+            }),
+            d3.max(data, function (d) {
+                return d3.time.day.ceil(new Date(d.stop))
+            })];
+
+        var svg = d3.select("body")
+            .append("svg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+        var xScale = d3.time.scale()
+            .domain([new Date(2025, 0, 9, 0, 0, 0), new Date(2025, 0, 9, 24, 0, 0)])
+            .range([0, width]);
+
+        var yScale = d3.time.scale()
+            .domain(dRange)
+            .range([0, height]);
+
+        var timeFormat = d3.time.format("%H:%M");
+        var day = d3.time.format("%w"),
+            week = d3.time.format("%U"),
+            hour = d3.time.format("%X"),
+            format = d3.time.format("%Y-%m-%d %X"),
+            now = new Date();
+
+        var tfh = d3.time.scale()	//TwentyFourHour scale
+            .domain([d3.time.hour(new Date(2014, 0, 1, 0, 0, 0)),
+            d3.time.hour(new Date(2014, 0, 2, 0, 0, 0)),])
+            .range([0, width]);
+
+        svg.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("class", "times bar")
+            .attr("x", function (d) {
+                var h = hour(new Date(d.start)).split(":"), //changes datum from string, to proper Date Object, back to hour string and splits
+                    xh = parseFloat(h[0]) + parseFloat(h[1] / 60); //time (hour and minute) as decimal
+                return xScale(xh);
+                ;
+            })
+            .attr("y", function (d) { return yScale(d3.time.day.floor(new Date(d.start))) })
+            .attr("width", function (d) {
+                return xScale(new Date(d.stop)) - xScale(new Date(d.start));
+            })
+            .attr("height",barSize)
+            .append("title")
+            .text(function (d) {
+                return d.start + " - " + d.stop;
+            });
+
+        var xAxis = d3.svg.axis()
+            .scale(xScale)
+            .orient("bottom")
+            .tickFormat(timeFormat)
+            .ticks(24);
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (height) + ")")
+            .call(xAxis);
+
+        // 添加 y 軸
+        var yAxis = d3.svg.axis()
+            .scale(yScale)
+            .orient("left")
+            .tickFormat(d3.time.format("%m/%d"));
+
+        // 將 y 軸添加到畫布
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+
+    </script>
+</body>
+
+</html>

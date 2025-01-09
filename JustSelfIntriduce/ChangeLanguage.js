@@ -1,4 +1,4 @@
-import { App_CardsVue } from "./Cards.js";
+import { Mount_CardsVue } from "./Cards.js";
 const ChangeLanguageVueApp = createApp({
     data() {
         return {
@@ -6,6 +6,7 @@ const ChangeLanguageVueApp = createApp({
         };
     },
     mounted() {
+        console.log("ChangeLanguageVueApp mounted");
         this.getLanguageDataApi();
         this.ChangeLanguageJsonData("./JustSelfIntriduce/Jsons/Language/default.json","./JustSelfIntriduce/Jsons/Cards.json");
     },
@@ -14,7 +15,8 @@ const ChangeLanguageVueApp = createApp({
             try {
                 const response = await axios.get(JsonPath);
                 sharedState.LanguageData = response.data;
-                App_CardsVue.getCardDataApi(CardJsonPath) ;
+                console.log("Language data load")
+                Mount_CardsVue.getCardDataApi(CardJsonPath) ;
             } catch (error) {
                 console.error('Error loading Language JSON data:', error);
             }
@@ -27,21 +29,27 @@ const ChangeLanguageVueApp = createApp({
             } catch (error) {
                 console.error('Error loading Available Language JSON data:', error);
             }
+        },
+        HI(){
+            alert("HI");
         }
+
     },
 });
 ChangeLanguageVueApp.component('language-list', {
     props: {
         list: Array,
+        parentfunction:Function,
     },
     template: `
     <div v-for="language in list">
     <li class="nav-item">
-        <a class="nav-link"  @click="$emit('language-click',language.JsonPath,language.CardJsonPath)">{{language.LanguageName}}</a>
+        <a class="nav-link"  @click="parentfunction(language.JsonPath,language.CardJsonPath)">{{language.LanguageName}}</a>
     </li>
     </div>
     `,
-
+//<a class="nav-link"  @click="$emit('language-click',language.JsonPath,language.CardJsonPath)">{{language.LanguageName}}</a>
 });
 
-ChangeLanguageVueApp.mount('#LanguageChangeable');
+const Mount_ChangeLanguageVue=ChangeLanguageVueApp.mount('#LanguageChangeable');
+export { Mount_ChangeLanguageVue };

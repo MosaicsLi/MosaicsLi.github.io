@@ -6,7 +6,8 @@ const CardsVueApp = createApp({
         };
     },
     mounted() {
-        this.getCardDataApi('./JustSelfIntriduce/Jsons/Cards.json');
+        console.log("CardsVueApp mounted");
+        //this.getCardDataApi('./JustSelfIntriduce/Jsons/Cards.json');
     },
     methods: {
         async getCardDataApi(JsonPath) {
@@ -47,5 +48,5 @@ CardsVueApp.component('card', {
     </div>
     `,
 });
-const App_CardsVue=CardsVueApp.mount('#cardsbutvue');
-export { App_CardsVue };
+const Mount_CardsVue=CardsVueApp.mount('#cardsbutvue');
+export { Mount_CardsVue };

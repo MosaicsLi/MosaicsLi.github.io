@@ -1,11 +1,12 @@
-
-const vm = createApp({
+import { Mount_ChangeLanguageVue } from "./ChangeLanguage.js";
+import { Mount_AboutMeVue } from "./AboutMe.js";
+const Main = createApp({
     data() {
         return {
-            name: '008JS'
+            sharedState
         }
     }, mounted() {
-        console.log("HI")
+        console.log("Main mounted")
     },
     methods:{
         HI() {
@@ -13,6 +14,4 @@ const vm = createApp({
           }
     }
 });
-const vMountedInstance = vm.mount('#app');
-vMountedInstance.$data.IAM = '30acm';
-console.log(vMountedInstance.$data.IAM)
+const vMountedInstance = Main.mount('#app');

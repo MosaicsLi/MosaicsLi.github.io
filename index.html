@@ -28,13 +28,13 @@
 
 <body class="text-white">
     <div id="app">
-    </div>
-    <div id="GlitchText" class="p-5 text-center bg-black">
-        <div class="GlitchText" :data-text="sharedState.LanguageData.GlitchText">{{sharedState.LanguageData.GlitchText}}
+        <div id="GlitchText" class="p-5 text-center bg-black">
+            <div class="GlitchText" :data-text="sharedState.LanguageData.GlitchText">{{sharedState.LanguageData.GlitchText}}
+            </div>
+            <p>Made in https://chatgpt.com</p>
         </div>
-        <p>Made in https://chatgpt.com</p>
+    
     </div>
-
     <nav id="LanguageChangeable" class="navbar navbar-expand-sm bg-dark navbar-dark sticky-top">
         <div class="container-fluid">
             <ul class="navbar-nav">
@@ -52,7 +52,7 @@
                 </li>
 
                 <language-list :list="sharedState.AvailableLanguage"
-                    @language-click="ChangeLanguageJsonData"></job-list>
+                    :parentfunction="ChangeLanguageJsonData"></language-list>
             </ul>
         </div>
     </nav>
@@ -80,9 +80,12 @@
         </div>
     </a>
     <script type="module" src="./JustSelfIntriduce/main.js"></script>
-    <script src="./JustSelfIntriduce/AboutMe.js"></script>
+    <!--
     <script  type="module" src="./JustSelfIntriduce/ChangeLanguage.js"></script>
+    <script src="./JustSelfIntriduce/AboutMe.js"></script>
+    
     <script src="./JustSelfIntriduce/GlitchText.js"></script>
+    -->
 </body>
 
 </html>

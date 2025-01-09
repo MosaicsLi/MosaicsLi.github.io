@@ -1,0 +1,229 @@
+{
+    "AdventurerName": "冒険者",
+    "AdventurerRace": "冒険者種族",
+    "AdventurerRole_Word": "DPS",
+    "AdventurerRole": "DPS",
+    "AdventurerJob": "竜騎士",
+    "AdventurerImage": "../Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
+    "AdventurerJobIcon": "./Images/Icon/FFXIVIcons JobIcons/03_DPS/Job/Dragoon.png",
+    "AdventurerStatus": [
+        {
+            "AdventurerLevel": 30,
+            "AdventurerHP": 24,
+            "AdventurerMP": 5,
+            "MainStatus": {
+                "STR": 1,
+                "DEX": 1,
+                "VIT": 2,
+                "INT": 3,
+                "MND": 5
+            },
+            "SubStatus": {
+                "PhysicalDefense": 11,
+                "MagicDefense": 14,
+                "Vigilance": 15,
+                "Speed": 5
+            }
+        },
+        {
+            "AdventurerLevel": 50,
+            "AdventurerHP": 45,
+            "AdventurerMP": 5,
+            "MainStatus": {
+                "STR": 2,
+                "DEX": 2,
+                "VIT": 3,
+                "INT": 4,
+                "MND": 6
+            },
+            "SubStatus": {
+                "PhysicalDefense": 12,
+                "MagicDefense": 15,
+                "Vigilance": 16,
+                "Speed": 5
+            }
+        }
+    ],
+    "AdventurerItem": [
+        "テスト用アイテム"
+    ],
+    "AdventurerProfile": "冒険者プロフィール",
+    "AdventurerJobTips": [
+        {
+            "TipTitel":"コンボ",
+            "TipType":"特性",
+            "TipDitel": "君がコンポの効果を持つアビリティを使用したならば、君はそのターン中に指定されたアヒリティを1回だけ使用できる（移動してから使用したり、別の対象に使用してもよい）。"
+        },
+        {
+            "TipTitel":"竜槍",
+            "TipType":"バフ",
+            "TipDitel": "君が竜槍を得ている間、君のアビリティの効果で与えるダメージをすべて+2点する。竜槍は君が気絶状態になると解除される。"
+        },
+        {
+            "TipTitel":"ドレイン",
+            "TipType":"バフ",
+            "TipDitel": "君がドレインを得ている間、君のアビリティの効果で敵にダメージを与えるたび、その対象1体につき君は2点のHP回復効果を受ける。ドレインは君のターンが終了すると解除される。"
+        }
+    ],
+    "LimitBreak": {
+        "ActionType": "物理。リミットブレイク",
+        "ActionIconPath": "./Images/Icon/FFXIVIcons MainCommand (Others)/02_General/limit_break.png",
+        "LimitBreakName": "蒼天のドラゴンダイブ",
+        "Timing": "いつでも",
+        "Target": "1体",
+        "Range": "5マス",
+        "ActionEffect": "対象に6d6点のダメージを与える。その後、可能ならば君は対象から1マス以内の何も存在しないマスに効果移動する（キャラクターは効果適用時に範囲内にいなければ、その効果が適用されなくなる）。"
+    },
+    "MainAction": {
+        "ActionSubject": "MainAction",
+        "SubjectTitel": "MAIN ACTION",
+        "SubjectTitel_Word": "メインアクション",
+        "Actions": [
+            {
+                "Name": "ゥルースラスト",
+                "ActionType": "物理。メイン",
+                "ActionIconPath": "data:image/png;base64,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",
+                "UsageCount": [],
+                "Cost": "",
+                "Target": "1体",
+                "Range": "1マス",
+                "Determination": "{STR}+d20>=（対象の物理防御力）",
+                "Timing": "",
+                "ActionEffect": "対象に3点のダメージ。コンボ：《WSコンボ》か《ディセムボウル》",
+                "DirectHit": "+2d6点の追加ダメージ",
+                "Limit": "",
+                "ActionTips": ""
+            },
+            {
+                "Name": "ストンラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/stone_II.png",
+                "ActionType": "詠唱。地属性。魔法。メイン",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "{MND}+d20>=（対象の魔法防御力）",
+                "ActionEffect": "対象に2点のダメージを与える。",
+                "DirectHit": "+1d6点のダメージ"
+            },
+            {
+                "Name": "ケアルラ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/cure_II.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は2d6+7点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "メディカ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/medica.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "君を含めた範囲内のすべての味方",
+                "Range": "君を中心とした5×5マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は1d6+3点のHP回復を受ける。",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "リポーズ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/Repose.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "2MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "{MND}+d20>=（対象の魔法防御力）",
+                "ActionEffect": "フェーズが終了するか、対象が次にダメージを受けるまで、対象が行うすべての判定に-2のペナルティを与える",
+                "DirectHit": "対象の発生させている予兆をすべて取り除く。"
+            },
+            {
+                "Name": "レイズ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/raise.png",
+                "ActionType": "詠唱。魔法。メイン",
+                "Cost": "3MP",
+                "Target": "気絶状態のキャラクター1体",
+                "Range": "5マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象の気絶状態を解除し、対象は1d6+3点のHP回復を受ける。その後、対象に生還※と衰弱※状態を与える。（このアビリティは戦場外にいる気絶状態のキャラクター1体を対象にすることもできる。その場合、効果を適用したあと、対象を君から5マス以内の何も存在しないマスに配置する）",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。",
+                "ActionTips": "※衰弱状態を受けているキャラクターは、あらゆる判定に-2のペナルティを受ける。衰弱状態はフェーズが終了しても解除されず、1回の休息を終了するか、衰弱状態を解除できる効果でしか解除できない。"
+            }
+        ]
+    },
+    "SubAction": {
+        "ActionSubject": "SubAction",
+        "SubjectTitel": "SUB ACTION",
+        "SubjectTitel_Word": "サブアクション",
+        "Actions": [
+            {
+                "Name": "エアロ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/aero.png",
+                "ActionType": "詠唱。風属性。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "ActionEffect": "対象に3点のダメージとDOT3を与える。",
+                "ActionTips": "※DOTを受けている敵は、［敵のターン処理］ステップの終了時（すなわちすべての敵のターンが終わった後）に、受けているすべてのDOT の数値に等しいダメージを受ける。"
+            },
+            {
+                "Name": "ケアル",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/cure.png",
+                "ActionType": "詠唱。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "対象は1d6+1点のHP回復を受ける。アビリティ判定で出た目が18以上なら「プロック：このフェーズ中、君が次に使用する《ケアルラ》のコストのMP消費は0点になる」が発生",
+                "DirectHit": "※クリティカル確認と書かれたHP回復効果を与えるアビリティは使用時にアビリティ判定を行う。達成値がいくつでも、基本効果が発揮させる。これはクリティカルやプロックが発生するかどうかの確認のためである。"
+            },
+            {
+                "Name": "エスナ",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/esuna.png",
+                "ActionType": "詠唱。魔法。サブ",
+                "Cost": "1MP",
+                "Target": "1体",
+                "Range": "10マス",
+                "ActionEffect": "対象の受けているデバフを1つ選んで解除する（気絶状態や衰弱状態、そのほか「解除できない」という効果を持つデバフは解除できない）。"
+            },
+            {
+                "Name": "ルーシッドドリーム",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/lucid_dreaming.png",
+                "ActionType": "サブ",
+                "ActionEffect": "このラウンド、君のMP自動回復量を+1点する（MPが回復しないときには効果を受けられない）。",
+                "Limit": "1フェーズに1回使用可能。",
+                "UsageCount": [
+                    false
+                ]
+            },
+            {
+                "Name": "神速魔",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/presence_of_mind.png",
+                "ActionType": "サブ",
+                "ActionEffect": "君は魔法のアビリティを1つ使用する",
+                "Limit": "1フェーズに1回使用可能。",
+                "UsageCount": [
+                    false
+                ]
+            }
+        ]
+    },
+    "InstantAction": {
+        "ActionSubject": "InstantAction",
+        "SubjectTitel": "INSTANT ACTION",
+        "SubjectTitel_Word": "インスタント",
+        "SubjectTitel_Tip": "ターンごとに1回使用できる。不意打ちを受けたら1ラウンド目では使用出来ない。",
+        "Actions": [
+            {
+                "Name": "迅速魔",
+                "ActionIconPath": "./Images/Icon/FFXIVIcons Battle(PvE)/16_WHM/HealerRollAction/swiftcast.png",
+                "ActionType": "インスタント",
+                "Timing": "キャラクター1体のターン終了時",
+                "Determination": "d20（クリティカル確認）",
+                "ActionEffect": "魔法アビリティの1つを使用する。",
+                "Limit": "1フェーズに1回使用可能。"
+            }
+        ]
+    }
+}
