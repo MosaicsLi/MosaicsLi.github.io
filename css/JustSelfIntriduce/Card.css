@@ -52,6 +52,8 @@
     inset: 1px 1px 1px 1px;
     padding: 1em;
     position: relative;
+    max-width: 100%;
+    overflow: hidden;
 }
 
 .card:hover>.card-content>.card-icon {

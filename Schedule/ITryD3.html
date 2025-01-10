@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="./EndOfMonth.js"></script>
+    <script src="./Week.js"></script>
+</head>
+
+<body>
+    <div>
+        <input type="button" id="back" onclick="cback()" value="cback">
+        <input type="button" id="next" onclick="cnext()" value="cnext">
+    </div>
+    <div>
+        <svg class="MainSvg"></svg>
+    </div>
+</body>
+<script>
+    var domainStart = new Date(2025, 0, 1);
+    var domainStop = new Date(2025, 0, 31);
+    const GEOM = new EndOfMonth(domainStart, domainStop);
+    const thisWeek = new ThisWeek(new Date());
+
+    var data = [
+        { "start": "2025-01-09 08:00:00", "stop": "2025-01-09 10:00:00" },
+        { "start": "2025-01-09 13:00:00", "stop": "2025-01-09 15:30:00" },
+        { "start": "2025-01-10 08:30:00", "stop": "2025-01-10 21:00:00" },
+        { "start": "2025-01-01 09:30:00", "stop": "2025-01-01 11:00:00" },
+        { "start": "2025-01-02 09:30:00", "stop": "2025-01-02 11:00:00" },
+        { "start": "2025-01-03 09:30:00", "stop": "2025-01-03 11:00:00" },
+    ];
+
+    function cback() {
+        GEOM.Previous()
+        console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
+        console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
+    }
+    function cnext() {
+        GEOM.Next()
+        console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
+        console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
+    }
+    function creatMainSvg() {
+        let margin = { top: 40, right: 20, bottom: 40, left: 60 };
+        let width = 700 - margin.left - margin.right,
+            barSize = width / 7,
+            height = 800;
+
+
+        var yScale = d3.scaleTime()
+            .domain([0, 24])
+            .range([0, height]);
+
+        var xScale = d3.scaleTime()
+            .domain(thisWeek.get())
+            .range([0, width]);
+
+        var timeFormat = d3.timeFormat("%H:%M");
+        var day = d3.timeFormat("%w"),
+            week = d3.timeFormat("%U"),
+            hour = d3.timeFormat("%X"),
+            format = d3.timeFormat("%Y-%m-%d %X"),
+            now = new Date();
+
+        var tfh = d3.scaleTime()
+            .domain([d3.timeHour(new Date(2000, 0, 1, 0, 0, 0)),
+            d3.timeHour(new Date(2000, 0, 2, 0, 0, 0)),])
+            .range([0, height]);
+
+        var svg = d3.select(".MainSvg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        var rect = svg.selectAll("rect")
+            .data(data)
+            .enter()
+            .append("rect")
+            .attr("x", function (d) {
+                //console.log(d3.time.day.floor(new Date(d.start)))
+                return xScale(d3.timeDay.floor(new Date(d.start))) - (barSize / 2)
+            })
+            .attr("y", function (d) {
+                var h = hour(new Date(d.start)).split(":"), //changes datum from string, to proper Date Object, back to hour string and splits
+                    xh = parseFloat(h[0]) + parseFloat(h[1] / 60); //time (hour and minute) as decimal
+                return yScale(xh);
+            })
+            .attr("width", barSize - 5)
+            .attr("height", function (d) {
+                var hstart = new Date(d.start),
+                    hstop = new Date(d.stop);
+                return yScale((hstop - hstart) / 3600000);	//date operations return a timestamp in miliseconds, divide to convert to hours
+            });
+
+
+
+        var yGrid = d3.axisLeft()
+            .scale(tfh)
+            .ticks(d3.timeHour.every(1));
+
+        var xAxis = d3.axisBottom()
+            .scale(xScale)
+            .ticks(d3.timeDay.every(1)) // 確保每天都有一個刻度
+            .tickFormat(d3.timeFormat("%m/%d"));
+
+        // 添加 y 軸
+        var yAxis = d3.axisLeft()
+            .scale(tfh)
+            .tickFormat(timeFormat)
+            .ticks(d3.timeHour.every(1));
+
+
+        svg.append("g")
+            .attr("class", "x axis")
+            .attr("transform", "translate(0," + (height) + ")")
+            .call(xAxis);
+        // 將 y 軸添加到畫布
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+        svg.append("g")
+            .attr("class", "x grid")
+            .call(yGrid
+                .tickSize(-width)
+                .tickFormat(""));
+    }
+    creatMainSvg();
+</script>
+
+</html>

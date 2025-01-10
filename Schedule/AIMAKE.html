@@ -27,23 +27,156 @@
 </head>
 
 <body>
+    <input type="button" id="back" onclick="cback()" value="cback">
+    <input type="button" id="next" onclick="cnext()" value="cnext">
     <script src="https://d3js.org/d3.v3.min.js"></script>
     <script>
-        var data = [
+        var domainStart = new Date(2025, 0, 1);
+        var domainStop = new Date(2025, 0, 31);
+
+        function updateDomainStop() {
+            // 確保 domainStop 是 domainStart 所在月份的最後一天
+            domainStop = new Date(domainStart.getFullYear(), domainStart.getMonth() + 1, 0);
+        }
+
+        function cback() {
+            // 減少 domainStart 的月份，並確保不溢出
+            domainStart.setMonth(domainStart.getMonth() - 1);
+            domainStart.setDate(1); // 重設為該月的第一天以防溢出
+            updateDomainStop(); // 更新 domainStop 為正確的最後一天
+
+            // 更新 Y 軸及其比例
+            updateYAxis();
+
+            updateData(); // 更新資料集並重新渲染圖表
+            console.log("domainStart: " + domainStart.toLocaleDateString());
+            console.log("domainStop: " + domainStop.toLocaleDateString());
+        }
+
+        function cnext() {
+            // 增加 domainStart 的月份，並確保不溢出
+            domainStart.setMonth(domainStart.getMonth() + 1);
+            domainStart.setDate(1); // 重設為該月的第一天以防溢出
+            updateDomainStop(); // 更新 domainStop 為正確的最後一天
+
+            // 更新 Y 軸及其比例
+            updateYAxis();
+
+            updateData(); // 更新資料集並重新渲染圖表
+            console.log("domainStart: " + domainStart.toLocaleDateString());
+            console.log("domainStop: " + domainStop.toLocaleDateString());
+        }
+        function updateYAxis() {
+            // 更新 Y 軸比例
+            yScale.domain([domainStart, domainStop]);
+
+            // 重新繪製 Y 軸
+            svg.select(".y.axis")
+                .transition()
+                .duration(500) // 添加動畫效果
+                .call(
+                    d3.svg.axis()
+                        .scale(yScale)
+                        .ticks(d3.time.days, 1)
+                        .orient("left")
+                        .tickFormat(d3.time.format("%m/%d"))
+                );
+
+            // 更新矩形的位置
+            svg.selectAll("rect")
+                .transition()
+                .duration(500) // 添加動畫效果
+                .attr("y", function (d) {
+                    return yScale(d3.time.day.floor(new Date(d.start)));
+                });
+        }
+        function updateData() {
+            // 根據 domainStart 的月份選擇資料集
+            let data = [];
+            if (domainStart.getMonth() === 0) {
+                data = data1; // 1 月
+            } else if (domainStart.getMonth() === 1) {
+                data = data2; // 2 月
+            }
+
+            // 更新矩形的位置和寬度
+            const bars = svg.selectAll("rect").data(data);
+
+            // 更新現有的矩形
+            bars.transition()
+                .duration(500)
+                .attr("x", function (d) {
+                    const h = hour(new Date(d.start)).split(":");
+                    const xh = parseFloat(h[0]) + parseFloat(h[1] / 60);
+                    return xScale(xh);
+                })
+                .attr("y", function (d) {
+                    return yScale(d3.time.day.floor(new Date(d.start)));
+                })
+                .attr("width", function (d) {
+                    const hstart = new Date(d.start);
+                    const hstop = new Date(d.stop);
+                    return xScale((hstop - hstart) / 3600000);
+                })
+                .attr("height", barSize);
+
+            // 為新加入的資料添加矩形
+            bars.enter()
+                .append("rect")
+                .attr("class", "times bar")
+                .attr("x", function (d) {
+                    const h = hour(new Date(d.start)).split(":");
+                    const xh = parseFloat(h[0]) + parseFloat(h[1] / 60);
+                    return xScale(xh);
+                })
+                .attr("y", function (d) {
+                    return yScale(d3.time.day.floor(new Date(d.start)));
+                })
+                .attr("width", function (d) {
+                    const hstart = new Date(d.start);
+                    const hstop = new Date(d.stop);
+                    return xScale((hstop - hstart) / 3600000);
+                })
+                .attr("height", barSize)
+                .append("title")
+                .text(function (d) {
+                    return d.start + " - " + d.stop;
+                });
+
+            // 移除多餘的矩形
+            bars.exit().remove();
+        }
+
+
+        // 根據 domainStart 的月份選擇資料集
+        let data = [];
+        if (domainStart.getMonth() === 0) {
+            data = data1; // 1 月
+        } else if (domainStart.getMonth() === 1) {
+            data = data2; // 2 月
+        }
+
+
+        var data1 = [
             { "start": "2025-01-09 08:00:00", "stop": "2025-01-09 10:00:00" },
             { "start": "2025-01-09 13:00:00", "stop": "2025-01-09 15:30:00" },
             { "start": "2025-01-10 09:30:00", "stop": "2025-01-10 11:00:00" },
-            { "start": "2025-01-10 14:00:00", "stop": "2025-01-10 17:00:00" }
+            { "start": "2025-01-01 09:30:00", "stop": "2025-01-01 11:00:00" },
+        ];
+        var data2 = [
+            { "start": "2025-02-10 14:00:00", "stop": "2025-02-10 17:30:30" },
+            { "start": "2025-02-11 4:00:00", "stop": "2025-02-11 7:30:30" },
+            { "start": "2025-02-20 14:00:00", "stop": "2025-02-20 17:30:30" }
         ];
 
         var margin = { top: 40, right: 20, bottom: 40, left: 60 },
             width = 1000 - margin.left - margin.right,
             barSize = 25,
-            height = (data.length + 1) * barSize,
-            dRange = [d3.min(data, function (d) {
+            height = 30 * barSize,
+            dRange = [d3.min(data1, function (d) {
                 return d3.time.day.floor(new Date(d.start))
             }),
-            d3.max(data, function (d) {
+            d3.max(data1, function (d) {
                 return d3.time.day.ceil(new Date(d.stop))
             })];
 
@@ -55,11 +188,11 @@
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
         var xScale = d3.time.scale()
-            .domain([new Date(2025, 0, 9, 0, 0, 0), new Date(2025, 0, 9, 24, 0, 0)])
+            .domain([0, 24])
             .range([0, width]);
 
         var yScale = d3.time.scale()
-            .domain(dRange)
+            .domain([domainStart, domainStop])
             .range([0, height]);
 
         var timeFormat = d3.time.format("%H:%M");
@@ -69,13 +202,13 @@
             format = d3.time.format("%Y-%m-%d %X"),
             now = new Date();
 
-        var tfh = d3.time.scale()	//TwentyFourHour scale
-            .domain([d3.time.hour(new Date(2014, 0, 1, 0, 0, 0)),
-            d3.time.hour(new Date(2014, 0, 2, 0, 0, 0)),])
+        var tfh = d3.time.scale()
+            .domain([d3.time.hour(new Date(2000, 0, 1, 0, 0, 0)),
+            d3.time.hour(new Date(2000, 0, 2, 0, 0, 0)),])
             .range([0, width]);
 
         svg.selectAll("rect")
-            .data(data)
+            .data(data1)
             .enter()
             .append("rect")
             .attr("class", "times bar")
@@ -83,20 +216,21 @@
                 var h = hour(new Date(d.start)).split(":"), //changes datum from string, to proper Date Object, back to hour string and splits
                     xh = parseFloat(h[0]) + parseFloat(h[1] / 60); //time (hour and minute) as decimal
                 return xScale(xh);
-                ;
             })
             .attr("y", function (d) { return yScale(d3.time.day.floor(new Date(d.start))) })
             .attr("width", function (d) {
-                return xScale(new Date(d.stop)) - xScale(new Date(d.start));
+                var hstart = new Date(d.start),
+                    hstop = new Date(d.stop);
+                return xScale((hstop - hstart) / 3600000);	//date operations return a timestamp in miliseconds, divide to convert to hours
             })
-            .attr("height",barSize)
+            .attr("height", barSize)
             .append("title")
             .text(function (d) {
                 return d.start + " - " + d.stop;
             });
 
         var xAxis = d3.svg.axis()
-            .scale(xScale)
+            .scale(tfh)
             .orient("bottom")
             .tickFormat(timeFormat)
             .ticks(24);
@@ -109,6 +243,7 @@
         // 添加 y 軸
         var yAxis = d3.svg.axis()
             .scale(yScale)
+            .ticks(d3.time.days, 1) // 確保每天都有一個刻度
             .orient("left")
             .tickFormat(d3.time.format("%m/%d"));
 

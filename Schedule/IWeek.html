@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <input type="button" id="back" onclick="cback()" value="Back">
+    <input type="button" id="next" onclick="cnext()" value="Next">
+    <div id="dateList"></div>
+
+    <script>
+        let currentDate = new Date();
+
+        // 格式化日期，讓它以 YYYY-MM-DD 的形式顯示
+        function formatDate(date) {
+            let year = date.getFullYear();
+            let month = ("0" + (date.getMonth() + 1)).slice(-2);
+            let day = ("0" + date.getDate()).slice(-2);
+            return `${year}-${month}-${day}`;
+        }
+
+        // 顯示星期幾
+        function getDayName(date) {
+            const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            return days[date.getDay()];
+        }
+
+        // 顯示指定日期範圍的週日到週六的日期
+        function displayWeekDates(date) {
+            // 設定該日期為本週的某一天
+            let dayOfWeek = date.getDay();
+            let diff = date.getDate() - dayOfWeek; // 將日期設定為本週週日
+            console.log(dayOfWeek)
+            console.log(diff)
+            let startOfWeek = new Date(date.setDate(diff));
+            console.log(startOfWeek)
+            console.log(new Date(date.setDate(diff+6)))
+
+            // 生成本週的所有日期
+            let weekDates = [];
+            for (let i = 0; i < 7; i++) {
+                let newDate = new Date(startOfWeek);
+                newDate.setDate(startOfWeek.getDate() + i);
+                weekDates.push(formatDate(newDate));
+            }
+
+            // 顯示當前星期幾和日期範圍
+            const currentDayName = getDayName(date);
+            document.getElementById('dateList').innerHTML = 
+                `<b>Current Day:</b> ${currentDayName} <br><b>Week Dates (Sunday-Saturday):</b><br>` +
+                weekDates.join("<br>");
+        }
+
+        // 下一週
+        function cnext() {
+            currentDate.setDate(currentDate.getDate() + 7);
+            displayWeekDates(currentDate);
+        }
+
+        // 上一週
+        function cback() {
+            currentDate.setDate(currentDate.getDate() - 7);
+            displayWeekDates(currentDate);
+        }
+
+        // 初始化顯示當前週的日期
+        displayWeekDates(currentDate);
+    </script>
+</body>
+
+</html>
