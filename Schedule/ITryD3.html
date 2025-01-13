@@ -12,6 +12,13 @@
     <div>
         <input type="button" id="back" onclick="cback()" value="cback">
         <input type="button" id="next" onclick="cnext()" value="cnext">
+        <input type="button" id="toMounth" onclick="toMounth()" value="toMounth">
+        <br />
+        <label>Add Schedule</label>
+        <input type="date" id="AddDate">
+        <input type="time" id="StartTime">
+        <input type="time" id="StopTime">
+        <input type="button" id="AddSchedule" onclick="AddSchedule()" value="add">
     </div>
     <div>
         <svg class="MainSvg"></svg>
@@ -22,96 +29,169 @@
     var domainStop = new Date(2025, 0, 31);
     const GEOM = new EndOfMonth(domainStart, domainStop);
     const thisWeek = new ThisWeek(new Date());
+    var timeFormat = d3.timeFormat("%H:%M");
+    var day = d3.timeFormat("%w"),
+        week = d3.timeFormat("%U"),
+        hour = d3.timeFormat("%H"),
+        minute = d3.timeFormat("%M"),
+        now = new Date();
+
+    var margin = { top: 40, right: 20, bottom: 40, left: 60 };
+    var width = 980 - margin.left - margin.right,
+        barSize = (width - margin.left - margin.right) / 14,
+        height = 800;
+
 
     var data = [
-        { "start": "2025-01-09 08:00:00", "stop": "2025-01-09 10:00:00" },
-        { "start": "2025-01-09 13:00:00", "stop": "2025-01-09 15:30:00" },
-        { "start": "2025-01-10 08:30:00", "stop": "2025-01-10 21:00:00" },
+        { "start": "2025-01-18 08:00:00", "stop": "2025-01-18 10:00:00" },
+        { "start": "2025-01-12 13:00:00", "stop": "2025-01-12 15:30:00" },
+        { "start": "2025-01-13 08:30:00", "stop": "2025-01-13 21:00:00" },
         { "start": "2025-01-01 09:30:00", "stop": "2025-01-01 11:00:00" },
         { "start": "2025-01-02 09:30:00", "stop": "2025-01-02 11:00:00" },
         { "start": "2025-01-03 09:30:00", "stop": "2025-01-03 11:00:00" },
     ];
+    function toMounth() {
 
+        let ScaleSet = defineScale(GEOM);
+        ScaleSet.xScale.domain(GEOM.get());
+        const svg = d3.select(".MainSvg").select("g")
+        svg.select(".x.axis")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .call(
+                d3.axisBottom()
+                    .scale(ScaleSet.xScale)
+                    .ticks(d3.timeDay.every(1))
+                    .tickFormat(d3.timeFormat("%m/%d"))
+            );
+
+        // 更新矩形的位置
+        svg.selectAll("rect")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .attr("x", function (d) {
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start)))
+            });
+
+    }
     function cback() {
-        GEOM.Previous()
+        GEOM.Previous();
+        thisWeek.Previous();
+        updateAxis();
         console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
         console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
     }
     function cnext() {
         GEOM.Next()
+        thisWeek.Next();
+        updateAxis();
         console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
         console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
     }
-    function creatMainSvg() {
-        let margin = { top: 40, right: 20, bottom: 40, left: 60 };
-        let width = 700 - margin.left - margin.right,
-            barSize = width / 7,
-            height = 800;
+    function AddSchedule() {
+        let addDate = document.getElementById("AddDate").value;
+        let startTime = document.getElementById("StartTime").value;
+        let stopTime = document.getElementById("StopTime").value;
+        let pushdata = { "start": addDate + " " + startTime, "stop": addDate + " " + stopTime }
+        data.push(pushdata);
+        createRect(data);
+    }
+    function updateAxis() {
 
+        let ScaleSet = defineScale(thisWeek);
+        ScaleSet.xScale.domain(thisWeek.get());
+        const svg = d3.select(".MainSvg").select("g")
+        svg.select(".x.axis")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .call(
+                d3.axisBottom()
+                    .scale(ScaleSet.xScale)
+                    .ticks(d3.timeDay.every(1))
+                    .tickFormat(d3.timeFormat("%m/%d"))
+            );
 
-        var yScale = d3.scaleTime()
+        // 更新矩形的位置
+        svg.selectAll("rect")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .attr("x", function (d) {
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize*0.8) / 2)
+            });
+    }
+    function defineScale(scaleWeek) {
+        let xScale = d3.scaleTime()
+            .domain(scaleWeek.get())
+            .range([0, width]);
+        let yScale = d3.scaleTime()
             .domain([0, 24])
             .range([0, height]);
-
-        var xScale = d3.scaleTime()
-            .domain(thisWeek.get())
-            .range([0, width]);
-
-        var timeFormat = d3.timeFormat("%H:%M");
-        var day = d3.timeFormat("%w"),
-            week = d3.timeFormat("%U"),
-            hour = d3.timeFormat("%X"),
-            format = d3.timeFormat("%Y-%m-%d %X"),
-            now = new Date();
-
-        var tfh = d3.scaleTime()
+        let tfh = d3.scaleTime()
             .domain([d3.timeHour(new Date(2000, 0, 1, 0, 0, 0)),
             d3.timeHour(new Date(2000, 0, 2, 0, 0, 0)),])
             .range([0, height]);
+        return {
+            xScale, yScale, tfh
+        }
+    }
+    function createRect(newData) {
+        let ScaleSet = defineScale(thisWeek);
+        
+        let oneday = ScaleSet.xScale(d3.timeDay.offset(thisWeek.get()[0], 1)) 
+             - ScaleSet.xScale(thisWeek.get()[0]);
+        const bars = d3.select(".MainSvg").select("g").selectAll("rect")
+        bars.data(newData)
+            .enter()
+            .append("rect")
+            .attr("x", function (d) {
+                //console.log(d3.time.day.floor(new Date(d.start)))
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize*0.8) / 2)
+            })
+            .attr("y", function (d) {
+                let h = parseFloat(hour(new Date(d.start))) + parseFloat(minute(new Date(d.start)) / 60); //time (hour and minute) as decimal
+                return ScaleSet.yScale(h);
+            })
+            .attr("width", barSize*0.8)
+            .attr("height", function (d) {
+                var hstart = new Date(d.start),
+                    hstop = new Date(d.stop);
+                return ScaleSet.yScale((hstop - hstart) / 3600000);	//date operations return a timestamp in miliseconds, divide to convert to hours
+            })
+            .append("svg:title")
+            .text(function (d) { return (d.start) + ' - ' + (d.stop); })
+            .datum(function (d) { return Date.parse(d) });
+        // 移除多餘的矩形
+        bars.exit().remove();
+        tomarrow=new Date();
+        tomarrow.setDate(now.getDate()+1);
+        console.log(ScaleSet.xScale(now)+" "+now)
+        console.log(ScaleSet.xScale(tomarrow)+" "+tomarrow.toLocaleDateString())
+        console.log(oneday)
+    }
+    function creatMainSvg() {
+        let ScaleSet = defineScale(thisWeek);
 
         var svg = d3.select(".MainSvg")
             .attr("width", width + margin.left + margin.right)
             .attr("height", height + margin.top + margin.bottom)
             .append("g")
             .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-        var rect = svg.selectAll("rect")
-            .data(data)
-            .enter()
-            .append("rect")
-            .attr("x", function (d) {
-                //console.log(d3.time.day.floor(new Date(d.start)))
-                return xScale(d3.timeDay.floor(new Date(d.start))) - (barSize / 2)
-            })
-            .attr("y", function (d) {
-                var h = hour(new Date(d.start)).split(":"), //changes datum from string, to proper Date Object, back to hour string and splits
-                    xh = parseFloat(h[0]) + parseFloat(h[1] / 60); //time (hour and minute) as decimal
-                return yScale(xh);
-            })
-            .attr("width", barSize - 5)
-            .attr("height", function (d) {
-                var hstart = new Date(d.start),
-                    hstop = new Date(d.stop);
-                return yScale((hstop - hstart) / 3600000);	//date operations return a timestamp in miliseconds, divide to convert to hours
-            });
 
-
-
+        createRect(data);
         var yGrid = d3.axisLeft()
-            .scale(tfh)
+            .scale(ScaleSet.tfh)
             .ticks(d3.timeHour.every(1));
 
         var xAxis = d3.axisBottom()
-            .scale(xScale)
+            .scale(ScaleSet.xScale)
             .ticks(d3.timeDay.every(1)) // 確保每天都有一個刻度
             .tickFormat(d3.timeFormat("%m/%d"));
 
         // 添加 y 軸
         var yAxis = d3.axisLeft()
-            .scale(tfh)
+            .scale(ScaleSet.tfh)
             .tickFormat(timeFormat)
             .ticks(d3.timeHour.every(1));
-
-
         svg.append("g")
             .attr("class", "x axis")
             .attr("transform", "translate(0," + (height) + ")")
