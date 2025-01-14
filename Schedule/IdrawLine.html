@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+    <script src="./EndOfMonth.js"></script>
+    <script src="./Week.js"></script>
+</head>
+
+<body>
+    <div>
+        <input type="button" id="back" onclick="cback()" value="cback">
+        <input type="button" id="next" onclick="cnext()" value="cnext">
+        <input type="button" id="toMounth" onclick="toMounth()" value="toMounth">
+        <br />
+        <label>Add Schedule</label>
+        <input type="date" id="AddDate">
+        <input type="time" id="StartTime">
+        <input type="time" id="StopTime">
+        <input type="button" id="AddSchedule" onclick="AddSchedule()" value="add">
+    </div>
+    <div>
+        <svg class="MainSvg"></svg>
+    </div>
+</body>
+<script>
+    var domainStart = new Date(2025, 0, 1);
+    var domainStop = new Date(2025, 0, 31);
+    const GEOM = new EndOfMonth(domainStart, domainStop);
+    const thisWeek = new ThisWeek(new Date());
+    var timeFormat = d3.timeFormat("%H:%M");
+    var day = d3.timeFormat("%w"),
+        week = d3.timeFormat("%U"),
+        hour = d3.timeFormat("%H"),
+        minute = d3.timeFormat("%M"),
+        now = new Date();
+
+    var margin = { top: 40, right: 20, bottom: 40, left: 60 };
+    var width = 980 - margin.left - margin.right,
+        barSize = (width - margin.left - margin.right) / 14,
+        height = 800;
+
+
+    var data = [
+        { "start": "2025-01-18 08:00:00", "stop": "2025-01-18 10:00:00" },
+        { "start": "2025-01-12 13:00:00", "stop": "2025-01-12 15:30:00" },
+        { "start": "2025-01-13 08:30:00", "stop": "2025-01-13 21:00:00" },
+        { "start": "2025-01-01 09:30:00", "stop": "2025-01-01 11:00:00" },
+        { "start": "2025-01-02 09:30:00", "stop": "2025-01-02 11:00:00" },
+        { "start": "2025-01-03 09:30:00", "stop": "2025-01-03 11:00:00" },
+    ];
+    function toMounth() {
+
+        let ScaleSet = defineScale(GEOM);
+        ScaleSet.xScale.domain(GEOM.get());
+        const svg = d3.select(".MainSvg").select("g")
+        svg.select(".x.axis")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .call(
+                d3.axisBottom()
+                    .scale(ScaleSet.xScale)
+                    .ticks(d3.timeDay.every(1))
+                    .tickFormat(d3.timeFormat("%m/%d"))
+            );
+
+        // 更新矩形的位置
+        svg.selectAll("rect")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .attr("x", function (d) {
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start)))
+            });
+
+    }
+    function cback() {
+        GEOM.Previous();
+        thisWeek.Previous();
+        updateAxis();
+        console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
+        console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
+    }
+    function cnext() {
+        GEOM.Next()
+        thisWeek.Next();
+        updateAxis();
+        console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
+        console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
+    }
+    function AddSchedule() {
+        let addDate = document.getElementById("AddDate").value;
+        let startTime = document.getElementById("StartTime").value;
+        let stopTime = document.getElementById("StopTime").value;
+        let pushdata = { "start": addDate + " " + startTime, "stop": addDate + " " + stopTime }
+        data.push(pushdata);
+        createRect(data);
+    }
+    function updateAxis() {
+
+        let ScaleSet = defineScale(thisWeek);
+        ScaleSet.xScale.domain(thisWeek.get());
+        const svg = d3.select(".MainSvg").select("g")
+        svg.select(".x.axis")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .call(
+                d3.axisBottom()
+                    .scale(ScaleSet.xScale)
+                    .ticks(d3.timeDay.every(1))
+                    .tickFormat(d3.timeFormat("%m/%d"))
+            );
+
+        // 更新矩形的位置
+        svg.selectAll("rect")
+            .transition()
+            .duration(500) // 添加動畫效果
+            .attr("x", function (d) {
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize * 0.8) / 2)
+            });
+    }
+    function defineScale(scaleWeek) {
+        let xScale = d3.scaleLinear([0, 100], ["red", "blue"]);
+        return {
+            xScale
+        }
+    }
+    function creatMainSvg() {
+        let ScaleSet = defineScale(thisWeek);
+
+        const scale = d3.scaleLinear()
+            .domain([0, 7]).rangeRound([0, width]);
+            
+        let tfh = d3.scaleTime()
+            .domain([d3.timeHour(new Date(2000, 0, 1, 0, 0, 0)),
+            d3.timeHour(new Date(2000, 0, 2, 0, 0, 0)),])
+            .range([0, height]);
+        var svg = d3.select(".MainSvg")
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        const bars = d3.select(".MainSvg").select("g").selectAll("rect")
+        bars.data(data)
+            .enter()
+            .append("rect")
+            .attr("x", function (d) {
+                console.log(new Date(d3.timeDay.floor(new Date(d.start))).getDay())
+                return scale(new Date(d3.timeDay.floor(new Date(d.start))).getDay()+1)- ((barSize*0.8) / 2)
+            })
+            .attr("width", (barSize*0.8))
+            .attr("height", barSize)
+            .append("svg:title")
+            .text(function (d) { return (d.start) + ' - ' + (d.stop); })
+            .datum(function (d) { return Date.parse(d) });
+        // 移除多餘的矩形
+        bars.exit().remove();
+        var xAxis = d3.axisBottom()
+            .scale(scale)
+            .ticks(7)
+        var yAxis = d3.axisLeft()
+            .scale(tfh)
+            .tickFormat(timeFormat)
+            .ticks(d3.timeHour.every(1));
+
+        svg.append("g")
+            .attr("transform", "translate(0," + (height) + ")")
+            .call(xAxis);
+        svg.append("g")
+            .attr("class", "y axis")
+            .call(yAxis);
+    }
+    creatMainSvg();
+</script>
+
+</html>
