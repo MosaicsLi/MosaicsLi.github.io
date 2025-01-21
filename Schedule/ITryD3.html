@@ -36,7 +36,7 @@
         minute = d3.timeFormat("%M"),
         now = new Date();
 
-    var margin = { top: 40, right: 20, bottom: 40, left: 60 };
+    var margin = { top: 40, right: 20, bottom: 40, left: 50 };
     var width = 980 - margin.left - margin.right,
         barSize = (width - margin.left - margin.right) / 14,
         height = 800;
@@ -78,6 +78,7 @@
         GEOM.Previous();
         thisWeek.Previous();
         updateAxis();
+        createRect(data);
         console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
         console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
     }
@@ -85,6 +86,7 @@
         GEOM.Next()
         thisWeek.Next();
         updateAxis();
+        createRect(data);
         console.log("domainStart: " + GEOM.get()[0].toLocaleDateString());
         console.log("domainStop: " + GEOM.get()[1].toLocaleDateString());
     }
@@ -116,7 +118,14 @@
             .transition()
             .duration(500) // 添加動畫效果
             .attr("x", function (d) {
-                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize*0.8) / 2)
+                /*
+                console.log("d.start:" +d.start+","+d3.timeDay.count(thisWeek.get()[0], new Date(d.start)) )
+                console.log("d.stop:"+d.stop+"," +d3.timeDay.count(thisWeek.get()[1], new Date(d.stop)) )
+                console.log(d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 )
+                console.log(d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0)
+                console.log(d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 && d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0)
+                */
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize * 0.8) / 2)
             });
     }
     function defineScale(scaleWeek) {
@@ -128,30 +137,38 @@
             .range([0, height]);
         let tfh = d3.scaleTime()
             .domain([d3.timeHour(new Date(2000, 0, 1, 0, 0, 0)),
-            d3.timeHour(new Date(2000, 0, 2, 0, 0, 0)),])
+            d3.timeHour(new Date(2000, 0, 2, 0, 0, 0))])
             .range([0, height]);
         return {
             xScale, yScale, tfh
         }
     }
     function createRect(newData) {
+        console.log("createrect")
         let ScaleSet = defineScale(thisWeek);
-        
-        let oneday = ScaleSet.xScale(d3.timeDay.offset(thisWeek.get()[0], 1)) 
-             - ScaleSet.xScale(thisWeek.get()[0]);
+
         const bars = d3.select(".MainSvg").select("g").selectAll("rect")
         bars.data(newData)
             .enter()
+            /*
+            .filter(function (d) {
+                console.log("d.start:" +d.start+","+d3.timeDay.count(thisWeek.get()[0], new Date(d.start)) )
+                console.log("d.stop:"+d.stop+"," +d3.timeDay.count(thisWeek.get()[1], new Date(d.stop)) )
+                console.log(d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 && d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0)
+                return d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 && d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0
+            }) // 動態過濾資料
+            */
             .append("rect")
             .attr("x", function (d) {
                 //console.log(d3.time.day.floor(new Date(d.start)))
-                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize*0.8) / 2)
+                console.log("55688:" + d3.timeDay.count(thisWeek.get()[1], thisWeek.get()[0]))
+                return ScaleSet.xScale(d3.timeDay.floor(new Date(d.start))) - ((barSize * 0.8) / 2)
             })
             .attr("y", function (d) {
                 let h = parseFloat(hour(new Date(d.start))) + parseFloat(minute(new Date(d.start)) / 60); //time (hour and minute) as decimal
                 return ScaleSet.yScale(h);
             })
-            .attr("width", barSize*0.8)
+            .attr("width", barSize * 0.8)
             .attr("height", function (d) {
                 var hstart = new Date(d.start),
                     hstop = new Date(d.stop);
@@ -161,12 +178,17 @@
             .text(function (d) { return (d.start) + ' - ' + (d.stop); })
             .datum(function (d) { return Date.parse(d) });
         // 移除多餘的矩形
+        /*
+        bars.filter(function (d) {
+                console.log("d.start:" +d.start+","+d3.timeDay.count(thisWeek.get()[0], new Date(d.start)) )
+                console.log("d.stop:"+d.stop+"," +d3.timeDay.count(thisWeek.get()[1], new Date(d.stop)) )
+                console.log(d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 && d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0)
+                return !(d3.timeDay.count(thisWeek.get()[0], new Date(d.start))>0 && d3.timeDay.count(thisWeek.get()[1], new Date(d.stop))<=0)
+            })
+            .remove();*/
         bars.exit().remove();
-        tomarrow=new Date();
-        tomarrow.setDate(now.getDate()+1);
-        console.log(ScaleSet.xScale(now)+" "+now)
-        console.log(ScaleSet.xScale(tomarrow)+" "+tomarrow.toLocaleDateString())
-        console.log(oneday)
+        console.log()
+        
     }
     function creatMainSvg() {
         let ScaleSet = defineScale(thisWeek);
