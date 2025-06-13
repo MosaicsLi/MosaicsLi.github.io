@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>利用Hexo 在已有資料的Github pages上建立部落格 | MosaicsLi&#39;s Hexo Test site</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="Part 0: 備料  github帳號和已經有內容的Github pages repository Node.js 和 npm基本上網路上面如何建立Github 帳號的教學一抓一大把下載和安裝這種更基本的東西這裡就不浪費時間解釋   part 1: 安裝Hexo  如果環境是使用win 11並且使用powershell,有可能會在執行npm相關指令的時候跑出unauthorizedaccess的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用Hexo 在已有資料的Github pages上建立部落格">
+<meta property="og:url" content="https://mosaicsli.github.io/2025/06/13/20250613-1/">
+<meta property="og:site_name" content="MosaicsLi&#39;s Hexo Test site">
+<meta property="og:description" content="Part 0: 備料  github帳號和已經有內容的Github pages repository Node.js 和 npm基本上網路上面如何建立Github 帳號的教學一抓一大把下載和安裝這種更基本的東西這裡就不浪費時間解釋   part 1: 安裝Hexo  如果環境是使用win 11並且使用powershell,有可能會在執行npm相關指令的時候跑出unauthorizedaccess的">
+<meta property="og:locale" content="zh_TW">
+<meta property="article:published_time" content="2025-06-13T12:31:29.000Z">
+<meta property="article:modified_time" content="2025-06-13T13:37:43.628Z">
+<meta property="article:author" content="MosaicsLi">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Github Pages">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/HexoBlog/atom.xml" title="MosaicsLi's Hexo Test site" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/HexoBlog/favicon.png">
+  
+  
+  
+<link rel="stylesheet" href="/HexoBlog/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/HexoBlog/fancybox/jquery.fancybox.min.css">
+
+  
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fork-awesome@1.2.0/css/fork-awesome.min.css">
+
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/HexoBlog/" id="logo">MosaicsLi&#39;s Hexo Test site</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/HexoBlog/" id="subtitle">Just a test project</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"><span class="fa fa-bars"></span></a>
+        
+          <a class="main-nav-link" href="/HexoBlog/">Home</a>
+        
+          <a class="main-nav-link" href="/HexoBlog/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+        
+          <a class="nav-icon" href="/HexoBlog/atom.xml" title="RSS Feed"><span class="fa fa-rss"></span></a>
+        
+        <a class="nav-icon nav-search-btn" title="Search"><span class="fa fa-search"></span></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://mosaicsli.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main"><article id="post-20250613-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/HexoBlog/2025/06/13/20250613-1/" class="article-date">
+  <time class="dt-published" datetime="2025-06-13T12:31:29.000Z" itemprop="datePublished">2025-06-13</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="p-name article-title" itemprop="headline name">
+      利用Hexo 在已有資料的Github pages上建立部落格
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <h1 id="Part-0-備料"><a href="#Part-0-備料" class="headerlink" title="Part 0: 備料"></a>Part 0: 備料</h1><hr>
+<ul>
+<li>github帳號和已經有內容的Github pages repository</li>
+<li>Node.js 和 npm<br>基本上網路上面如何建立Github 帳號的教學一抓一大把下載和安裝這種更基本的東西這裡就不浪費時間解釋</li>
+</ul>
+<hr>
+<h1 id="part-1-安裝Hexo"><a href="#part-1-安裝Hexo" class="headerlink" title="part 1: 安裝Hexo"></a>part 1: 安裝Hexo</h1><hr>
+<ol start="0">
+<li>如果環境是使用win 11並且使用powershell,有可能會在執行npm相關指令的時候跑出unauthorizedaccess的問題，<br>原因是因為預設的Windows PowerShell執行原則是Restricted，<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/m/articles/10028377">資料參考來源</a><br>於powershell中執行</li>
+</ol>
+<p><code>bash Set-ExecutionPolicy RemoteSigned</code><br>即可正常使用</p>
+<ol>
+<li>使用npm install hexo-cli 便可以安裝Hexo 套件</li>
+</ol>
+<p><code>bash npm install hexo-cli #此處可選擇是否加上-g</code><br>-g代表安裝至全域，我這邊為了避免幾百年後忘記自己電腦裝了那些垃圾所以沒有使用<br>  2. 使用hexo init [初始化之後的檔案存放資料夾名稱] 初始化hexo 套件<br><code>bash npx hexo init blog #如果上面沒有加上-g則需要在前綴加上npx</code><br>npx 是 npm 內建的工具（npm v5.2+ 起就有），可以直接執行你本地安裝的 CLI 工具，此處來源ChatGpt<br>  3. 執行npm install用以安裝Hexo所相依的套件<br><code>bash npm install</code>  </p>
+<h2 id="以上就能完成基本的安裝，這邊強烈建議與其看網路上的教學不如實際去翻閱官方文檔"><a href="#以上就能完成基本的安裝，這邊強烈建議與其看網路上的教學不如實際去翻閱官方文檔" class="headerlink" title="以上就能完成基本的安裝，這邊強烈建議與其看網路上的教學不如實際去翻閱官方文檔  "></a>以上就能完成基本的安裝，這邊強烈建議與其看網路上的教學不如實際去翻閱<a target="_blank" rel="noopener" href="https://hexo.io/docs/">官方文檔</a>  </h2><h1 id="part-2-親手把你之前累積的專案內容送走"><a href="#part-2-親手把你之前累積的專案內容送走" class="headerlink" title="part 2: 親手把你之前累積的專案內容送走"></a>part 2: 親手把你之前累積的專案內容送走</h1><hr>
+<ol start="0">
+<li>如果只是要靜態網站的話其實並不需要安裝這個，但如果想要無腦安裝的話還需要額外下載<code>hexo-deployer-git</code></li>
+</ol>
+<p><code>bash npm install hexo-deployer-git</code>  </p>
+<ol>
+<li>設定_config.yml<br>基本上首先需要設定的是url，由於是建立在Github pages 上所以大致可以參考這樣子的形式<code>https://username.github.io/project</code><br>※可選於<code>url</code>下方加<code>root</code>並填上你打算用於存放Hexo 編譯出來的靜態網站內容的資料夾名稱<br>設定完後接著設定Deployment的部分<code>deploy</code>想深入研究的話可以參考官方文檔，但懶人的話直接這樣改就好了</li>
+</ol>
+<pre><code class="language-yml">deploy:
+  type: git
+  repo: https://github.com/&lt;username&gt;/&lt;project&gt;
+  # example, https://github.com/hexojs/hexojs.github.io
+  branch: gh-pages #這裡取決於你Github repository的Pages設定是甚麼
+</code></pre>
+<ol start="2">
+<li>儲存之後執行以下指令就可以把你原有的心血送走了</li>
+</ol>
+<pre><code class="language-bash">hexo cl # cl 等於 clean 清除generate產生的靜態網頁
+hexo g # g 等於 generate 透過.md還有_config.yml的設定文件產生靜態網頁
+hexo s # s 等於 server 使用node.js產生測試機用於本地測試部落格內容
+hexo d # d 等於 deploy 將內容部署到git上
+</code></pre>
+<p>  你如果很幸運的把推送的branch設定在你的預設branch，切到github的repository時你應該可以很驚訝地看到你原本的專案內容都被覆蓋掉了</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://mosaicsli.github.io/2025/06/13/20250613-1/" data-id="cmbuuso9i0000c07k48wj30zv" data-title="利用Hexo 在已有資料的Github pages上建立部落格" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      
+      
+      
+  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/HexoBlog/tags/Github-Pages/" rel="tag">Github Pages</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/HexoBlog/tags/Hexo/" rel="tag">Hexo</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+  
+</article>
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list" itemprop="keywords"><li class="tag-list-item"><a class="tag-list-link" href="/HexoBlog/tags/Github-Pages/" rel="tag">Github Pages</a></li><li class="tag-list-item"><a class="tag-list-link" href="/HexoBlog/tags/Hexo/" rel="tag">Hexo</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/HexoBlog/tags/Github-Pages/" style="font-size: 10px;">Github Pages</a> <a href="/HexoBlog/tags/Hexo/" style="font-size: 10px;">Hexo</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/HexoBlog/archives/2025/06/">六月 2025</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/HexoBlog/2025/06/13/20250613-1/">利用Hexo 在已有資料的Github pages上建立部落格</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2025 MosaicsLi<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/HexoBlog/" class="mobile-nav-link">Home</a>
+  
+    <a href="/HexoBlog/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/HexoBlog/js/jquery-3.6.4.min.js"></script>
+
+
+
+  
+<script src="/HexoBlog/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/HexoBlog/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
