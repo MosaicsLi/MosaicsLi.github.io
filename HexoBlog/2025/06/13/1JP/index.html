@@ -4,17 +4,25 @@
   <meta charset="utf-8">
   
   
-  <title>MosaicsLi&#39;s Hexo Test site</title>
+  <title>HexoとGithub pagesで自分のブログをつくる | MosaicsLi&#39;s Hexo Test site</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="a blog on github page">
-<meta property="og:type" content="website">
-<meta property="og:title" content="MosaicsLi&#39;s Hexo Test site">
-<meta property="og:url" content="https://mosaicsli.github.io/">
+  <meta name="description" content="Part 0: 素材の準備  githubのアカウント サインアプ Node.js ダウンロート git ダウンロート  Part 1: インストールHexo  もしWindows 11のWindows PowerShellを利用するの方､多分npmに関するのコメントを実行するのときunauthorizedaccessの問題が発生する、  その原因はWindows PowerShellのExecu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="HexoとGithub pagesで自分のブログをつくる">
+<meta property="og:url" content="https://mosaicsli.github.io/2025/06/13/1JP/">
 <meta property="og:site_name" content="MosaicsLi&#39;s Hexo Test site">
-<meta property="og:description" content="a blog on github page">
+<meta property="og:description" content="Part 0: 素材の準備  githubのアカウント サインアプ Node.js ダウンロート git ダウンロート  Part 1: インストールHexo  もしWindows 11のWindows PowerShellを利用するの方､多分npmに関するのコメントを実行するのときunauthorizedaccessの問題が発生する、  その原因はWindows PowerShellのExecu">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:image" content="https://mosaicsli.github.io/HexoBlog/2025/06/13/1JP/New_Repository.png">
+<meta property="og:image" content="https://mosaicsli.github.io/HexoBlog/2025/06/13/1JP/RepositoryName.png">
+<meta property="article:published_time" content="2025-06-13T14:31:25.000Z">
+<meta property="article:modified_time" content="2025-06-13T15:57:21.962Z">
 <meta property="article:author" content="MosaicsLi">
+<meta property="article:tag" content="Hexo">
+<meta property="article:tag" content="Github Pages">
+<meta property="article:tag" content="Japanese">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://mosaicsli.github.io/HexoBlog/2025/06/13/1JP/New_Repository.png">
   
     <link rel="alternate" href="/HexoBlog/atom.xml" title="MosaicsLi's Hexo Test site" type="application/atom+xml">
   
@@ -75,9 +83,7 @@
 </header>
 
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-1JP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+        <section id="main"><article id="post-1JP" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/HexoBlog/2025/06/13/1JP/" class="article-date">
   <time class="dt-published" datetime="2025-06-13T14:31:25.000Z" itemprop="datePublished">2025-06-13</time>
@@ -90,8 +96,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/HexoBlog/2025/06/13/1JP/">HexoとGithub pagesで自分のブログをつくる</a>
+    <h1 class="p-name article-title" itemprop="headline name">
+      HexoとGithub pagesで自分のブログをつくる
     </h1>
   
 
@@ -158,105 +164,19 @@
     </footer>
   </div>
   
-</article>
-
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-1" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
-  <div class="article-meta">
-    <a href="/HexoBlog/2025/06/13/1/" class="article-date">
-  <time class="dt-published" datetime="2025-06-13T12:31:29.000Z" itemprop="datePublished">2025-06-13</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="p-name article-title" href="/HexoBlog/2025/06/13/1/">利用Hexo 在已有資料的Github pages上建立部落格</a>
-    </h1>
+    <a href="/HexoBlog/2025/06/13/1/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">利用Hexo 在已有資料的Github pages上建立部落格</div>
+    </a>
   
+</nav>
 
-      </header>
-    
-    <div class="e-content article-entry" itemprop="articleBody">
-      
-        <h1 id="Part-0-備料"><a href="#Part-0-備料" class="headerlink" title="Part 0: 備料"></a>Part 0: 備料</h1><hr>
-<ul>
-<li>github帳號和已經有內容的Github pages repository</li>
-<li>Node.js 和 npm<br>基本上網路上面如何建立Github 帳號的教學一抓一大把下載和安裝這種更基本的東西這裡就不浪費時間解釋</li>
-</ul>
-<h1 id="part-1-安裝Hexo"><a href="#part-1-安裝Hexo" class="headerlink" title="part 1: 安裝Hexo"></a>part 1: 安裝Hexo</h1><hr>
-<ol start="0">
-<li>如果環境是使用win 11並且使用powershell,有可能會在執行npm相關指令的時候跑出unauthorizedaccess的問題，<br>原因是因為預設的Windows PowerShell執行原則是Restricted，<a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/m/articles/10028377">資料參考來源</a><br>於powershell中執行以下指令即可正常使用</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Set-ExecutionPolicy</span> RemoteSigned</span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>使用npm install hexo-cli 便可以安裝Hexo 套件<br>-g代表安裝至全域，我這邊為了避免幾百年後忘記自己電腦裝了那些垃圾所以沒有使用</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-cli</span> <span class="comment">#此處可選擇是否加上-g</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>使用hexo init [初始化之後的檔案存放資料夾名稱] 初始化hexo 套件<br>npx 是 npm 內建的工具（npm v5.2+ 起就有），可以直接執行你本地安裝的 CLI 工具，此處來源ChatGpt</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx hexo init blog <span class="comment">#如果上面沒有加上-g則需要在前綴加上npx，後續皆省略</span></span><br></pre></td></tr></table></figure>
-
-<ol start="3">
-<li>執行npm install用以安裝Hexo所相依的套件</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install</span><br></pre></td></tr></table></figure>
-
-<p>以上就能完成基本的安裝，這邊強烈建議與其看網路上的教學不如實際去翻閱<a target="_blank" rel="noopener" href="https://hexo.io/docs/">官方文檔</a>  </p>
-<h1 id="part-2-親手把你之前累積的專案內容送走"><a href="#part-2-親手把你之前累積的專案內容送走" class="headerlink" title="part 2: 親手把你之前累積的專案內容送走"></a>part 2: 親手把你之前累積的專案內容送走</h1><hr>
-<ol start="0">
-<li>如果只是要靜態網站的話其實並不需要安裝這個，但如果想要無腦安裝的話還需要額外下載<code>hexo-deployer-git</code></li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo<span class="literal">-deployer-git</span> </span><br></pre></td></tr></table></figure>
-
-<ol>
-<li>設定_config.yml<br>基本上首先需要設定的是url，由於是建立在Github pages 上所以大致可以參考這樣子的形式<code>https://username.github.io/project</code><br>※可選於<code>url</code>下方加<code>root</code>並填上你打算用於存放Hexo 編譯出來的靜態網站內容的資料夾名稱<br>設定完後接著設定Deployment的部分<code>deploy</code>想深入研究的話可以參考<a target="_blank" rel="noopener" href="https://hexo.io/docs/">官方文檔</a>，但懶人的話直接這樣改就好了</li>
-</ol>
-<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repo:</span> <span class="string">https://github.com/&lt;username&gt;/&lt;project&gt;</span></span><br><span class="line">  <span class="comment"># example, https://github.com/hexojs/hexojs.github.io</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">gh-pages</span> <span class="comment">#這裡取決於你Github repository的Pages設定是甚麼</span></span><br></pre></td></tr></table></figure>
-
-<ol start="2">
-<li>儲存之後執行以下指令就可以把你原有的心血送走了</li>
-</ol>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">hexo cl <span class="comment"># cl 等於 clean 清除generate產生的靜態網頁</span></span><br><span class="line">hexo g <span class="comment"># g 等於 generate 透過.md還有_config.yml的設定文件產生靜態網頁</span></span><br><span class="line">hexo s <span class="comment"># s 等於 server 使用node.js產生測試機用於本地測試部落格內容</span></span><br><span class="line">hexo d <span class="comment"># d 等於 deploy 將內容部署到git上</span></span><br></pre></td></tr></table></figure>
-
-<p>  你如果很幸運的把推送的branch設定在你的預設branch，切到github的repository時你應該可以很驚訝地看到你原本的專案內容都被覆蓋掉了<br>依照chatgpt和<code>hexo-deployer-git</code>的<a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo-deployer-git">官方文檔</a>所說，原因是因為<code>hexo d</code>是使用<code>git push --force</code>上推至git的repository<br>所以原先儲存在預設branch底下的資料都會被強制清除並覆蓋為Hexo的資料<br>  如果先前有備份branch，或是本地仍留有資料，則可以利用</p>
-<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin [備份<span class="type">branch</span>]:main <span class="literal">--force</span> </span><br></pre></td></tr></table></figure>
-
-<p>將資料覆蓋回來</p>
-<h1 id="part-3-折衷的解決方案"><a href="#part-3-折衷的解決方案" class="headerlink" title="part 3: 折衷的解決方案"></a>part 3: 折衷的解決方案</h1><hr>
-<p>  由於直接使用 <code>hexo d</code>會把之前搭設好的github pages 給覆蓋掉，所以只能折衷使用<code>hexo g</code>所產生出來的靜態網站資料<br> 手動將資料夾push上git，由於沒有使用預設的Node.js，所以<code>_config.yml</code>中的</p>
- <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">pretty_urls:</span></span><br><span class="line"> <span class="attr">trailing_index:</span> <span class="literal">false</span> </span><br><span class="line"> <span class="attr">trailing_html:</span> <span class="literal">false</span> </span><br></pre></td></tr></table></figure>
-
-<p>這兩項選項會直接無效</p>
-<hr>
-<p>  以上便是這篇文章的所有內容，由於只有促淺的研究一個下午，所以可能有很多錯漏，歡迎指摘。<br>  <a target="_blank" rel="noopener" href="https://hexo.io/docs/">官方文檔</a><br>  <a target="_blank" rel="noopener" href="https://ithelp.ithome.com.tw/m/articles/10028377">資料參考來源_PowerShell執行原則</a><br>  <a target="_blank" rel="noopener" href="https://hackmd.io/@_qS1I7hnTl-RKJrusLE9CQ/r1yJphDFp">資料參考來源_用Github+Hexo建立部落格和遇到的坑</a><br>  <a target="_blank" rel="noopener" href="https://idv.sinica.edu.tw/tommy0924/post/2024/setup-hexo/">資料參考來源_架設 HEXO 網誌</a><br>  <a target="_blank" rel="noopener" href="https://hackmd.io/@Heidi-Liu/note-hexo-github">資料參考來源_【學習筆記】如何使用 Hexo + GitHub Pages 架設個人網誌</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="https://mosaicsli.github.io/2025/06/13/1/" data-id="cmbuzp7yg0000g47k9qry4cxm" data-title="利用Hexo 在已有資料的Github pages上建立部落格" class="article-share-link"><span class="fa fa-share">Share</span></a>
-      
-      
-      
-  <ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/HexoBlog/tags/Github-Pages/" rel="tag">Github Pages</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/HexoBlog/tags/Hexo/" rel="tag">Hexo</a></li></ul>
-
-    </footer>
-  </div>
   
 </article>
-
-
-
-  
 
 
 </section>
