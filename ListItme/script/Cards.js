@@ -25,53 +25,164 @@ CardsVueApp.component('cardlist', {
     },
     data() {
         return {
-            editMode: false, // 控制編輯模式的顯示和隱藏
-            showAddCardClick: false // 用于控制 add-action 组件的显示和隐藏
+            editMode: false,
+            showAddCardClick: false,
+            editingCardIndex: null,
+            showEditCardClick: false,
         }
-    }, methods: {
+    },
+    methods: {
         handleAddCard(newCard) {
             sharedState.CardsList.push(newCard);
-            this.showAddCardClick = false; // 隐藏新增动作组件
+            this.showAddCardClick = false;
         },
         toggleEditMode() {
             this.editMode = !this.editMode;
         },
-        deleteAction(card) {
-            const index = sharedState.CardsList.indexOf(card);
-            if (index > -1) {
-                sharedState.CardsList.splice(index, 1);
+        deleteAction(index) {
+            sharedState.CardsList.splice(index, 1);
+        },
+        /*
+        handleEditCard(card, index) {
+            this.editingCardIndex = index;
+            this.showEditCardClick = true;
+        },
+        handleUpdateCard(updatedCard) {
+            if (this.editingCardIndex !== null) {
+                sharedState.CardsList[this.editingCardIndex] = updatedCard;
+                this.editingCardIndex = null;
+                this.showEditCardClick = false;
+            }
+        },*/
+        handleEditCard(card, index) {
+            this.editingCardIndex = index;
+            this.showEditCardClick = true;
+
+        },
+        handleUpdateCard(updatedCard) {
+            if (this.editingCardIndex !== null) {
+                sharedState.CardsList[this.editingCardIndex] = updatedCard;
+                this.editingCardIndex = null;
+                this.showEditCardClick = false;
+
             }
         },
     },
     template: `
     <div class="cards">
-        <card :card="cardobject" v-for="cardobject in cardlistarray"></card>
-        <div   @click="showAddCardClick = !showAddCardClick"
-                    class="add-cards-button"
-                  >
-                    + ニューアクション
-                </div>
+        <button @click="toggleEditMode" class="btn btn-sm btn-secondary mb-2">
+            {{ editMode ? '完了' : '編集モード' }}
+        </button>
+
+        <card
+            v-for="(cardobject, index) in cardlistarray"
+            :key="cardobject.Title || index"
+            :card="cardobject"
+            :card-index="index"
+            :edit-mode="editMode"
+            @edit-card="handleEditCard(cardobject, index)"
+            @delete-card="deleteAction(index)"
+        ></card>
+
+        <div @click="showAddCardClick = !showAddCardClick" class="add-cards-button">+ ニューアクション</div>
         <add-card v-if="showAddCardClick" @add-card="handleAddCard"></add-card>
-        </div>
-    `,
+        <edit-card
+            v-if="showEditCardClick"
+            :original-card="cardlistarray[editingCardIndex]"
+            :card-index="editingCardIndex"
+            @update-card="handleUpdateCard"
+        ></edit-card>
+        
+    </div>
+    `
 });
 CardsVueApp.component('card', {
     props: {
-        card: Object,  // 接收包含不同 action 資訊的陣列
+        card: Object,
+        cardIndex: Number,
+        editMode: Boolean
     },
     template: `
-    <div class="card">
+    <div :id="'card-' + cardIndex" class="card position-relative">
         <a class="nav-link" :href="card.CardHref">
             <div class="card-content text-white">
                 <h2 class="mt-5">{{card.Title}}</h2>
                 <p>{{card.Introduction}}</p>
-                <p v-if=card.Link.length>I steal from those web site :</p>
-                <a :href="Link" v-for="Link in card.Link">{{Link}}</a>
+                <p v-if="card.Link.length">I steal from those web site :</p>
+                <a :href="Link" v-for="(Link, index) in card.Link" :key="index">{{Link}}</a>
             </div>
         </a>
+        <div v-if="editMode" class="card-controls position-absolute top-0 end-0 p-2">
+        <a href="#edit">
+            <button class="btn btn-sm btn-warning me-1" @click="$emit('edit-card')">編集</button>
+        </a>
+            <button class="btn btn-sm btn-danger" @click="$emit('delete-card')">削除</button>
+        </div>
     </div>
-    `,
+    `
 });
+CardsVueApp.component('edit-card', {
+    props: {
+        originalCard: Object,
+        cardIndex: Number
+    },
+    data() {
+        return {
+            editedCard: JSON.parse(JSON.stringify(this.originalCard)), // 深拷貝
+            linkInput: ''
+        }
+    },
+    methods: {
+        updateCard() {
+            this.$emit('update-card', { ...this.editedCard });
+        },
+        addLink() {
+            if (this.linkInput.trim()) {
+                this.editedCard.Link.push(this.linkInput.trim());
+                this.linkInput = '';
+            }
+        },
+        removeLink(index) {
+            this.editedCard.Link.splice(index, 1);
+        }
+    },
+    template: `
+    <div id="edit" class="card">
+            <div class="card-content text-white">
+        <h5>カードを編集</h5>
+        <div class="mb-2">
+            <label>タイトル:</label>
+            <input v-model="editedCard.Title" class="form-control" />
+        </div>
+        <div class="mb-2">
+            <label>リンク先 (CardHref):</label>
+            <input v-model="editedCard.CardHref" class="form-control" />
+        </div>
+        <div class="mb-2">
+            <label>紹介文:</label>
+            <textarea v-model="editedCard.Introduction" class="form-control"></textarea>
+        </div>
+        <div class="mb-2">
+            <label>参照リンク:</label>
+            <div class="input-group mb-2">
+                <input v-model="linkInput" class="form-control" />
+                <button @click="addLink" class="btn btn-outline-secondary">追加</button>
+            </div>
+            <ul class="list-group">
+                <li v-for="(link, index) in editedCard.Link" :key="index" class="list-group-item d-flex justify-content-between">
+                    {{ link }}
+                    <button @click="removeLink(index)" class="btn btn-sm btn-danger">削除</button>
+                </li>
+            </ul>
+        </div>
+        <a :href="'#card-' + cardIndex">
+            <button @click="updateCard" class="btn btn-success" href="#app">保存</button>
+        </a>
+        </div>
+    </div>
+    `
+});
+
 CardsVueApp.component('add-card', {
     data() {
         return {
