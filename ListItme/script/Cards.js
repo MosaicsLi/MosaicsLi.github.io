@@ -84,7 +84,7 @@ CardsVueApp.component('cardlist', {
             @delete-card="deleteAction(index)"
         ></card>
 
-        <div @click="showAddCardClick = !showAddCardClick" class="add-cards-button">+ ニューアクション</div>
+        <div @click="showAddCardClick = !showAddCardClick" class="add-cards-button">+ ニューカット</div>
         <add-card v-if="showAddCardClick" @add-card="handleAddCard"></add-card>
         <edit-card
             v-if="showEditCardClick"

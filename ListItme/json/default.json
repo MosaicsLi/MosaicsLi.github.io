@@ -12,19 +12,19 @@
     },
     {
         "Title": "JustTestSomeCSS",
-        "CardHref":"JustTestSomeCSS.html",
+        "CardHref":"../JustTestSomeCSS.html",
         "Introduction":"That on this wabsit top thing, I copy form bilibili ,And I add some murmur...",
         "Link":[]
     },
     {
         "Title": "D3Code made by ChatGpt",
-        "CardHref":"./Schedule/AIMAKE.html",
+        "CardHref":"../Schedule/AIMAKE.html",
         "Introduction":"Some D3.js svg",
         "Link":["https://gist.github.com/LauraHornbake/6248343#file-index-html"]
     },
     {
         "Title": "IAMTRYING",
-        "CardHref":"./Schedule/ITryD3.html",
+        "CardHref":"../Schedule/ITryD3.html",
         "Introduction":"It work but a little, I'm thinking which one is better for X Axis, The time scale or The band scale read those site if you interested in d3.js",
         "Link":["https://blog.twjoin.com/d3-js-%E5%9F%BA%E7%A4%8E%E8%88%87%E7%B0%A1%E6%98%93%E6%9F%B1%E7%8B%80%E5%9C%96%E8%A1%A8%E8%A3%BD%E4%BD%9C-%E4%B8%80-d06388faa0e6","https://jacychu.medium.com/d3-js-%E8%B3%87%E6%96%99%E8%A6%96%E8%A6%BA%E5%8C%96%E5%B7%A5%E5%85%B7-%E4%B8%8A-6cc4040b50d3","https://jacychu.medium.com/d3-js-%E8%B3%87%E6%96%99%E8%A6%96%E8%A6%BA%E5%8C%96%E5%B7%A5%E5%85%B7-%E4%B8%AD-a186691537ff","https://jacychu.medium.com/d3-js-%E8%B3%87%E6%96%99%E8%A6%96%E8%A6%BA%E5%8C%96%E5%B7%A5%E5%85%B7-%E4%B8%8B-7e4308e18cf4"]
     }
