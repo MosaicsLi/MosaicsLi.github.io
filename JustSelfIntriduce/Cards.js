@@ -41,7 +41,7 @@ CardsVueApp.component('card', {
             <div class="card-content text-white">
                 <h2 class="mt-5">{{card.Title}}</h2>
                 <p>{{card.Introduction}}</p>
-                <p v-if=card.Link.length>I steal from those web site :</P>
+                <p v-if=card.Link.length>I steal from those web site :</p>
                 <a :href="Link" v-for="Link in card.Link">{{Link}}</a>
             </div>
         </a>
