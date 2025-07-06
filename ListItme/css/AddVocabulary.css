@@ -1,0 +1,36 @@
+
+.add-cards-button {
+    margin: 1em;
+    position: relative;
+    z-index: 1;
+    border-radius: 8px;
+    background-color: #ded2b65d;
+    transition: background-color 0.5s;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.add-cards-button:hover {
+    border: 1px solid #8b4513;
+    background-color: #444341f8;
+    box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.preview-container {
+    overflow: hidden;
+    width: 100%;
+    position: relative;
+}
+
+.preview-container img {
+    object-fit: cover;
+}
+
+.choose-button {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+}

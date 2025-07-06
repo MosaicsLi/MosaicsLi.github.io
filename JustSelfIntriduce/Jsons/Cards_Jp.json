@@ -11,6 +11,12 @@
         "Link":[]
     },
     {
+        "Title": "Vocabulary Card",
+        "CardHref":"./ListItme/VocabularyListItem.html",
+        "Introduction":"威力加強版のList item､ありがとうございますChatGpt",
+        "Link":[]
+    },
+    {
         "Title": "全サイズのテンプレート",
         "CardHref":"",
         "Introduction":"w3schoolのおかげで、元はただのテキストファイルのこのサイト、より個人サイトになっております",

@@ -11,6 +11,12 @@
         "Link":[]
     },
     {
+        "Title": "Vocabulary Card",
+        "CardHref":"./ListItme/VocabularyListItem.html",
+        "Introduction":"the power Up version List item Thanks ChatGpt",
+        "Link":[]
+    },
+    {
         "Title": "This WHOLE website template",
         "CardHref":"",
         "Introduction":"It make this text file more like websit.",
