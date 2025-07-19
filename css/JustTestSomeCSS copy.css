@@ -1,0 +1,360 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    color: #fff
+}
+
+.text {
+    width: 70vw;
+    color: #fff;
+    font-family: sans-serif;
+    font-size: 10vh;
+    position: relative;
+    margin: 0 auto
+}
+
+.text::before {
+    content: attr(data-text);
+    background-color: #000;
+    position: absolute;
+    left: -3px;
+    top: 0;
+    text-shadow: -3px 0 blue;
+    animation: horizontalanimation 2s linear infinite alternate-reverse
+}
+
+.text::after {
+    content: attr(data-text);
+    background-color: #000;
+    position: absolute;
+    left: 3px;
+    top: 0;
+    text-shadow: 3px 0 red;
+    animation: verticalanimation 2s linear infinite alternate-reverse
+}
+
+.PHM::before {
+    content: attr(data-text2);
+    background-color: #000;
+    position: absolute;
+    left: -3px;
+    top: 0;
+    text-shadow: -3px 0 blue;
+    animation: horizontalanimation 2s linear infinite alternate-reverse
+}
+
+.PHM::after {
+    content: attr(data-text2);
+    background-color: #000;
+    position: absolute;
+    left: 3px;
+    top: 0;
+    text-shadow: 3px 0 red;
+    animation: verticalanimation 2s linear infinite alternate-reverse
+}
+
+.text:hover {display: none
+}
+.text::before:hover {display: none
+}
+.text::after:hover {display: none
+}
+.PHM:hover {display: none
+}
+.PHM::before:hover {display: none
+}
+.PHM::after:hover {display: none
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+}
+
+@keyframes caret {
+    50% {
+        border-color: transparent;
+    }
+}
+
+.type {
+    color: white;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: .05em solid;
+    animation: typing 3s steps(15),
+        caret 1s steps(1) infinite;
+}
+
+
+@keyframes verticalanimation {
+    0% {
+        -webkit-clip-path: inset(3vh 0 10vh 0);
+        clip-path: inset(3vh 0 10vh 0)
+    }
+
+    4% {
+        -webkit-clip-path: inset(7vh 0 4vh 0);
+        clip-path: inset(7vh 0 4vh 0)
+    }
+
+    8% {
+        -webkit-clip-path: inset(5vh 0 1vh 0);
+        clip-path: inset(5vh 0 1vh 0)
+    }
+
+    12% {
+        -webkit-clip-path: inset(5vh 0 5vh 0);
+        clip-path: inset(5vh 0 5vh 0)
+    }
+
+    16% {
+        -webkit-clip-path: inset(1vh 0 5vh 0);
+        clip-path: inset(1vh 0 5vh 0)
+    }
+
+    20% {
+        -webkit-clip-path: inset(9vh 0 2vh 0);
+        clip-path: inset(9vh 0 2vh 0)
+    }
+
+    24% {
+        -webkit-clip-path: inset(10vh 0 4vh 0);
+        clip-path: inset(10vh 0 4vh 0)
+    }
+
+    28% {
+        -webkit-clip-path: inset(4vh 0 7vh 0);
+        clip-path: inset(4vh 0 7vh 0)
+    }
+
+    32% {
+        -webkit-clip-path: inset(4vh 0 3vh 0);
+        clip-path: inset(4vh 0 3vh 0)
+    }
+
+    36% {
+        -webkit-clip-path: inset(9vh 0 7vh 0);
+        clip-path: inset(9vh 0 7vh 0)
+    }
+
+    40% {
+        -webkit-clip-path: inset(4vh 0 5vh 0);
+        clip-path: inset(4vh 0 5vh 0)
+    }
+
+    44% {
+        -webkit-clip-path: inset(10vh 0 6vh 0);
+        clip-path: inset(10vh 0 6vh 0)
+    }
+
+    48% {
+        -webkit-clip-path: inset(5vh 0 10vh 0);
+        clip-path: inset(5vh 0 10vh 0)
+    }
+
+    52% {
+        -webkit-clip-path: inset(5vh 0 3vh 0);
+        clip-path: inset(5vh 0 3vh 0)
+    }
+
+    56% {
+        -webkit-clip-path: inset(2vh 0 2vh 0);
+        clip-path: inset(2vh 0 2vh 0)
+    }
+
+    60% {
+        -webkit-clip-path: inset(1vh 0 8vh 0);
+        clip-path: inset(1vh 0 8vh 0)
+    }
+
+    64% {
+        -webkit-clip-path: inset(3vh 0 4vh 0);
+        clip-path: inset(3vh 0 4vh 0)
+    }
+
+    68% {
+        -webkit-clip-path: inset(4vh 0 6vh 0);
+        clip-path: inset(4vh 0 6vh 0)
+    }
+
+    72% {
+        -webkit-clip-path: inset(8vh 0 7vh 0);
+        clip-path: inset(8vh 0 7vh 0)
+    }
+
+    76% {
+        -webkit-clip-path: inset(9vh 0 3vh 0);
+        clip-path: inset(9vh 0 3vh 0)
+    }
+
+    80% {
+        -webkit-clip-path: inset(6vh 0 2vh 0);
+        clip-path: inset(6vh 0 2vh 0)
+    }
+
+    84% {
+        -webkit-clip-path: inset(5vh 0 7vh 0);
+        clip-path: inset(5vh 0 7vh 0)
+    }
+
+    88% {
+        -webkit-clip-path: inset(10vh 0 3vh 0);
+        clip-path: inset(10vh 0 3vh 0)
+    }
+
+    92% {
+        -webkit-clip-path: inset(1vh 0 1vh 0);
+        clip-path: inset(1vh 0 1vh 0)
+    }
+
+    96% {
+        -webkit-clip-path: inset(5vh 0 5vh 0);
+        clip-path: inset(5vh 0 5vh 0)
+    }
+
+    100% {
+        -webkit-clip-path: inset(1vh 0 1vh 0);
+        clip-path: inset(1vh 0 1vh 0)
+    }
+}
+
+@keyframes horizontalanimation {
+    0% {
+        -webkit-clip-path: inset(0 8vh 0 3vh);
+        clip-path: inset(0 8vh 0 3vh)
+    }
+
+    4% {
+        -webkit-clip-path: inset(0 1vh 0 7vh);
+        clip-path: inset(0 1vh 0 7vh)
+    }
+
+    8% {
+        -webkit-clip-path: inset(0 5vh 0 6vh);
+        clip-path: inset(0 5vh 0 6vh)
+    }
+
+    12% {
+        -webkit-clip-path: inset(0 6vh 0 6vh);
+        clip-path: inset(0 6vh 0 6vh)
+    }
+
+    16% {
+        -webkit-clip-path: inset(0 8vh 0 5vh);
+        clip-path: inset(0 8vh 0 5vh)
+    }
+
+    20% {
+        -webkit-clip-path: inset(0 5vh 0 3vh);
+        clip-path: inset(0 5vh 0 3vh)
+    }
+
+    24% {
+        -webkit-clip-path: inset(0 4vh 0 8vh);
+        clip-path: inset(0 4vh 0 8vh)
+    }
+
+    28% {
+        -webkit-clip-path: inset(0 2vh 0 6vh);
+        clip-path: inset(0 2vh 0 6vh)
+    }
+
+    32% {
+        -webkit-clip-path: inset(0 2vh 0 3vh);
+        clip-path: inset(0 2vh 0 3vh)
+    }
+
+    36% {
+        -webkit-clip-path: inset(0 10vh 0 8vh);
+        clip-path: inset(0 10vh 0 8vh)
+    }
+
+    40% {
+        -webkit-clip-path: inset(0 7vh 0 7vh);
+        clip-path: inset(0 7vh 0 7vh)
+    }
+
+    44% {
+        -webkit-clip-path: inset(0 7vh 0 7vh);
+        clip-path: inset(0 7vh 0 7vh)
+    }
+
+    48% {
+        -webkit-clip-path: inset(0 10vh 0 1vh);
+        clip-path: inset(0 10vh 0 1vh)
+    }
+
+    52% {
+        -webkit-clip-path: inset(0 1vh 0 1vh);
+        clip-path: inset(0 1vh 0 1vh)
+    }
+
+    56% {
+        -webkit-clip-path: inset(0 6vh 0 1vh);
+        clip-path: inset(0 6vh 0 1vh)
+    }
+
+    60% {
+        -webkit-clip-path: inset(0 4vh 0 1vh);
+        clip-path: inset(0 4vh 0 1vh)
+    }
+
+    64% {
+        -webkit-clip-path: inset(0 9vh 0 10vh);
+        clip-path: inset(0 9vh 0 10vh)
+    }
+
+    68% {
+        -webkit-clip-path: inset(0 10vh 0 7vh);
+        clip-path: inset(0 10vh 0 7vh)
+    }
+
+    72% {
+        -webkit-clip-path: inset(0 6vh 0 1vh);
+        clip-path: inset(0 6vh 0 1vh)
+    }
+
+    76% {
+        -webkit-clip-path: inset(0 8vh 0 5vh);
+        clip-path: inset(0 8vh 0 5vh)
+    }
+
+    80% {
+        -webkit-clip-path: inset(0 7vh 0 9vh);
+        clip-path: inset(0 7vh 0 9vh)
+    }
+
+    84% {
+        -webkit-clip-path: inset(0 9vh 0 6vh);
+        clip-path: inset(0 9vh 0 6vh)
+    }
+
+    88% {
+        -webkit-clip-path: inset(0 2vh 0 5vh);
+        clip-path: inset(0 2vh 0 5vh)
+    }
+
+    92% {
+        -webkit-clip-path: inset(0 8vh 0 9vh);
+        clip-path: inset(0 8vh 0 9vh)
+    }
+
+    96% {
+        -webkit-clip-path: inset(0 6vh 0 8vh);
+        clip-path: inset(0 6vh 0 8vh)
+    }
+
+    100% {
+        -webkit-clip-path: inset(0 9vh 0 3vh);
+        clip-path: inset(0 9vh 0 3vh)
+    }
+}
