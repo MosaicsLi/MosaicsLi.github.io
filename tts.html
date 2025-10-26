@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>VOICEVOX 音声合成</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            padding: 20px;
+        }
+
+        #result {
+            margin-top: 10px;
+            font-size: 1.1em;
+            color: #333;
+        }
+
+        button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+        }
+
+        button:disabled {
+            background: #999;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+
+<body>
+    <h2>VOICEVOX 音声合成デモ</h2>
+    <input id="proxyIP" type="text" value="136.117.237.126" style="width:300px; padding:5px;">
+    </br>
+    <input id="text" type="text" value="こんにちは" style="width:300px; padding:5px;">
+    <button id="playBtn" onclick="synthesizeVoice()">▶ 再生</button>
+    <div id="result">待機中...</div>
+
+    <script>
+        async function synthesizeVoice() {
+            const proxyIP = document.getElementById('proxyIP').value;
+            const apiBase = `http://${proxyIP}:3000`;
+            const text = document.getElementById('text').value;
+            const speaker = 1;
+            const resultEl = document.getElementById('result');
+            const playBtn = document.getElementById('playBtn');
+
+            playBtn.disabled = true;
+            resultEl.textContent = "🔍 Audio Query 取得中...";
+
+            try {
+                const queryResponse = await fetch(`${apiBase}/api/audio_query`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text, speaker })
+                });
+                const queryData = await queryResponse.json();
+
+                resultEl.textContent = "🎙️ 音声合成中...";
+                const synthesisResponse = await fetch(`${apiBase}/api/synthesis`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ speaker, queryData })
+                });
+
+                const audioBlob = await synthesisResponse.blob();
+                const audioURL = URL.createObjectURL(audioBlob);
+                const audio = new Audio(audioURL);
+                resultEl.textContent = "▶ 再生中...";
+                audio.play();
+
+                audio.addEventListener('ended', () => {
+                    resultEl.textContent = "✅ 再生完了";
+                    playBtn.disabled = false;
+                });
+
+            } catch (error) {
+                resultEl.textContent = "❌ エラー：" + error.message;
+                playBtn.disabled = false;
+            }
+        }
+    </script>
+</body>
+
+</html>
