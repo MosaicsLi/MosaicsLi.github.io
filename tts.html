@@ -34,7 +34,7 @@
 
 <body>
     <h2>VOICEVOX 音声合成デモ</h2>
-    <input id="proxyIP" type="text" value="136.117.237.126" style="width:300px; padding:5px;">
+    <input id="proxyIP" type="text" value="http://136.117.237.126:3000" style="width:300px; padding:5px;">
     </br>
     <input id="text" type="text" value="こんにちは" style="width:300px; padding:5px;">
     <button id="playBtn" onclick="synthesizeVoice()">▶ 再生</button>
@@ -43,7 +43,7 @@
     <script>
         async function synthesizeVoice() {
             const proxyIP = document.getElementById('proxyIP').value;
-            const apiBase = `http://${proxyIP}:3000`;
+            const apiBase = `${proxyIP}`;
             const text = document.getElementById('text').value;
             const speaker = 1;
             const resultEl = document.getElementById('result');
