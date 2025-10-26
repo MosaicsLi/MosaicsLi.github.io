@@ -34,8 +34,10 @@
 
 <body>
     <h2>VOICEVOX 音声合成デモ</h2>
+    <span>Proxy URL:</span>
     <input id="proxyIP" type="text" value="https://talismanic-unreprimanding-jaleesa.ngrok-free.dev" style="width:300px; padding:5px;">
     </br>
+    <span>Text to Speak(JP&EN only):</span>
     <input id="text" type="text" value="こんにちは" style="width:300px; padding:5px;">
     <button id="playBtn" onclick="synthesizeVoice()">▶ 再生</button>
     <div id="result">待機中...</div>
@@ -48,6 +50,10 @@
             const speaker = 1;
             const resultEl = document.getElementById('result');
             const playBtn = document.getElementById('playBtn');
+            if (!text) {
+                document.getElementById('result').textContent = "⚠️ テキストを入力してください。";
+                return;
+            }
 
             playBtn.disabled = true;
             resultEl.textContent = "🔍 Audio Query 取得中...";
