@@ -1,6 +1,7 @@
 # Practice System
 
 [Proposal Practice System](https://www.notion.so/Practice-System-2af22762e3c780d1aa23fa64028f15c3?pvs=21)
+[To do note ](https://www.notion.so/Practice-System-2af22762e3c780d1aa23fa64028f15c3?pvs=21)
 
 A web-based exam practice application designed to display reference book questions and allow users to answer and review results.
 
@@ -52,15 +53,15 @@ This project serves as a self-learning tool and a portfolio-friendly example of 
 
 ```
 src/
-data/
-questions.json
-pages/
-QuestionList.tsx
-QuestionDetail.tsx
-components/
-QuestionCard.tsx
-App.tsx
-main.tsx
+ ├── data/
+ │    └── questions.json
+ ├── pages/
+ │    ├── QuestionList.tsx
+ │    ├── QuestionDetail.tsx
+ ├── components/
+ │    └── QuestionCard.tsx
+ ├── App.tsx
+ └── main.tsx
 
 ```
 

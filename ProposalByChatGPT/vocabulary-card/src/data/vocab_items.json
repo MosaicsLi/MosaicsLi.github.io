@@ -1,0 +1,18 @@
+[
+  {
+    "id": 1,
+    "word": "abandon",
+    "pronunciation": "əˈbæn.dən",
+    "meaning": "放棄；遺棄",
+    "example": "He had to abandon the car.",
+    "tags": ["verb", "basic"]
+  },
+  {
+    "id": 2,
+    "word": "conscious",
+    "pronunciation": "ˈkɒn.ʃəs",
+    "meaning": "有意識的；清醒的",
+    "example": "She was conscious of his presence.",
+    "tags": ["adj", "intermediate"]
+  }
+]
