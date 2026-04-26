@@ -1,9 +1,25 @@
 [
-   {
+    {
+        "Title": "Lab Interview Helper",
+        "CardHref": "./LabInterview/index.html",
+        "Introduction": "研究室面接の準備を支援するためのツールで、質問やメモを整理・管理できるシンプルなWebアプリです。",
+        "Link": [
+        ]
+    },
+    {
+        "Title": "Ink Sort Puzzle",
+        "CardHref": "./ink-sort-puzzle/index.html",
+        "Introduction": "色分けロジックをベースにしたブラウザ上で遊べるパズルゲームで、操作性とロジック実装の練習として開発しました。",
+        "Link": [
+        ]
+    },
+    {
         "Title": "A sample TTS api demo",
         "CardHref": "tts.html",
         "Introduction": "ただのAPIデモ、GCPとVOICEVOX利用しで作りました",
-        "Link": ["https://voicevox.hiroshiba.jp/"]
+        "Link": [
+            "https://voicevox.hiroshiba.jp/"
+        ]
     },
     {
         "Title": "Will code for food",

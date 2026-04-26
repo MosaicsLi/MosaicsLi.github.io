@@ -1,5 +1,19 @@
 [
     {
+        "Title": "Lab Interview Helper",
+        "CardHref": "./LabInterview/index.html",
+        "Introduction": "A simple web tool to help organize and prepare questions for lab interviews, including structured notes and quick reference.",
+        "Link": [
+        ]
+    },
+    {
+        "Title": "Ink Sort Puzzle",
+        "CardHref": "./ink-sort-puzzle/index.html",
+        "Introduction": "A browser-based puzzle game inspired by color sorting mechanics, built for practicing logic and simple game interaction.",
+        "Link": [
+        ]
+    },
+    {
         "Title": "A sample TTS api demo",
         "CardHref": "tts.html",
         "Introduction": "use GCP and VOICEVOX to make a sample demo",
