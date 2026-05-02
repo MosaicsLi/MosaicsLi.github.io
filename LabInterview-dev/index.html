@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>研究室見学録</title>
+  <link rel="shortcut icon" href="/src/img/scroll.png">
+</head>
+
+<body>
+  <div id="root"></div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+  <svg style="position: absolute; width: 0; height: 0;" width="0" height="0" version="1.1"
+    xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+      <filter id="paper-edge">
+        <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="5" result="noise" />
+        <feDisplacementMap in="SourceGraphic" in2="noise" scale="20" xChannelSelector="R" yChannelSelector="G" />
+      </filter>
+    </defs>
+  </svg>
+
+  <script type="module" src="/src/main.tsx"></script>
+</body>
+
+</html>

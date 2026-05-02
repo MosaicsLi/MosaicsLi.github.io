@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,700;1,400&family=MedievalSharp&family=Noto+Serif+JP:wght@400;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Noto Serif JP", "Cormorant Garamond", serif;
+  --font-serif: "Cormorant Garamond", "Noto Serif JP", serif;
+  --font-display: "MedievalSharp", cursive;
+  
+  --color-parchment: #f4e4bc;
+  --color-ink: #2c1e1a;
+  --color-seal: #b71c1c;
+  --color-border: #5d4037;
+}
+
+@layer base {
+  body {
+    @apply bg-stone-950 text-ink antialiased overflow-x-hidden min-h-screen flex items-center justify-center p-4 md:p-8;
+    background-image: radial-gradient(circle at center, rgba(30,20,10,0.4) 0%, rgba(0,0,0,0.9) 100%);
+  }
+}
+
+.parchment-container {
+  position: relative;
+  z-index: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.parchment-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  background-color: var(--color-parchment);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(255,255,255,0.15) 0%, rgba(181,154,105,0.1) 100%),
+    repeating-linear-gradient(0deg, rgba(0,0,0,0.02) 0px, rgba(0,0,0,0.02) 1px, transparent 1px, transparent 40px);
+  box-shadow: inset 0 0 100px rgba(89, 63, 23, 0.3), 0 20px 50px rgba(0,0,0,0.5);
+  border: 12px solid var(--color-border);
+  filter: url(#paper-edge);
+  border-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" fill="%233e2723"/><rect x="5" y="5" width="30" height="30" fill="none" stroke="%238d6e63" stroke-width="2"/></svg>') 12 stretch;
+}
+
+.quill-input {
+  background: transparent;
+  border: none;
+  border-bottom: 1.5px solid rgba(89, 63, 23, 0.4);
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.quill-input:focus {
+  border-bottom-color: var(--color-ink);
+}
+
+.seal {
+  background: radial-gradient(circle, var(--color-seal) 60%, #7f0000 100%);
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.4), inset 0 0 10px rgba(0,0,0,0.5);
+}
+
+/* Custom scrollbar for parchment feel */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(89, 63, 23, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--color-border);
+  border-radius: 6px;
+  border: 3px solid #f4e4bc;
+}
