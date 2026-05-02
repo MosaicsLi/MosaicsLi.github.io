@@ -9,7 +9,6 @@ declare const google: any;
 
 const CLIENT_ID = import.meta.env.VITE_GOOGLE_CLIENT_ID;
 const API_BASE = import.meta.env.VITE_API_BASE;
-
 const SCOPES = 'https://www.googleapis.com/auth/spreadsheets';
 
 let accessToken: string | null = null;
@@ -17,18 +16,17 @@ let tokenExpiresAt: number = 0;
 
 /**
  * 獲取 Google API 存取權杖 (Access Token)
- * 支援透過 Refresh Token 自動續期，達成長期免登入
  */
-export const getAccessToken = (): Promise<string> => {
+export const getAccessToken = (forcePrompt = false): Promise<string> => {
   return new Promise(async (resolve, reject) => {
-    // 1. 檢查內部變數快取
-    if (accessToken && Date.now() < tokenExpiresAt) {
+    // 1. 檢查快取
+    if (accessToken && Date.now() < tokenExpiresAt && !forcePrompt) {
       return resolve(accessToken);
     }
 
-    // 2. 嘗試從 localStorage 獲取 Refresh Token 進行背景續期
+    // 2. 嘗試 Refresh Token
     const savedRefreshToken = localStorage.getItem('google_refresh_token');
-    if (savedRefreshToken) {
+    if (savedRefreshToken && !forcePrompt) {
       try {
         const response = await fetch(`${API_BASE}/api/auth/google/refresh`, {
           method: 'POST',
@@ -39,72 +37,58 @@ export const getAccessToken = (): Promise<string> => {
         if (response.ok) {
           const data = await response.json();
           accessToken = data.access_token;
-          tokenExpiresAt = Date.now() + (data.expires_in - 300) * 1000; // 提前5分鐘過期
-          
-          // 如果有返回新的 refresh_token 則更新 (通常 refresh token 是持久的)
-          if (data.refresh_token) {
-            localStorage.setItem('google_refresh_token', data.refresh_token);
-          }
-          
+          tokenExpiresAt = Date.now() + (data.expires_in - 300) * 1000;
+          if (data.refresh_token) localStorage.setItem('google_refresh_token', data.refresh_token);
           return resolve(accessToken!);
-        } else {
-          // Refresh Token 可能已失效，清除之
-          localStorage.removeItem('google_refresh_token');
         }
       } catch (error) {
-        console.error('Token refresh failed:', error);
+        console.warn('Token refresh failed');
       }
     }
 
-    // 3. 若上述失敗，觸發 Code Flow 授權彈窗
-    if (!CLIENT_ID) {
-      return reject(new Error('VITE_GOOGLE_CLIENT_ID is not configured.'));
-    }
+    // 3. 彈窗授權
+    if (!google?.accounts?.oauth2) return reject(new Error('Google API not loaded'));
 
-    try {
-      const client = google.accounts.oauth2.initCodeClient({
-        client_id: CLIENT_ID,
-        scope: SCOPES,
-        ux_mode: 'popup',
-        callback: async (response: any) => {
-          if (response.code) {
-            try {
-              // 向後端交換正式 Token
-              const tokenResponse = await fetch(`${API_BASE}/api/auth/google/token`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ 
-                  code: response.code,
-                  //redirectUri: (`${API_BASE}/auth/callback`)
-                  redirectUri: 'postmessage'
-                }),
-              });
-
-              if (!tokenResponse.ok) throw new Error('Token exchange failed');
-              
-              const data = await tokenResponse.json();
-              accessToken = data.access_token;
-              tokenExpiresAt = Date.now() + (data.expires_in - 300) * 1000;
-
-              // 關鍵：將 Refresh Token 存入本地，實現長期免登入
-              if (data.refresh_token) {
-                localStorage.setItem('google_refresh_token', data.refresh_token);
-              }
-
-              resolve(accessToken!);
-            } catch (err) {
-              reject(err);
-            }
-          } else {
-            reject(new Error('Auth failed: ' + (response.error || 'No code returned')));
-          }
-        },
-      });
-      client.requestCode();
-    } catch (error) {
-      reject(error);
-    }
+    const client = google.accounts.oauth2.initCodeClient({
+      client_id: CLIENT_ID,
+      scope: SCOPES + ' https://www.googleapis.com/auth/drive.readonly', // 增加 Drive 讀取權限來搜尋檔案
+      ux_mode: 'popup',
+      callback: async (response: any) => {
+        if (response.code) {
+          try {
+            const tokenResponse = await fetch(`${API_BASE}/api/auth/google/token`, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ 
+                code: response.code,
+                redirectUri: 'postmessage'
+              }),
+            });
+            const data = await tokenResponse.json();
+            accessToken = data.access_token;
+            tokenExpiresAt = Date.now() + (data.expires_in - 300) * 1000;
+            if (data.refresh_token) localStorage.setItem('google_refresh_token', data.refresh_token);
+            resolve(accessToken!);
+          } catch (err) { reject(err); }
+        } else { reject(new Error('Auth failed')); }
+      },
+    });
+    client.requestCode();
   });
+};
+
+/**
+ * 搜尋現有的試算表
+ */
+export const findExistingSpreadsheet = async (token: string, title: string): Promise<string | null> => {
+  const query = encodeURIComponent(`name = '${title}' and mimeType = 'application/vnd.google-apps.spreadsheet' and trashed = false`);
+  const response = await fetch(`https://www.googleapis.com/drive/v3/files?q=${query}&fields=files(id,name)`, {
+    headers: { 'Authorization': `Bearer ${token}` }
+  });
+  
+  if (!response.ok) return null;
+  const data = await response.json();
+  return data.files && data.files.length > 0 ? data.files[0].id : null;
 };
 
 /**

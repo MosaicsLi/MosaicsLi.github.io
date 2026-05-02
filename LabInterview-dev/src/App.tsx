@@ -13,56 +13,61 @@ import Header from './components/Header';
 import VisitForm from './components/VisitForm';
 import VisitList from './components/VisitList';
 import { Professor } from './types';
-import { getAccessToken, createSpreadsheet, syncVisitsToSheet, fetchSpreadsheetValues } from './services/googleSheetsService';
-import { CloudUpload, RefreshCw, CheckCircle2, AlertCircle, LogIn } from 'lucide-react';
+import { getAccessToken, createSpreadsheet, syncVisitsToSheet, fetchSpreadsheetValues, findExistingSpreadsheet } from './services/googleSheetsService';
+import { CloudUpload, RefreshCw, CheckCircle2, AlertCircle, LogIn, X } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
 
 /**
  * 應用程式主入口：研究室訪問紀錄系統
  * 設計風格：中世紀羊皮紙風格
  */
 export default function App() {
-  // 從本地存儲中讀取現有的名冊，若無則初始化為空陣列
-  const [professors, setProfessors] = useState<Professor[]>(() => {
-    const saved = localStorage.getItem('research_visits');
-    return saved ? JSON.parse(saved) : [];
-  });
-
-  const [spreadsheetId, setSpreadsheetId] = useState<string | null>(() => {
-    return localStorage.getItem('google_spreadsheet_id');
-  });
-
+  // 核心狀態：訪問名錄與同步 ID
+  const [professors, setProfessors] = useState<Professor[]>([]);
+  const [spreadsheetId, setSpreadsheetId] = useState<string | null>(null);
   const [syncStatus, setSyncStatus] = useState<'idle' | 'syncing' | 'success' | 'error' | 'loading'>('idle');
   const [errorMessage, setErrorMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [tempId, setTempId] = useState('');
 
-  // 1. 初始化登入並嘗試從雲端獲取最新資料
+  // 1. 初始化檢查：僅檢查是否有 Refresh Token，不主動彈窗
   useEffect(() => {
-    const initApp = async () => {
-      // 在啟動時嘗試獲取 Token
-      try {
-        const token = await getAccessToken();
-        setIsLoggedIn(true);
-
-        if (spreadsheetId) {
-          setSyncStatus('loading');
-          const cloudData = await fetchSpreadsheetValues(token, spreadsheetId);
-          if (cloudData) {
-            setProfessors(cloudData);
-            // 同步回本地存儲
-            localStorage.setItem('research_visits', JSON.stringify(cloudData));
+    const checkLogin = async () => {
+      const hasToken = localStorage.getItem('google_refresh_token');
+      if (hasToken) {
+        // 如果有 token，嘗試背景靜默獲取並讀取資料
+        try {
+          const token = await getAccessToken();
+          setIsLoggedIn(true);
+          
+          // 嘗試讀取已知的 Spreadsheet ID
+          const savedId = localStorage.getItem('google_spreadsheet_id');
+          let currentId = savedId;
+          
+          if (!currentId) {
+            const foundId = await findExistingSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
+            if (foundId) {
+              currentId = foundId;
+              setSpreadsheetId(foundId);
+            }
+          } else {
+            setSpreadsheetId(currentId);
           }
-          setSyncStatus('idle');
+
+          if (currentId) {
+            setSyncStatus('loading');
+            const cloudData = await fetchSpreadsheetValues(token, currentId);
+            if (cloudData) setProfessors(cloudData);
+            setSyncStatus('idle');
+          }
+        } catch (error) {
+          console.warn('Silent login failed');
         }
-      } catch (error) {
-        console.warn('Initial session check failed or no active session:', error);
-        // 如果本地有名單，先維持顯示
       }
     };
-
-    // 延遲執行以確保 Google API 已加載
-    const timer = setTimeout(initApp, 1000);
-    return () => clearTimeout(timer);
-  }, []); // 僅在組件掛載時執行一次
+    checkLogin();
+  }, []);
 
   // 1.5 實時輪詢 (每 60 秒檢查一次雲端更新)
   useEffect(() => {
@@ -123,7 +128,7 @@ export default function App() {
     } catch (error) {
       console.error('Auto-sync Error:', error);
       setSyncStatus('error');
-      setErrorMessage(error instanceof Error ? error.message : '自動同步失敗');
+      setErrorMessage(error instanceof Error ? error.message : '「天との縁が途絶えたり」');
     }
   };
 
@@ -146,15 +151,39 @@ export default function App() {
   };
 
   /**
-   * 登入功能
+   * 登入功能：包含搜尋現有表單
    */
   const handleLogin = async () => {
+    setSyncStatus('loading');
+    setErrorMessage('');
     try {
-      await getAccessToken();
+      // 強制觸發授權
+      const token = await getAccessToken(true);
       setIsLoggedIn(true);
-      if (spreadsheetId) handleSync();
+      
+      // 1. 搜尋雲端是否有現成表單
+      const existingId = await findExistingSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
+      
+      let currentId = existingId;
+      if (existingId) {
+        setSpreadsheetId(existingId);
+      } else {
+        // 如果沒找到，才建立新的
+        currentId = await createSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
+        setSpreadsheetId(currentId);
+      }
+
+      // 2. 下載雲端資料
+      if (currentId) {
+        const cloudData = await fetchSpreadsheetValues(token, currentId);
+        if (cloudData) setProfessors(cloudData);
+      }
+      
+      setSyncStatus('idle');
     } catch (error) {
-      setErrorMessage('Login failed');
+      console.error('Login error:', error);
+      setSyncStatus('error');
+      setErrorMessage('天との契約（登入）に失敗せり');
     }
   };
 
@@ -202,8 +231,27 @@ export default function App() {
   return (
     <div className="w-full max-w-5xl md:h-[90vh] parchment-container flex flex-col p-4 md:p-12 overflow-y-auto md:overflow-hidden select-none antique-font ink-text transition-all duration-700">
 
-      {/* 頂部標題 */}
-      <Header />
+      {/* 頂部標題 - 點擊 5 次開啟隱秘設定 */}
+      <div onClick={() => {
+        const now = Date.now();
+        // @ts-ignore
+        const lastClick = window._lastHeaderClick || 0;
+        // @ts-ignore
+        const count = (now - lastClick < 500) ? (window._headerClickCount || 0) + 1 : 1;
+        // @ts-ignore
+        window._lastHeaderClick = now;
+        // @ts-ignore
+        window._headerClickCount = count;
+        
+        if (count >= 5) {
+          setShowSettings(true);
+          setTempId(spreadsheetId || '');
+          // @ts-ignore
+          window._headerClickCount = 0;
+        }
+      }}>
+        <Header />
+      </div>
 
       {/* 主要內容區域：分為清單與輸入表單 */}
       <div className="w-full flex flex-col md:flex-row justify-between gap-6 md:gap-12 flex-1 md:overflow-hidden">
@@ -211,6 +259,7 @@ export default function App() {
         {/* 左側：訪問名單 */}
         <VisitList
           professors={professors}
+          isLoggedIn={isLoggedIn}
           onToggle={handleToggleVisited}
           onDelete={handleDeleteProfessor}
           onUpdate={handleUpdateProfessor}
@@ -268,7 +317,7 @@ export default function App() {
                   rel="noopener noreferrer"
                   className="text-[10px] text-center underline opacity-60 hover:opacity-100 font-serif"
                 >
-                  查看線上試算表
+                  天の帳を検分せん
                 </a>
               )}
 
@@ -296,6 +345,63 @@ export default function App() {
           <span>全紀錄：{professors.length} 名</span>
         </div>
       </footer>
+      {/* 隱秘設定 Modal */}
+      <AnimatePresence>
+        {showSettings && (
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="parchment-container p-8 w-full max-w-sm shadow-2xl relative"
+            >
+              <button 
+                onClick={() => setShowSettings(false)}
+                className="absolute top-4 right-4 opacity-40 hover:opacity-100"
+              >
+                <X size={20} />
+              </button>
+              <h3 className="font-display text-xl mb-6 border-b border-border pb-2">「禁忌の書庫・設定」</h3>
+              
+              <div className="space-y-4">
+                <div>
+                  <label className="text-[10px] uppercase opacity-50 block mb-1">天の帳（Sheet ID）</label>
+                  <input 
+                    type="text" 
+                    value={tempId}
+                    onChange={(e) => setTempId(e.target.value)}
+                    className="quill-input w-full text-xs font-serif break-all"
+                    placeholder="IDを入力せよ..."
+                  />
+                </div>
+                <button 
+                  onClick={async () => {
+                    setSpreadsheetId(tempId);
+                    localStorage.setItem('google_spreadsheet_id', tempId);
+                    setShowSettings(false);
+                    // 重新載入資料
+                    if (isLoggedIn && tempId) {
+                      setSyncStatus('loading');
+                      try {
+                        const token = await getAccessToken();
+                        const cloudData = await fetchSpreadsheetValues(token, tempId);
+                        if (cloudData) setProfessors(cloudData);
+                        setSyncStatus('idle');
+                      } catch (e) {
+                        setSyncStatus('error');
+                      }
+                    }
+                  }}
+                  className="w-full py-2 bg-border text-parchment font-bold hover:brightness-110 active:scale-95 transition-all text-sm"
+                >
+                  縁を書き換えん
+                </button>
+                <p className="text-[9px] opacity-40 leading-tight">警告：IDを誤れば、記憶は異空へと消え去らん。慎重に選ぶべし。</p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
