@@ -78,8 +78,12 @@ export default function App() {
             }
             setSyncStatus('idle');
           }
-        } catch (error) {
-          console.warn('Silent login failed');
+        } catch (error: any) {
+          console.warn('Silent login failed:', error);
+          if (error.message === 'SCOPE_INSUFFICIENT') {
+            setErrorMessage('「権限が不足しておる。契約を更新（點擊登入）し、全ての天の理を認めるべし」');
+            setIsLoggedIn(false);
+          }
         }
       }
     };
