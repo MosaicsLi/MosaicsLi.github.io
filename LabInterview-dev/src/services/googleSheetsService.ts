@@ -59,7 +59,7 @@ export const getAccessToken = (forcePrompt = false): Promise<string> => {
             const tokenResponse = await fetch(`${API_BASE}/api/auth/google/token`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ 
+              body: JSON.stringify({
                 code: response.code,
                 redirectUri: 'postmessage'
               }),
@@ -85,7 +85,7 @@ export const findExistingSpreadsheet = async (token: string, title: string): Pro
   const response = await fetch(`https://www.googleapis.com/drive/v3/files?q=${query}&fields=files(id,name)`, {
     headers: { 'Authorization': `Bearer ${token}` }
   });
-  
+
   if (!response.ok) return null;
   const data = await response.json();
   return data.files && data.files.length > 0 ? data.files[0].id : null;
@@ -127,7 +127,7 @@ export const createSpreadsheet = async (token: string, title: string): Promise<s
       values: [['教授姓名', '研究室/領域', '訪問狀態', '登記日期', '備註']],
     }),
   });
-  
+
   return spreadsheetId;
 };
 
@@ -155,7 +155,7 @@ export const syncVisitsToSheet = async (token: string, spreadsheetId: string, pr
   ]);
 
   // 3. 寫入新資料
-  await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/シート1!A2?valueInputOption=RAW`, {
+  const response = await fetch(`https://sheets.googleapis.com/v4/spreadsheets/${spreadsheetId}/values/シート1!A2?valueInputOption=RAW`, {
     method: 'PUT',
     headers: {
       'Authorization': `Bearer ${token}`,
@@ -165,6 +165,11 @@ export const syncVisitsToSheet = async (token: string, spreadsheetId: string, pr
       values: values,
     }),
   });
+
+  if (!response.ok) {
+    if (response.status === 404) throw new Error('SHEET_NOT_FOUND');
+    throw new Error(`Sync failed with status: ${response.status}`);
+  }
 };
 
 /**
@@ -178,7 +183,7 @@ export const fetchSpreadsheetValues = async (token: string, spreadsheetId: strin
   });
 
   if (!response.ok) {
-    if (response.status === 404) return [];
+    if (response.status === 404) throw new Error('SHEET_NOT_FOUND');
     throw new Error('Failed to fetch values from sheet');
   }
 

@@ -40,11 +40,11 @@ export default function App() {
         try {
           const token = await getAccessToken();
           setIsLoggedIn(true);
-          
+
           // 嘗試讀取已知的 Spreadsheet ID
           const savedId = localStorage.getItem('google_spreadsheet_id');
           let currentId = savedId;
-          
+
           if (!currentId) {
             const foundId = await findExistingSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
             if (foundId) {
@@ -56,9 +56,22 @@ export default function App() {
           }
 
           if (currentId) {
-            setSyncStatus('loading');
-            const cloudData = await fetchSpreadsheetValues(token, currentId);
-            if (cloudData) setProfessors(cloudData);
+            try {
+              const cloudData = await fetchSpreadsheetValues(token, currentId);
+              if (cloudData) setProfessors(cloudData);
+            } catch (error: any) {
+              if (error.message === 'SHEET_NOT_FOUND') {
+                console.warn('Saved spreadsheet not found, attempting to re-find...');
+                localStorage.removeItem('google_spreadsheet_id');
+                setSpreadsheetId(null);
+                const reFoundId = await findExistingSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
+                if (reFoundId) {
+                  setSpreadsheetId(reFoundId);
+                  const retryData = await fetchSpreadsheetValues(token, reFoundId);
+                  if (retryData) setProfessors(retryData);
+                }
+              }
+            }
             setSyncStatus('idle');
           }
         } catch (error) {
@@ -122,7 +135,17 @@ export default function App() {
         setSpreadsheetId(currentId);
       }
 
-      await syncVisitsToSheet(token, currentId, currentProfessors);
+      try {
+        await syncVisitsToSheet(token, currentId, currentProfessors);
+      } catch (error: any) {
+        // 如果同步時發現試算表不存在
+        if (error.message.includes('404') || error.message.includes('not found') || error.message === 'SHEET_NOT_FOUND') {
+          localStorage.removeItem('google_spreadsheet_id');
+          setSpreadsheetId(null);
+          // 可以在下次同步時重新建立，或是現在就重試一次建立後的同步
+        }
+        throw error;
+      }
       setSyncStatus('success');
       setTimeout(() => setSyncStatus('idle'), 3000);
     } catch (error) {
@@ -160,10 +183,10 @@ export default function App() {
       // 強制觸發授權
       const token = await getAccessToken(true);
       setIsLoggedIn(true);
-      
+
       // 1. 搜尋雲端是否有現成表單
       const existingId = await findExistingSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
-      
+
       let currentId = existingId;
       if (existingId) {
         setSpreadsheetId(existingId);
@@ -175,10 +198,22 @@ export default function App() {
 
       // 2. 下載雲端資料
       if (currentId) {
-        const cloudData = await fetchSpreadsheetValues(token, currentId);
-        if (cloudData) setProfessors(cloudData);
+        try {
+          const cloudData = await fetchSpreadsheetValues(token, currentId);
+          if (cloudData) setProfessors(cloudData);
+        } catch (e: any) {
+          if (e.message === 'SHEET_NOT_FOUND') {
+            localStorage.removeItem('google_spreadsheet_id');
+            setSpreadsheetId(null);
+            // 本應搜尋，但 login 流程上方已搜過，若走到這代表搜尋結果也是無效的，建立新的
+            const newId = await createSpreadsheet(token, '研究室見学録 - Academic Inquiry Log');
+            setSpreadsheetId(newId);
+          } else {
+            throw e;
+          }
+        }
       }
-      
+
       setSyncStatus('idle');
     } catch (error) {
       console.error('Login error:', error);
@@ -242,7 +277,7 @@ export default function App() {
         window._lastHeaderClick = now;
         // @ts-ignore
         window._headerClickCount = count;
-        
+
         if (count >= 5) {
           setShowSettings(true);
           setTempId(spreadsheetId || '');
@@ -349,32 +384,32 @@ export default function App() {
       <AnimatePresence>
         {showSettings && (
           <div className="fixed inset-0 z-[60] flex items-center justify-center p-6 bg-black/40 backdrop-blur-sm">
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.9 }}
               className="parchment-container p-8 w-full max-w-sm shadow-2xl relative"
             >
-              <button 
+              <button
                 onClick={() => setShowSettings(false)}
                 className="absolute top-4 right-4 opacity-40 hover:opacity-100"
               >
                 <X size={20} />
               </button>
               <h3 className="font-display text-xl mb-6 border-b border-border pb-2">「禁忌の書庫・設定」</h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="text-[10px] uppercase opacity-50 block mb-1">天の帳（Sheet ID）</label>
-                  <input 
-                    type="text" 
+                  <input
+                    type="text"
                     value={tempId}
                     onChange={(e) => setTempId(e.target.value)}
                     className="quill-input w-full text-xs font-serif break-all"
                     placeholder="IDを入力せよ..."
                   />
                 </div>
-                <button 
+                <button
                   onClick={async () => {
                     setSpreadsheetId(tempId);
                     localStorage.setItem('google_spreadsheet_id', tempId);
