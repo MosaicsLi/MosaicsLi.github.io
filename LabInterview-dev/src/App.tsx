@@ -70,6 +70,10 @@ export default function App() {
                   const retryData = await fetchSpreadsheetValues(token, reFoundId);
                   if (retryData) setProfessors(retryData);
                 }
+              } else if (error.message === 'SCOPE_INSUFFICIENT') {
+                console.warn('Insufficient scopes');
+                setErrorMessage('「天の帳を覗く権限が足りぬ。再度、契約を結び直すべし」');
+                setSyncStatus('error');
               }
             }
             setSyncStatus('idle');
@@ -215,10 +219,16 @@ export default function App() {
       }
 
       setSyncStatus('idle');
-    } catch (error) {
+    } catch (error: any) {
       console.error('Login error:', error);
       setSyncStatus('error');
-      setErrorMessage('天との契約（登入）に失敗せり');
+      if (error.message === 'DRIVE_API_DISABLED') {
+        setErrorMessage('「天の帳を探す術（Drive API）が封印されており。至急、Google Cloudにて封印を解くべし」');
+      } else if (error.message === 'SCOPE_INSUFFICIENT') {
+        setErrorMessage('「権限が不足しておる。一度ログアウトし、全ての権限を認めて再度契約を結び直すべし」');
+      } else {
+        setErrorMessage('天との契約（登入）に失敗せり');
+      }
     }
   };
 
