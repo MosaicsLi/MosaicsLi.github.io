@@ -1,7 +1,7 @@
 [
     {
         "Title": "School Calendar Helper",
-        "CardHref": "./Calendar/index.html",
+        "CardHref": "./Calendar/",
         "Introduction": "An interactive schedule management tool designed to fix disjointed university timetables. It supports instant data import from Google Sheets/CSV, multi-language UI (EN/JA/ZH), individual class adjustments, and automatic color-coded visual alerts for schedule conflicts.",
         "Link": []
     },

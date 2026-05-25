@@ -1,7 +1,7 @@
 [
     {
         "Title": "School Calendar Helper",
-        "CardHref": "./Calendar/index.html",
+        "CardHref": "./Calendar/",
         "Introduction": "不便な学校のPDF時間割を解消するために開発されたインタラクティブな時間割管理ツール。GoogleスプレッドシートやCSVからのクイックインポート、多言語対応（日・英・中）、単発の授業調整、および重複（時間重複）の自動視覚警告機能を備えています。",
         "Link": []
     },
