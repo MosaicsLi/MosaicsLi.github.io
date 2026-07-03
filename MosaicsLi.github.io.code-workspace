@@ -1,11 +1,13 @@
 {
 	"folders": [
 		{
+			"name": "MosaicsLi.github.io",
 			"path": "."
 		}
 	],
 	"settings": {
-		"liveServer.settings.CustomBrowser": "chrome"
+		"liveServer.settings.CustomBrowser": "chrome",
+		"liveServer.settings.multiRootWorkspaceName": "ink-sort-puzzle"
 
 	}
 }
