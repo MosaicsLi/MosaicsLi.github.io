@@ -1,7 +1,3 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
-
 # 研究室見学録 (Academic Inquiry Log)
 
 中世の羊皮紙風（RPG風）デザインを採用した、研究室・実験室の訪問記録Webアプリケーションです。
