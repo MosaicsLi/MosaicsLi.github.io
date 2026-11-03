@@ -1,0 +1,64 @@
+# 建置整個網站（Astro + apps/ 底下的作品）並部署到 GitHub Pages
+# push 到 main 會自動執行；PR 只建置不部署，用來提早發現錯誤
+name: Build and deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            apps/*/package-lock.json
+
+      - name: Install
+        run: |
+          npm ci
+          npm ci --prefix apps/lab-interview
+          npm ci --prefix apps/ink-sort-puzzle
+
+      - name: Type check
+        run: npm run check
+
+      - name: Build site and apps
+        run: npm run build:all
+        env:
+          # LabInterview 需要的設定，在 GitHub 倉庫的 Settings → Secrets and variables → Actions → Variables 設定
+          VITE_GOOGLE_CLIENT_ID: ${{ vars.VITE_GOOGLE_CLIENT_ID }}
+          VITE_API_BASE: ${{ vars.VITE_API_BASE }}
+
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main'
+        with:
+          path: dist
+
+  deploy:
+    if: github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

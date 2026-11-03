@@ -1,0 +1,42 @@
+---
+import Base from '../layouts/Base.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import PostList from '../components/PostList.astro';
+import { site } from '../data/site';
+import { projects } from '../data/projects';
+import { getPosts } from '../lib/posts';
+
+const featured = projects.filter((p) => p.featured);
+const latest = (await getPosts()).slice(0, 5);
+---
+
+<Base>
+  <section class="hero">
+    <h1>你好，我是 {site.name}</h1>
+    <p class="lead">{site.tagline}</p>
+    <ul class="about">{site.about.map((line) => <li>{line}</li>)}</ul>
+    <p class="links">{site.links.map((l) => <a href={l.href}>{l.label}</a>)}</p>
+  </section>
+
+  <section>
+    <h2>精選作品</h2>
+    <div class="grid">{featured.map((p) => <ProjectCard project={p} />)}</div>
+    <p><a href="/projects/">看全部作品 →</a></p>
+  </section>
+
+  <section>
+    <h2>最新文章</h2>
+    <PostList posts={latest} />
+    <p><a href="/blog/">看全部文章 →</a></p>
+  </section>
+</Base>
+
+<style>
+  .hero { padding: 24px 0 8px; }
+  h1 { font-size: 2rem; margin: 0 0 8px; }
+  .lead { font-size: 1.15rem; margin: 0 0 16px; }
+  .about { padding-left: 20px; color: var(--muted); }
+  .links { display: flex; flex-wrap: wrap; gap: 16px; }
+  section { margin-top: 40px; }
+  .grid { display: grid; gap: 16px; }
+</style>

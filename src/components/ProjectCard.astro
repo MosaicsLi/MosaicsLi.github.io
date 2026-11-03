@@ -1,0 +1,30 @@
+---
+import type { Project } from '../data/projects';
+
+interface Props {
+  project: Project;
+}
+const { project } = Astro.props;
+---
+
+<article class="card">
+  <h3>{project.name}</h3>
+  <p class="muted">{project.summary}</p>
+  <ul class="tags">{project.tags.map((t) => <li>{t}</li>)}</ul>
+  <p class="links">
+    {project.demo && <a href={project.demo}>線上 Demo</a>}
+    <a href={project.source}>原始碼</a>
+  </p>
+</article>
+
+<style>
+  .card {
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  h3 { margin: 0 0 4px; }
+  p { margin: 0; }
+  .links { display: flex; gap: 16px; margin-top: 12px; }
+</style>
