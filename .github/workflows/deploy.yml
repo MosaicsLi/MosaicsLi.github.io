@@ -26,6 +26,7 @@ jobs:
       - uses: actions/setup-node@v7
         with:
           node-version-file: .nvmrc
+          check-latest: true # 每次都裝這個大版本的最新修補版（含資安修補）
           cache: npm
           cache-dependency-path: |
             package-lock.json

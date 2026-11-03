@@ -8,6 +8,11 @@ updates:
     groups:
       all:
         patterns: ['*']
+    ignore:
+      # @astrojs/check 目前只支援 TypeScript 5 或 6，升到 7 會讓 npm ci 失敗
+      # 等 @astrojs/check 支援 TypeScript 7 之後再刪掉這段
+      - dependency-name: typescript
+        update-types: ['version-update:semver-major']
   - package-ecosystem: github-actions
     directory: '/'
     schedule:
