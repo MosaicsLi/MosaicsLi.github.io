@@ -1,0 +1,96 @@
+---
+// 所有頁面共用的外框：<head>、導覽列、頁尾
+import '../styles/global.css';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = site.tagline } = Astro.props;
+const pageTitle = title ? `${title} | ${site.name}` : site.title;
+const path = Astro.url.pathname;
+const nav = [
+  { href: '/', label: '首頁' },
+  { href: '/projects/', label: '作品' },
+  { href: '/blog/', label: '部落格' },
+];
+---
+
+<!doctype html>
+<html lang="zh-Hant">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="alternate" type="application/rss+xml" title={site.name} href="/rss.xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+  </head>
+  <body>
+    <header class="container site-header">
+      <a href="/" class="brand">{site.name}</a>
+      <nav>
+        {
+          nav.map((item) => (
+            <a
+              href={item.href}
+              aria-current={
+                (item.href === '/' ? path === '/' : path.startsWith(item.href)) ? 'page' : undefined
+              }
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </header>
+    <main class="container">
+      <slot />
+    </main>
+    <footer class="container site-footer muted">
+      <span>© {new Date().getFullYear()} {site.name}</span>
+      <span>
+        {site.links.map((l) => <a href={l.href}>{l.label}</a>)}
+      </span>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding-top: 24px;
+    padding-bottom: 24px;
+  }
+  .brand {
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text);
+    text-decoration: none;
+  }
+  nav { display: flex; gap: 16px; }
+  nav a { color: var(--muted); text-decoration: none; }
+  nav a[aria-current='page'] { color: var(--text); font-weight: 600; }
+  main { min-height: 60vh; }
+  .site-footer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 8px;
+    margin-top: 64px;
+    padding-top: 24px;
+    padding-bottom: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 0.9rem;
+  }
+  .site-footer a { margin-left: 12px; }
+</style>

@@ -1,8 +1,14 @@
-Hexo/node_modules
-Hexo/package-lock.json
-Hexo/package.json
-Hexo/
-React/
-NodejsBackEnd/
-Gemini/
-ProposalByChatGPT/
+# 依賴與建置結果（由 GitHub Actions 產生，不要 commit）
+node_modules/
+dist/
+.astro/
+
+# 環境變數
+.env
+.env.*
+!.env.example
+
+# 系統與編輯器
+.DS_Store
+*.log
+.vscode/

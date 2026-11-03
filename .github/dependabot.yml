@@ -1,0 +1,14 @@
+# 每月自動檢查套件更新並開 PR；CI 通過（綠燈）就可以合併
+version: 2
+updates:
+  - package-ecosystem: npm
+    directories: ['/', '/apps/lab-interview', '/apps/ink-sort-puzzle']
+    schedule:
+      interval: monthly
+    groups:
+      all:
+        patterns: ['*']
+  - package-ecosystem: github-actions
+    directory: '/'
+    schedule:
+      interval: monthly

@@ -1,0 +1,74 @@
+/* 全站樣式：顏色都定義在這裡，改主題色只要改 :root */
+:root {
+  --bg: #fafaf9;
+  --surface: #ffffff;
+  --text: #1c1917;
+  --muted: #57534e;
+  --border: #e7e5e4;
+  --accent: #0f766e;
+  --accent-soft: #ccfbf1;
+  --radius: 12px;
+  --max: 760px;
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0c0a09;
+    --surface: #1c1917;
+    --text: #f5f5f4;
+    --muted: #a8a29e;
+    --border: #292524;
+    --accent: #5eead4;
+    --accent-soft: #134e4a;
+    color-scheme: dark;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, 'Segoe UI', 'Noto Sans TC', 'Noto Sans JP', sans-serif;
+  line-height: 1.75;
+}
+
+a { color: var(--accent); }
+a:hover { text-decoration-thickness: 2px; }
+
+.container {
+  max-width: var(--max);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+h1, h2, h3 { line-height: 1.3; }
+
+.muted { color: var(--muted); }
+
+.tags { display: flex; flex-wrap: wrap; gap: 6px; padding: 0; margin: 8px 0 0; list-style: none; }
+.tags li {
+  font-size: 0.8rem;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--accent-soft);
+  color: var(--text);
+}
+
+/* 文章內文 */
+.prose img { max-width: 100%; height: auto; }
+.prose pre {
+  padding: 16px;
+  border-radius: var(--radius);
+  overflow-x: auto;
+  font-size: 0.9rem;
+}
+.prose code { font-size: 0.9em; }
+.prose blockquote {
+  margin: 0;
+  padding-left: 16px;
+  border-left: 3px solid var(--border);
+  color: var(--muted);
+}
