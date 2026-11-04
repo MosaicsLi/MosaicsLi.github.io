@@ -36,7 +36,29 @@ npm install
 npm run dev        # 打開 http://localhost:4321
 ```
 
-### 寫一篇新文章
+### 在網頁上寫文章（推薦）
+
+網站內建一個用 [Sveltia CMS](https://sveltiacms.app/) 做的後台：**https://mosaicsli.github.io/admin/**
+在後台存檔就會自動 commit 到 `main`，幾分鐘後網站自動更新，不需要碰 git。電腦和手機都能用。
+
+**第一次使用（只需做一次，之後瀏覽器會記住）：**
+
+1. 到 GitHub 建立一組 token：[Settings → Developer settings → Fine-grained tokens → Generate new token](https://github.com/settings/personal-access-tokens/new)
+   - Token name：隨便取，例如 `blog-cms`
+   - Expiration：自己決定（過期後重做這一步即可）
+   - Repository access：選 **Only select repositories** → `MosaicsLi/MosaicsLi.github.io`
+   - Permissions → Repository permissions → **Contents** 設成 **Read and write**
+   - 按 Generate token，複製產生的字串（只會顯示一次）
+2. 打開 `/admin/`，點 **Sign In Using Access Token**（不是 Sign In with GitHub），貼上 token。
+
+**寫文章：** 點「部落格文章」→「新增」，填標題、摘要、日期、標籤和內文，按「儲存」。
+- 網址（檔名）預設由標題產生，建議在網址欄位改成簡短的英文，例如 `my-first-post`。
+- 勾選「草稿」的文章會存進 repo，但不會出現在網站上。
+- 內文可以直接拖圖片進來，圖片會存到 `public/images/blog/`。
+
+後台設定在 `public/admin/config.yml`。之後若在 `src/content.config.ts` 幫文章加新欄位，也要在這裡加上同名欄位。
+
+### 手動寫一篇新文章
 
 1. 在 `src/content/blog/` 新增一個檔案，例如 `my-new-post.md`（檔名就是網址）。
 2. 最上面貼上這段並修改：

@@ -1,0 +1,43 @@
+# Sveltia CMS 設定（文件：https://sveltiacms.app/）
+# 網址：https://mosaicsli.github.io/admin/
+
+backend:
+  name: github
+  repo: MosaicsLi/MosaicsLi.github.io
+  branch: main
+  commit_messages:
+    create: 'blog: 新增「{{slug}}」'
+    update: 'blog: 更新「{{slug}}」'
+    delete: 'blog: 刪除「{{slug}}」'
+    uploadMedia: 'blog: 上傳圖片 {{path}}'
+    deleteMedia: 'blog: 刪除圖片 {{path}}'
+
+# 上傳的圖片存到 public/images/blog/，文章內用 /images/blog/檔名 引用
+media_folder: public/images/blog
+public_folder: /images/blog
+
+collections:
+  - name: blog
+    label: 部落格文章
+    label_singular: 文章
+    folder: src/content/blog
+    extension: md
+    format: frontmatter
+    create: true
+    # 檔名＝網址。預設用標題產生，可在編輯畫面手動改成英文
+    slug:
+      editable: true
+    sortable_fields: [date, title]
+    summary: "{{title}}{{draft | ternary('（草稿）', '')}}"
+    fields:
+      - { name: title, label: 標題, widget: string }
+      - { name: description, label: 一句話摘要, widget: string, hint: 會顯示在文章列表、搜尋結果與 RSS }
+      - name: date
+        label: 發佈日期
+        widget: datetime
+        time_format: false
+        format: YYYY-MM-DD
+        default: '{{now}}'
+      - { name: tags, label: 標籤, widget: list, required: false, default: [] }
+      - { name: draft, label: 草稿（勾選後不會發佈）, widget: boolean, default: false, required: false }
+      - { name: body, label: 內文, widget: markdown }
