@@ -12,7 +12,8 @@ src/
   content/blog/     部落格文章（Markdown）
   data/site.ts      名字、自我介紹、聯絡連結
   data/projects.ts  作品清單
-  pages/            網站頁面（首頁、作品、部落格、RSS、404）
+  pages/            網站頁面（首頁、作品、部落格、工具、RSS、404）
+  lib/media.ts      影音轉檔工具的轉檔邏輯（ffmpeg.wasm）
   layouts/          共用外框（導覽列、頁尾）
   components/       共用元件
   styles/global.css 全站樣式與顏色
@@ -73,6 +74,13 @@ npm run dev        # 打開 http://localhost:4321
   3. 在根目錄 `package.json` 的 `build:apps` 加上 `&& npm run build --prefix apps/<名稱>`。
   4. 在 `.github/workflows/deploy.yml` 的 Install 步驟加上 `npm ci --prefix apps/<名稱>`。
   5. 在 `src/data/projects.ts` 加一筆，`demo` 填 `/<名稱>/`。
+
+### 影音轉檔工具（/tools/media/）
+
+- 用 [ffmpeg.wasm](https://ffmpegwasm.netlify.app/) 在瀏覽器裡執行 FFmpeg，檔案不會上傳。
+- 轉檔指令寫在 `src/lib/media.ts`，想加新功能（例如裁切、轉 GIF）就照同樣的寫法加一個函式，再到 `src/pages/tools/media.astro` 加一個區塊。
+- 轉檔引擎（`@ffmpeg/core`，約 30MB）跟著網站一起建置，從自己的網域載入，不依賴外部 CDN。使用單執行緒版本，所以 GitHub Pages 不需要特別的 header 設定。
+- 新增其他工具時，記得在 `src/pages/tools/index.astro` 的清單加一筆。
 
 ### 在本機建置完整網站（含作品）
 

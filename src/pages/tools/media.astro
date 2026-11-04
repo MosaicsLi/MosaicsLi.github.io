@@ -1,0 +1,175 @@
+---
+import Base from '../../layouts/Base.astro';
+---
+
+<Base title="影音轉檔工具" description="在瀏覽器裡把 MP4 轉成 MP3，或把音訊合成進影片。檔案不會上傳。">
+  <h1>影音轉檔工具</h1>
+  <p class="muted">
+    轉檔全部在你的瀏覽器裡用 <a href="https://ffmpegwasm.netlify.app/">ffmpeg.wasm</a> 執行，檔案不會上傳到任何伺服器。
+    第一次轉檔會下載約 30MB 的轉檔引擎；檔案太大（約 1GB 以上）可能因記憶體不足而失敗。
+  </p>
+
+  <section class="tool" data-tool="mp3">
+    <h2>影片轉 MP3</h2>
+    <p class="muted">選一個影片檔（MP4、MOV、WebM 等），取出聲音存成 MP3。</p>
+    <label class="field">
+      影片檔
+      <input type="file" name="video" accept="video/*,.mp4,.mov,.mkv,.webm" required />
+    </label>
+    <button type="button" data-run>轉成 MP3</button>
+    <div class="status" data-status hidden>
+      <progress max="1" value="0"></progress>
+      <span data-message></span>
+    </div>
+    <a class="download" data-download hidden>下載</a>
+  </section>
+
+  <section class="tool" data-tool="merge">
+    <h2>音訊合成進影片</h2>
+    <p class="muted">用選的音訊取代影片原本的聲音。影像不重新編碼，所以速度很快、畫質不變。</p>
+    <label class="field">
+      影片檔
+      <input type="file" name="video" accept="video/*,.mp4,.mov,.mkv,.webm" required />
+    </label>
+    <label class="field">
+      音訊檔
+      <input type="file" name="audio" accept="audio/*,.mp3,.m4a,.wav,.aac,.ogg,.flac" required />
+    </label>
+    <label class="check">
+      <input type="checkbox" name="shortest" checked />
+      以比較短的一方為準裁切長度
+    </label>
+    <button type="button" data-run>合成影片</button>
+    <div class="status" data-status hidden>
+      <progress max="1" value="0"></progress>
+      <span data-message></span>
+    </div>
+    <a class="download" data-download hidden>下載</a>
+  </section>
+
+  <details class="log">
+    <summary>FFmpeg 紀錄（出錯時看這裡）</summary>
+    <pre data-log></pre>
+  </details>
+</Base>
+
+<script>
+  type Media = typeof import('../../lib/media');
+  // 轉檔程式只在按下按鈕時才載入，平常開這頁不會下載 30MB 的引擎
+  let media: Promise<Media> | null = null;
+  const loadMedia = () => (media ??= import('../../lib/media'));
+
+  const logEl = document.querySelector<HTMLPreElement>('[data-log]')!;
+  const log = (msg: string) => {
+    logEl.textContent += msg + '\n';
+    logEl.scrollTop = logEl.scrollHeight;
+  };
+  let busy = false;
+
+  function setup(section: HTMLElement) {
+    const tool = section.dataset.tool;
+    const button = section.querySelector<HTMLButtonElement>('[data-run]')!;
+    const status = section.querySelector<HTMLElement>('[data-status]')!;
+    const bar = status.querySelector('progress')!;
+    const message = section.querySelector<HTMLElement>('[data-message]')!;
+    const download = section.querySelector<HTMLAnchorElement>('[data-download]')!;
+    const file = (name: string) =>
+      section.querySelector<HTMLInputElement>(`input[name="${name}"]`)?.files?.[0];
+
+    button.addEventListener('click', async () => {
+      if (busy) return;
+      const video = file('video');
+      const audio = file('audio');
+      if (!video || (tool === 'merge' && !audio)) {
+        message.textContent = '請先選擇檔案';
+        status.hidden = false;
+        return;
+      }
+
+      busy = true;
+      document.querySelectorAll<HTMLButtonElement>('[data-run]').forEach((b) => (b.disabled = true));
+      download.hidden = true;
+      if (download.href) URL.revokeObjectURL(download.href);
+      status.hidden = false;
+      bar.removeAttribute('value'); // 不確定進度時顯示跑動的進度條
+      message.textContent = '載入轉檔引擎中…';
+      logEl.textContent = '';
+
+      const onProgress = (r: number) => {
+        bar.value = r;
+        message.textContent = `轉檔中… ${Math.round(r * 100)}%`;
+      };
+
+      try {
+        const m = await loadMedia();
+        let blob: Blob;
+        let name: string;
+        if (tool === 'merge') {
+          const shortest = section.querySelector<HTMLInputElement>('input[name="shortest"]')!.checked;
+          blob = await m.mergeAudioVideo(video, audio!, shortest, onProgress, log);
+          name = m.renameTo(video, '.mp4', '-merged');
+        } else {
+          blob = await m.videoToMp3(video, onProgress, log);
+          name = m.renameTo(video, '.mp3');
+        }
+        bar.value = 1;
+        const kb = blob.size / 1024;
+        message.textContent = `完成（${kb < 1024 ? `${Math.ceil(kb)} KB` : `${(kb / 1024).toFixed(1)} MB`}）`;
+        download.href = URL.createObjectURL(blob);
+        download.download = name;
+        download.textContent = `下載 ${name}`;
+        download.hidden = false;
+      } catch (err) {
+        bar.value = 0;
+        message.textContent = `失敗：${err instanceof Error ? err.message : String(err)}`;
+        console.error(err);
+      } finally {
+        busy = false;
+        document.querySelectorAll<HTMLButtonElement>('[data-run]').forEach((b) => (b.disabled = false));
+      }
+    });
+  }
+
+  document.querySelectorAll<HTMLElement>('.tool').forEach(setup);
+</script>
+
+<style>
+  .tool {
+    margin-top: 24px;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+  }
+  .tool h2 { margin-top: 0; }
+  .field { display: grid; gap: 4px; margin: 12px 0; font-weight: 600; }
+  .field input { font-weight: 400; max-width: 100%; }
+  .check { display: flex; gap: 8px; align-items: center; margin: 12px 0; }
+  button {
+    padding: 8px 20px;
+    border: 0;
+    border-radius: 999px;
+    background: var(--accent);
+    color: var(--bg);
+    font: inherit;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  button:disabled { opacity: 0.5; cursor: wait; }
+  .status { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-top: 12px; }
+  .status[hidden], .download[hidden] { display: none; }
+  progress { width: 200px; max-width: 100%; }
+  .download { display: inline-block; margin-top: 12px; font-weight: 600; }
+  .log { margin-top: 24px; }
+  .log pre {
+    max-height: 240px;
+    overflow: auto;
+    padding: 12px;
+    border-radius: var(--radius);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    font-size: 0.8rem;
+    white-space: pre-wrap;
+    word-break: break-all;
+  }
+</style>
