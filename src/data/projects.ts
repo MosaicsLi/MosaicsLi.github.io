@@ -36,4 +36,12 @@ export const projects: Project[] = [
     source: `${repo}/cocofolia-voice-extension`,
     featured: true,
   },
+  {
+    name: '影音轉檔工具',
+    summary:
+      '純前端的影片轉 MP3、音訊合成進影片工具。用 ffmpeg.wasm 在瀏覽器裡執行 FFmpeg，檔案不上傳；轉檔引擎按需載入，影像直接複製不重新編碼。',
+    tags: ['WebAssembly', 'FFmpeg', 'Web Worker', 'TypeScript', 'Astro'],
+    demo: '/tools/media/',
+    source: 'https://github.com/MosaicsLi/MosaicsLi.github.io/blob/main/src/lib/media.ts',
+  },
 ];
